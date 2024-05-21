@@ -33,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.packassist.R
 import com.example.packassist.data.Event
+import com.example.packassist.ui.components.TextAndIconButtonBar
 import java.time.LocalDate
 
 
@@ -54,42 +55,12 @@ fun EventsListScreen(
 
     Scaffold(
         topBar = {
-            Column {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 4.dp)
-                        .fillMaxWidth()
-
-
-                ) {
-                    Text(
-                        text = stringResource(R.string.Events_screen_name),
-                        style = MaterialTheme.typography.displayMedium,
-                    )
-                    IconButton(
-                        onClick = { /*TODO*/ },
-                        modifier = Modifier
-                            .wrapContentSize()
-                            .border(
-                                color = MaterialTheme.colorScheme.scrim,
-                                width = 1.dp
-                            )
-
-
-                    ) {
-                        Icon(
-                            Icons.Default.Add,
-                            contentDescription = stringResource(R.string.add_new_button_description),
-                            modifier = Modifier.fillMaxSize()
-
-                        )
-                    }
-                }
-                HorizontalDivider()
-            }
-
+            TextAndIconButtonBar(
+                text = stringResource(R.string.Events_screen_name),
+                icon = Icons.Default.Add,
+                iconContentDescription = stringResource(R.string.add_new_button_description),
+                buttonOnClick = {/*TODO*/}
+            )
         },
         modifier = modifier
     ) {

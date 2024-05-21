@@ -29,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.packassist.R
 import com.example.packassist.data.Collection
+import com.example.packassist.ui.components.TextAndIconButtonBar
 
 
 @Composable
@@ -46,39 +47,12 @@ fun CollectionListScreen(
 
     Scaffold(
         topBar = {
-            Column {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .padding(start = 8.dp, end = 8.dp)
-                        .fillMaxWidth()
-
-
-
-                ) {
-                    Text(
-                        text = stringResource(R.string.collections_screeen_name),
-                        style = MaterialTheme.typography.displayMedium,
-                    )
-                    IconButton(
-                        onClick = { /*TODO*/ },
-                        modifier = Modifier
-                            .wrapContentSize()
-                            .border(
-                                color = MaterialTheme.colorScheme.scrim,
-                                width = 1.dp
-                            )
-                    ) {
-                        Icon(
-                            Icons.Default.Add,
-                            contentDescription = stringResource(R.string.add_new_button_description),
-                            modifier = Modifier.fillMaxSize()
-                        )
-                    }
-                }
-                HorizontalDivider()
-            }
+            TextAndIconButtonBar(
+                text = stringResource(R.string.collections_screeen_name),
+                icon = Icons.Default.Add,
+                iconContentDescription = stringResource(R.string.add_new_button_description),
+                buttonOnClick = {/*TODO*/}
+            )
 
         },
         modifier = modifier

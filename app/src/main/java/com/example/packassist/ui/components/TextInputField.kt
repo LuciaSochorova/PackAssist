@@ -1,4 +1,4 @@
-package com.example.packassist.ui.screens.collections
+package com.example.packassist.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape

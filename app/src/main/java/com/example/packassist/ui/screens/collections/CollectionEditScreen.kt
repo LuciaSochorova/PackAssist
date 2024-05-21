@@ -30,6 +30,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.packassist.R
+import com.example.packassist.ui.components.TextInputField
+import com.example.packassist.ui.components.ThreeIconButtonsBar
 
 
 @Composable
@@ -52,65 +54,17 @@ fun CollectionEditScreen(
     Scaffold(
 
         topBar = {
+            ThreeIconButtonsBar(
+                firstIcon = Icons.Default.Delete,
+                secondIcon = Icons.Default.Clear,
+                thirdIcon = Icons.Default.Check,
+                firstButtonOnClick = { /*TODO*/ },
+                secondButtonOnClick = { /*TODO*/ },
+                thirdButtonOnClick = { /*TODO*/ },
+                firstIconContentDescription = stringResource(R.string.delete_button_description),
+                secondIconContentDescription = stringResource(R.string.cancel_button_description),
+                thirdIconContentDescription = stringResource(R.string.confirm_button_description))
 
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 8.dp, end = 8.dp)
-                ) {
-                    Row(modifier = Modifier.weight(1f)) {
-                        IconButton(
-                            onClick = deleteAction,
-                            modifier = Modifier
-                                .wrapContentSize()
-                        ) {
-                            Icon(
-                                Icons.Default.Delete,
-                                contentDescription = stringResource(R.string.delete_button_description),
-                                modifier = Modifier.fillMaxSize()
-                            )
-
-                        }
-                    }
-                    Row(horizontalArrangement = Arrangement.End, modifier = Modifier.weight(1f)) {
-                        IconButton(
-                            onClick = cancelAction,
-                            modifier = Modifier
-                                .wrapContentSize()
-                        ) {
-                            Icon(
-                                Icons.Default.Clear,
-                                contentDescription = stringResource(R.string.cancel_button_description),
-                                modifier = Modifier.fillMaxSize()
-                            )
-
-                        }
-
-                        IconButton(
-                            onClick = confirmAction,
-                            modifier = Modifier
-                                .wrapContentSize()
-                                .padding(start = 36.dp)
-                        ) {
-                            Icon(
-                                Icons.Default.Check,
-                                contentDescription = stringResource(R.string.confirm_button_description),
-                                modifier = Modifier.fillMaxSize()
-                            )
-
-                        }
-                    }
-                }
-
-
-                HorizontalDivider()
-            }
         }) { innerPadding ->
         val focusManager = LocalFocusManager.current
         Column(
@@ -157,10 +111,7 @@ fun CollectionEditScreen(
                     )
                 }
             }
-
-
         }
-
     }
 }
 
