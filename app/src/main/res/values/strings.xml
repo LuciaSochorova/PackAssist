@@ -4,4 +4,7 @@
     <string name="add_new_button_description">Add new button</string>
     <string name="edit_button_description">Edit button</string>
     <string name="collections_screeen_name">Collections</string>
+    <string name="delete_button_description">Delete button</string>
+    <string name="cancel_button_description">Cancel button</string>
+    <string name="confirm_button_description">Confirm button</string>
 </resources>

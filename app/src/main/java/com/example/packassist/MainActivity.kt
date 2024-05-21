@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.example.packassist.ui.screens.collections.CollectionEditScreen
 import com.example.packassist.ui.screens.collections.CollectionField
 import com.example.packassist.ui.screens.collections.CollectionListScreen
 import com.example.packassist.ui.theme.PackAssistTheme
@@ -22,7 +23,11 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
 
                 ) {
-                    CollectionListScreen()
+                    CollectionEditScreen(
+                        cancelAction = { /*TODO*/ },
+                        confirmAction = { /*TODO*/ }) {
+                        
+                    }
                 }
             }
         }
