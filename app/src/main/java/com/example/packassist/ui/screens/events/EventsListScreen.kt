@@ -75,7 +75,7 @@ fun EventsListScreen(
                         modifier = Modifier
                             .wrapContentSize()
                             .border(
-                                color = Color.Black,
+                                color = MaterialTheme.colorScheme.scrim,
                                 width = 2.dp
                             )
                     ) {
@@ -125,7 +125,8 @@ fun EventField(
             .clickable { onItemClick }
             .fillMaxWidth()
             .border(
-                color = Color.Black, width = 2.dp,
+                color = MaterialTheme.colorScheme.scrim,
+                width = 2.dp,
                 shape = shape
             )
             .background(
