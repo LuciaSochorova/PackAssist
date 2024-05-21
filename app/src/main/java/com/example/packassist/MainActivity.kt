@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.packassist.ui.screens.collections.CollectionField
+import com.example.packassist.ui.screens.collections.CollectionListScreen
 import com.example.packassist.ui.theme.PackAssistTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,7 +22,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
 
                 ) {
-                    CollectionField("Pokusná kolekcia", {/*TODO*/ })
+                    CollectionListScreen()
                 }
             }
         }

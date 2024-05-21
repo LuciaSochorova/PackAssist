@@ -59,9 +59,8 @@ fun EventsListScreen(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .padding(start = 8.dp, end = 8.dp)
+                        .padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 4.dp)
                         .fillMaxWidth()
-
 
 
                 ) {
@@ -75,13 +74,16 @@ fun EventsListScreen(
                             .wrapContentSize()
                             .border(
                                 color = MaterialTheme.colorScheme.scrim,
-                                width = 2.dp
+                                width = 1.dp
                             )
+
+
                     ) {
                         Icon(
                             Icons.Default.Add,
-                            contentDescription = stringResource(R.string.add_new_event_button_description),
+                            contentDescription = stringResource(R.string.add_new_button_description),
                             modifier = Modifier.fillMaxSize()
+
                         )
                     }
                 }
@@ -94,15 +96,17 @@ fun EventsListScreen(
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
             contentPadding = PaddingValues(8.dp),
-            modifier = Modifier.padding(top = (it.calculateTopPadding() + 32.dp))
+            modifier = Modifier.padding(it)
         ) {
 
+
             itemsIndexed(eventlist) { index, item ->
+                Spacer(modifier = modifier.size(8.dp))
                 EventField(
                     event = item,
                     onItemClick = { event -> //Navigation.current.navigate("productDetail/${event.id}
                     })
-                Spacer(modifier = modifier.size(32.dp))
+                Spacer(modifier = modifier.size(24.dp))
             }
         }
 
