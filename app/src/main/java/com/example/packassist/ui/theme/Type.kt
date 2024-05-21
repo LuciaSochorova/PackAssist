@@ -8,6 +8,7 @@ import androidx.compose.ui.unit.sp
 
 import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.text.googlefonts.Font
+import androidx.compose.ui.unit.dp
 import com.example.packassist.R
 
 val provider = GoogleFont.Provider(
@@ -43,9 +44,9 @@ val AppTypography = Typography(
     titleLarge = baseline.titleLarge.copy(fontFamily = displayFontFamily),
     titleMedium = baseline.titleMedium.copy(fontFamily = displayFontFamily),
     titleSmall = baseline.titleSmall.copy(fontFamily = displayFontFamily),
-    bodyLarge = baseline.bodyLarge.copy(fontFamily = bodyFontFamily),
-    bodyMedium = baseline.bodyMedium.copy(fontFamily = bodyFontFamily),
-    bodySmall = baseline.bodySmall.copy(fontFamily = bodyFontFamily),
+    bodyLarge = baseline.bodyLarge.copy(fontFamily = bodyFontFamily, fontSize = 24.sp),
+    bodyMedium = baseline.bodyMedium.copy(fontFamily = bodyFontFamily, fontSize = 16.sp),
+    bodySmall = baseline.bodySmall.copy(fontFamily = bodyFontFamily, fontSize = 14.sp),
     labelLarge = baseline.labelLarge.copy(fontFamily = bodyFontFamily),
     labelMedium = baseline.labelMedium.copy(fontFamily = bodyFontFamily),
     labelSmall = baseline.labelSmall.copy(fontFamily = bodyFontFamily),
