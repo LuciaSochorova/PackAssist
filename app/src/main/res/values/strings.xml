@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PackAssist</string>
+    <string name="Events_screen_name">Events</string>
+    <string name="add_new_event_button_description">Add new event button</string>
 </resources>
