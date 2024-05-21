@@ -8,7 +8,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -16,8 +15,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import java.time.format.TextStyle
 
 @Composable
 fun TextInputField(
@@ -50,4 +49,10 @@ fun TextInputField(
         shape = RoundedCornerShape(0.dp)
     )
 
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TextInputFieldPreview() {
+    TextInputField(value = "alfvnn", onValueChange = {}, keyboardAction = {})
 }

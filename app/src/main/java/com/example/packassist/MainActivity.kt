@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import com.example.packassist.ui.screens.collections.CollectionEditScreen
 import com.example.packassist.ui.screens.collections.CollectionField
 import com.example.packassist.ui.screens.collections.CollectionListScreen
+import com.example.packassist.ui.screens.collections.CreateCollectionScreen
 import com.example.packassist.ui.theme.PackAssistTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,11 +24,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
 
                 ) {
-                    CollectionEditScreen(
-                        cancelAction = { /*TODO*/ },
-                        confirmAction = { /*TODO*/ }) {
-                        
-                    }
+                    CreateCollectionScreen()
                 }
             }
         }

@@ -7,4 +7,6 @@
     <string name="delete_button_description">Delete button</string>
     <string name="cancel_button_description">Cancel button</string>
     <string name="confirm_button_description">Confirm button</string>
+    <string name="type_name_label">Type name</string>
+    <string name="type_new_item_label">Type new item</string>
 </resources>
