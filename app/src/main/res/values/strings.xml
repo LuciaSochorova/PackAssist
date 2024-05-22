@@ -11,4 +11,6 @@
     <string name="type_new_item_label">Type new item</string>
     <string name="import_icon_description">Import</string>
     <string name="back_icon_description">back</string>
+    <string name="collapse_icon_description">Collapse</string>
+    <string name="expand_icon_description">expand</string>
 </resources>

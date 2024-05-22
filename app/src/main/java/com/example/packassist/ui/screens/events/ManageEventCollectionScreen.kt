@@ -50,7 +50,7 @@ fun ManageEventCollectionsScreen(
 
     Scaffold(
         floatingActionButton = {
-            ExtendedFloatingActionButton(onClick = addAction) {
+            ExtendedFloatingActionButton(onClick = addAction, containerColor = MaterialTheme.colorScheme.primary) {
                 Icon(
                     Icons.Default.Add,
                     contentDescription = stringResource(id = R.string.add_new_button_description)
@@ -79,7 +79,7 @@ fun ManageEventCollectionsScreen(
                     ) {
                         Icon(
                             Icons.AutoMirrored.Default.ArrowBack,
-                            contentDescription = "lalal",
+                            contentDescription = stringResource(id = R.string.back_icon_description),
                             modifier = Modifier.fillMaxSize()
                         )
                     }
