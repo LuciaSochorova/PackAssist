@@ -8,19 +8,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -32,7 +28,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.packassist.R
-import com.example.packassist.data.Event
 import com.example.packassist.ui.components.TextAndIconButtonBar
 import java.time.LocalDate
 
@@ -43,8 +38,8 @@ fun EventsListScreen(
     // todo viewModel
 ) {
     val eventlist = listOf(
-        Event(id = 1, name = "Event1", null, null, "notes, notes, notes, notes..........."),
-        Event(
+        EventLocal(id = 1, name = "Event1", null, null, "notes, notes, notes, notes..........."),
+        EventLocal(
             id = 2,
             name = "Event2",
             "Somewhere",
@@ -88,8 +83,8 @@ fun EventsListScreen(
 
 @Composable
 fun EventField(
-    event: Event,
-    onItemClick: (Event) -> Unit,
+    event: EventLocal,
+    onItemClick: (EventLocal) -> Unit,
     modifier: Modifier = Modifier,
     shape: CornerBasedShape = MaterialTheme.shapes.medium
 ) {

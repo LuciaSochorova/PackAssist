@@ -55,13 +55,24 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.packassist.R
-import com.example.packassist.data.Collection
-import com.example.packassist.data.Event
-import com.example.packassist.data.Item
+import com.example.packassist.ui.screens.collections.CollectionLocal
 import java.time.LocalDate
 
+data class ItemLocal( /*TODO delete*/
+    val name : String,
+    val col : Int,
 
-data class CollectionItems(val collection: Collection, val items: List<Item>)
+    val packed : Boolean = false
+)
+/*TODO delete*/
+data class EventLocal(
+    val id: Int = 0,
+    val name: String,
+    val location: String?,
+    val date: LocalDate?,
+    val notes: String?
+)
+data class CollectionItems(val collection: CollectionLocal, val items: List<ItemLocal>)
 @Composable
 fun EventDetailsScreen(
     backAction: () -> Unit,
@@ -70,12 +81,12 @@ fun EventDetailsScreen(
 ) {
     val normalFont = MaterialTheme.typography.bodyMedium
     val kolekcie = listOf(CollectionItems(
-        Collection(name = "Bla bla bla"),
-        listOf(Item("Spacák", 0), Item("Taška", 0))
+        CollectionLocal(name = "Bla bla bla"),
+        listOf(ItemLocal("Spacák", 0), ItemLocal("Taška", 0))
     ))
     val focusManager = LocalFocusManager.current
     val event =
-        Event(name = "Event pokus", date = LocalDate.of(2024, 5, 2), notes = null, location = null)
+        EventLocal(name = "Event pokus", date = LocalDate.of(2024, 5, 2), notes = null, location = null)
     var eventName by remember {
         mutableStateOf("Event pokus kjh hiu hiuhuih uiui")
     }
@@ -349,8 +360,8 @@ fun ExpandingListOfItems(
 fun ExpandingListOfItemsPreview() {
     ExpandingListOfItems(
         coll = CollectionItems(
-            Collection(name = "Bla bla bla"),
-            listOf(Item("Spacák", 0), Item("Taška", 0))
+            CollectionLocal(name = "Bla bla bla"),
+            listOf(ItemLocal("Spacák", 0), ItemLocal("Taška", 0))
         )
     )
 }
