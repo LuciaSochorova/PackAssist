@@ -11,6 +11,7 @@ import com.example.packassist.ui.screens.collections.CollectionEditScreen
 import com.example.packassist.ui.screens.collections.CollectionField
 import com.example.packassist.ui.screens.collections.CollectionListScreen
 import com.example.packassist.ui.screens.collections.CreateCollectionScreen
+import com.example.packassist.ui.screens.events.ManageEventCollectionsScreen
 import com.example.packassist.ui.theme.PackAssistTheme
 
 class MainActivity : ComponentActivity() {
@@ -24,7 +25,9 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
 
                 ) {
-                    CreateCollectionScreen()
+                    ManageEventCollectionsScreen(backAction = { /*TODO*/ }, eventName = "Pokusnýýýý  ý ý ý ý ýýý ý ýýý event") {
+
+                    }
                 }
             }
         }

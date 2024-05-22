@@ -9,4 +9,6 @@
     <string name="confirm_button_description">Confirm button</string>
     <string name="type_name_label">Type name</string>
     <string name="type_new_item_label">Type new item</string>
+    <string name="import_icon_description">Import</string>
+    <string name="back_icon_description">back</string>
 </resources>

@@ -64,12 +64,12 @@ fun CollectionListScreen(
         ) {
 
             itemsIndexed(collectionList) { index, item ->
-                Spacer(modifier = modifier.size(8.dp))
+                Spacer(modifier = Modifier.size(8.dp))
                 CollectionField(
                     item.name,
                     {/*TODO*/}
                     )
-                Spacer(modifier = modifier.size(24.dp))
+                Spacer(modifier = Modifier.size(24.dp))
             }
         }
 

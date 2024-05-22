@@ -92,7 +92,7 @@ fun ThreeIconButtonsBar(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .padding(start = 8.dp, end = 8.dp)
+                .padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 4.dp)
                 .fillMaxWidth()
 
         ) {

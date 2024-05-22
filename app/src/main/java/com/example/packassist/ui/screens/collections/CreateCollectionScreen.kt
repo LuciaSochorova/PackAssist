@@ -27,7 +27,9 @@ import com.example.packassist.ui.components.ThreeIconButtonsBar
 
 @Composable
 fun CreateCollectionScreen(
-
+    cancelAction: () -> Unit,
+    confirmAction: () -> Unit,
+    importAction: () -> Unit
 ) {
     var newItem by remember {
         mutableStateOf("")
@@ -43,9 +45,12 @@ fun CreateCollectionScreen(
             firstIcon = ImageVector.vectorResource(R.drawable.download),
             secondIcon = Icons.Default.Clear,
             thirdIcon = Icons.Default.Check,
-            firstButtonOnClick = { /*TODO*/ },
-            secondButtonOnClick = { /*TODO*/ },
-            thirdButtonOnClick = { /*TODO*/ })
+            firstIconContentDescription = stringResource(R.string.import_icon_description),
+            secondIconContentDescription = stringResource(id = R.string.cancel_button_description),
+            thirdIconContentDescription = stringResource(id = R.string.confirm_button_description),
+            firstButtonOnClick = importAction,
+            secondButtonOnClick = cancelAction,
+            thirdButtonOnClick = confirmAction)
     })
 
     { innerPadding ->
@@ -103,6 +108,8 @@ fun CreateCollectionScreen(
 @Preview(showBackground = true)
 @Composable
 fun CreateCollectionScreenPreview() {
-    CreateCollectionScreen()
+    CreateCollectionScreen(cancelAction = { /*TODO*/ }, confirmAction = { /*TODO*/ }) {
+        
+    }
 }
 
