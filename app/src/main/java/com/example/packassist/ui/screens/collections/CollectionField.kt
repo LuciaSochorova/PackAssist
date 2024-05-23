@@ -23,13 +23,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.packassist.R
+import com.example.packassist.data.entitiesAndDaos.ItemsOfCollection
 
 @Composable
 fun CollectionField(
-    name: String,
-    editAction: () -> Unit,
+    collection : ItemsOfCollection,
+    editAction: (collectionId: Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    /* TODO DELETE
     val itemList = listOf(
         "abc",
         "def dafhu",
@@ -37,6 +39,8 @@ fun CollectionField(
         "eihufaoui aeu fhoa faef",
         "iaeuhjf  iuahe fuio"
     )
+
+     */
     Column(
         modifier = modifier
             .wrapContentSize()
@@ -54,11 +58,11 @@ fun CollectionField(
                 .fillMaxWidth()
         ) {
             Text(
-                text = name,
+                text = collection.collection.name,
                 style = MaterialTheme.typography.headlineLarge
             )
             IconButton(
-                onClick = editAction,
+                onClick = {editAction(collection.collection.id)},
                 modifier = Modifier
                     .wrapContentSize()
             ) {
@@ -71,10 +75,10 @@ fun CollectionField(
         }
         Column(modifier = Modifier.background(MaterialTheme.colorScheme.secondaryContainer)) {
             val textModifier = Modifier.padding(start = 8.dp)
-            for (item in itemList) {
+            for (item in collection.items) {
                 HorizontalDivider()
                 Text(
-                    text = item,
+                    text = item.name,
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = textModifier
                 )
@@ -87,5 +91,5 @@ fun CollectionField(
 @Preview(showBackground = true)
 @Composable
 fun CollectionFieldPreview() {
-    CollectionField("Pokusná kolekcia", {/*TODO*/ })
+
 }

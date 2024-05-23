@@ -13,4 +13,5 @@
     <string name="back_icon_description">back</string>
     <string name="collapse_icon_description">Collapse</string>
     <string name="expand_icon_description">expand</string>
+    <string name="no_collections">No collections</string>
 </resources>

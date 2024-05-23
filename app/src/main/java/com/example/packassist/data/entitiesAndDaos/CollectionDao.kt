@@ -29,7 +29,7 @@ interface CollectionDao {
 
     @Transaction
     @Query("SELECT * FROM collections order by name ASC")
-    fun getCollectionsWithItems(): Flow<ItemsOfCollection>
+    fun getCollectionsWithItems(): Flow<List<ItemsOfCollection>>
 
     @Transaction
     @Query("SELECT * from collections where id = :id")

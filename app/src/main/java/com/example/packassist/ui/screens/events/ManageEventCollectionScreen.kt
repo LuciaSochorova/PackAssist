@@ -102,10 +102,13 @@ fun ManageEventCollectionsScreen(
         ) {
             itemsIndexed(collectionList) { index, item ->
                 Spacer(modifier = Modifier.size(8.dp))
+                /* TODO
                 CollectionField(
                     item.name,
                     {/*TODO*/}
                 )
+
+                 */
                 Spacer(modifier = Modifier.size(24.dp))
             }
         }

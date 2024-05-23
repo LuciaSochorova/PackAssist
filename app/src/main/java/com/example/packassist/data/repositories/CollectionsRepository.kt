@@ -16,7 +16,7 @@ interface CollectionsRepository {
 
     fun getCollectionStream(id : Int): Flow<Collection>
 
-    fun getCollectionsWithItemsStream(): Flow<ItemsOfCollection>
+    fun getCollectionsWithItemsStream(): Flow<List<ItemsOfCollection>>
 
     fun getItemsOfCollectionStream(id : Int):Flow<ItemsOfCollection>
 }

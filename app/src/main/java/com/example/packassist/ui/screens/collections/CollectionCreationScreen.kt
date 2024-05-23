@@ -26,7 +26,7 @@ import com.example.packassist.ui.components.TextInputField
 import com.example.packassist.ui.components.ThreeIconButtonsBar
 
 @Composable
-fun CreateCollectionScreen(
+fun CollectionCreationScreen(
     cancelAction: () -> Unit,
     confirmAction: () -> Unit,
     importAction: () -> Unit
@@ -108,7 +108,7 @@ fun CreateCollectionScreen(
 @Preview(showBackground = true)
 @Composable
 fun CreateCollectionScreenPreview() {
-    CreateCollectionScreen(cancelAction = { /*TODO*/ }, confirmAction = { /*TODO*/ }) {
+    CollectionCreationScreen(cancelAction = { /*TODO*/ }, confirmAction = { /*TODO*/ }) {
         
     }
 }

@@ -1,19 +1,27 @@
 package com.example.packassist
 
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.PrimaryTabRow
-import androidx.compose.material3.Tab
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-
+import com.example.packassist.navigation.CollectionsListRoute
+import com.example.packassist.navigation.collectionsListScreen
 
 
 @Composable
-fun PackAssistApp(navController: NavHostController = rememberNavController()) {
+fun PackAssistApp(modifier: Modifier = Modifier) {
+    val navController = rememberNavController()
 
+    NavHost(
+        navController = navController,
+        startDestination = CollectionsListRoute,
+        modifier = Modifier
+    )
+    {
+        collectionsListScreen(
+            onEditCollection = { /*todo*/ },
+            onAddNewCollection = {/*TODO*/}
+        )
+    }
 }
 

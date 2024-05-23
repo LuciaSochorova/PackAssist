@@ -26,7 +26,7 @@ class OfflineCollectionRepository(private val collDao : CollectionDao) : Collect
     override fun getCollectionStream(id: Int): Flow<Collection> = collDao.getCollection(id)
 
 
-    override fun getCollectionsWithItemsStream(): Flow<ItemsOfCollection> = collDao.getCollectionsWithItems()
+    override fun getCollectionsWithItemsStream(): Flow<List<ItemsOfCollection>> = collDao.getCollectionsWithItems()
 
 
     override fun getItemsOfCollectionStream(id: Int): Flow<ItemsOfCollection> = collDao.getItemsOfCollection(id)
