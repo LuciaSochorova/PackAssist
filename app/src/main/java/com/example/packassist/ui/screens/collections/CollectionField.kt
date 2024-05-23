@@ -29,7 +29,6 @@ fun CollectionField(
     name: String,
     editAction: () -> Unit,
     modifier: Modifier = Modifier
-    // TODO viewModel
 ) {
     val itemList = listOf(
         "abc",

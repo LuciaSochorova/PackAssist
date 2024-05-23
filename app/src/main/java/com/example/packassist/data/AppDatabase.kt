@@ -4,20 +4,38 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
 import com.example.packassist.data.entitiesAndDaos.Collection
 import com.example.packassist.data.entitiesAndDaos.CollectionDao
 import com.example.packassist.data.entitiesAndDaos.Event
 import com.example.packassist.data.entitiesAndDaos.EventDao
 import com.example.packassist.data.entitiesAndDaos.Item
 import com.example.packassist.data.entitiesAndDaos.ItemDao
+import java.util.Date
+
+
+class Converters {
+    @TypeConverter
+    fun fromTimestamp(value: Long?): Date? {
+        return value?.let { Date(it) }
+    }
+
+    @TypeConverter
+    fun dateToTimestamp(date: Date?): Long? {
+        return date?.time?.toLong()
+    }
+}
+
 
 @Database(
     entities = [
         Collection::class, Event::class, Item::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun collectionDao(): CollectionDao
     abstract fun eventDao(): EventDao
@@ -39,3 +57,5 @@ abstract class AppDatabase : RoomDatabase() {
         }
     }
 }
+
+

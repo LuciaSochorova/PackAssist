@@ -4,8 +4,8 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Relation
-import kotlinx.coroutines.flow.Flow
-import java.time.LocalDate
+import java.util.Date
+
 
 @Entity(tableName = "events")
 data class Event(
@@ -13,7 +13,7 @@ data class Event(
     val id: Int = 0,
     val name: String,
     val location: String?,
-    val date: LocalDate?,
+    val date : Date?,
     val notes: String?
 )
 
