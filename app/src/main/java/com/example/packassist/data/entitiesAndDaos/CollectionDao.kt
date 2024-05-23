@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
+import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -19,6 +20,9 @@ interface CollectionDao {
 
     @Delete
     suspend fun delete(collection : Collection)
+
+    @Upsert
+    suspend fun upsertItemsOfCollection(collection: Collection, items : List<Item>)
 
     @Query("SELECT * FROM collections where id = :id")
     fun getCollection(id: Int): kotlinx.coroutines.flow.Flow<Collection>

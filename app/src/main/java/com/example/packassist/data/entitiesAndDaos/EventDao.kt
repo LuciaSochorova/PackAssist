@@ -7,8 +7,9 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
+import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
-import kotlin.collections.Collection
+
 
 @Dao
 interface EventDao {
@@ -21,8 +22,14 @@ interface EventDao {
     @Delete
     suspend fun delete(event: Event)
 
+    @Upsert
+    suspend fun upsertEventsCollections(
+        event: Event,
+        collection: List<Collection>
+    )
+
     @Query("SELECT * FROM events where id = :id")
-    fun getEvent(id: Int): kotlinx.coroutines.flow.Flow<Event>
+    fun getEvent(id: Int): Flow<Event>
 
     @Transaction
     @Query("SELECT * FROM events order by date, name ASC")
@@ -30,6 +37,6 @@ interface EventDao {
 
     @Transaction
     @Query("SELECT * FROM events where id = :id")
-    fun getEventsCollections(id : Int): Flow<EventsCollections>
+    fun getEventsCollections(id: Int): Flow<EventsCollections>
 
 }
