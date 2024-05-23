@@ -20,5 +20,5 @@ data class ItemsOfCollection(
         parentColumn = "id",
         entityColumn = "collection"
     )
-    val items : Flow<Item>
+    val items : List<Item>
 )

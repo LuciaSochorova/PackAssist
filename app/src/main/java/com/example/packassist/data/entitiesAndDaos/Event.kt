@@ -22,5 +22,5 @@ data class EventsCollections(
     @Relation(
         parentColumn = "id",
         entityColumn = "event"
-    ) val collections : Flow<Collection>
+    ) val collections : List<Collection>
 )

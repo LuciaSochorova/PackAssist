@@ -25,7 +25,7 @@ interface CollectionDao {
     suspend fun upsertItemsOfCollection(collection: Collection, items : List<Item>)
 
     @Query("SELECT * FROM collections where id = :id")
-    fun getCollection(id: Int): kotlinx.coroutines.flow.Flow<Collection>
+    fun getCollection(id: Int): Flow<Collection>
 
     @Transaction
     @Query("SELECT * FROM collections order by name ASC")

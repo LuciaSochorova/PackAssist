@@ -22,10 +22,13 @@ interface EventDao {
     @Delete
     suspend fun delete(event: Event)
 
+    @Delete
+    suspend fun deleteEventAndCollections(event: Event, collections: List<Collection>)
+
     @Upsert
     suspend fun upsertEventsCollections(
         event: Event,
-        collection: List<Collection>
+        collections: List<Collection>
     )
 
     @Query("SELECT * FROM events where id = :id")
