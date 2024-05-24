@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 interface CollectionsRepository {
     suspend fun updateCollection(collection: Collection)
 
-    suspend fun insertCollection(collection: Collection)
+    suspend fun insertCollection(collection: Collection) : Long
 
     suspend fun deleteCollection(collection: Collection)
 
@@ -19,4 +19,8 @@ interface CollectionsRepository {
     fun getCollectionsWithItemsStream(): Flow<List<ItemsOfCollection>>
 
     fun getItemsOfCollectionStream(id : Int):Flow<ItemsOfCollection>
+
+    fun getAllNoEventCollections() : Flow<List<Collection>>
+
+    fun getCollectionId(rowId : Long) : Int
 }

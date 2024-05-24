@@ -11,9 +11,8 @@ class OfflineCollectionRepository(private val collDao : CollectionDao) : Collect
         collDao.update(collection)
     }
 
-    override suspend fun insertCollection(collection: Collection) {
-        collDao.insert(collection)
-    }
+    override suspend fun insertCollection(collection: Collection) : Long = collDao.insert(collection)
+
 
     override suspend fun deleteCollection(collection: Collection) {
         collDao.delete(collection)
@@ -30,5 +29,7 @@ class OfflineCollectionRepository(private val collDao : CollectionDao) : Collect
 
 
     override fun getItemsOfCollectionStream(id: Int): Flow<ItemsOfCollection> = collDao.getItemsOfCollection(id)
+    override fun getAllNoEventCollections(): Flow<List<Collection>> = collDao.getAllNoEventCollections()
+    override fun getCollectionId(rowId: Long): Int = collDao.getCollectionId(rowId)
 
 }

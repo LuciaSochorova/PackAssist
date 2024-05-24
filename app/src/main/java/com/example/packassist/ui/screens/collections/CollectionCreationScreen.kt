@@ -3,6 +3,7 @@ package com.example.packassist.ui.screens.collections
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
@@ -27,6 +28,12 @@ import com.example.packassist.ui.components.ThreeIconButtonsBar
 
 @Composable
 fun CollectionCreationScreen(
+    collectionUiState: CollectionUiState,
+    onNameChange: (String) -> Unit,
+    onNewItemChange: (String) -> Unit,
+    onChangeItem: (Int, String) -> Unit,
+    inputItemAction: () -> Unit,
+    addItemAction: () -> Unit,
     cancelAction: () -> Unit,
     confirmAction: () -> Unit,
     importAction: () -> Unit
@@ -50,7 +57,8 @@ fun CollectionCreationScreen(
             thirdIconContentDescription = stringResource(id = R.string.confirm_button_description),
             firstButtonOnClick = importAction,
             secondButtonOnClick = cancelAction,
-            thirdButtonOnClick = confirmAction)
+            thirdButtonOnClick = confirmAction
+        )
     })
 
     { innerPadding ->
@@ -63,8 +71,9 @@ fun CollectionCreationScreen(
             )
         ) {
             TextInputField(
-                value = nameText,
-                onValueChange = { nameText = it },
+                value = collectionUiState.name,
+                onValueChange = onNameChange,
+                isError = collectionUiState.name.isEmpty(),
                 keyboardAction = { focusManager.clearFocus() },
                 label = stringResource(R.string.type_name_label),
                 textStyle = MaterialTheme.typography.titleLarge,
@@ -72,22 +81,33 @@ fun CollectionCreationScreen(
             )
 
             TextInputField(
-                value = newItem,
-                onValueChange = { newItem = it },
+                value = collectionUiState.newItem,
+                onValueChange = onNewItemChange,
                 keyboardAction = {
                     focusManager.clearFocus()
-                    if (newItem.isNotEmpty()) itemsString.add(newItem)
-                    newItem = ""
+                    addItemAction()
                 },
                 label = stringResource(R.string.type_new_item_label),
                 textStyle = MaterialTheme.typography.bodyLarge
             )
 
             LazyColumn {
-                items(itemsString.size) {index ->
+                itemsIndexed(collectionUiState.items) { index, item ->
+                    TextInputField(
+                        value = item,
+                        onValueChange = { onChangeItem(index, it) },
+                        textStyle = MaterialTheme.typography.bodyLarge,
+                        keyboardAction = {
+                            inputItemAction()
+                            focusManager.clearFocus()
+                        }
+                    )
+                }
+                /*
+                items(itemsString.size) { index ->
                     TextInputField(
                         value = itemsString[index],
-                        onValueChange = {itemsString[index] = it},
+                        onValueChange = { itemsString[index] = it },
                         textStyle = MaterialTheme.typography.bodyLarge,
                         keyboardAction = {
                             if (itemsString[index].isEmpty()) itemsString.remove(
@@ -97,6 +117,8 @@ fun CollectionCreationScreen(
                         }
                     )
                 }
+
+                 */
             }
 
 
@@ -108,8 +130,6 @@ fun CollectionCreationScreen(
 @Preview(showBackground = true)
 @Composable
 fun CreateCollectionScreenPreview() {
-    CollectionCreationScreen(cancelAction = { /*TODO*/ }, confirmAction = { /*TODO*/ }) {
-        
-    }
+
 }
 

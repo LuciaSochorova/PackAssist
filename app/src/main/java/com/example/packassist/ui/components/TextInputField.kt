@@ -25,6 +25,7 @@ fun TextInputField(
     keyboardAction: (KeyboardActionScope) -> Unit,
     modifier: Modifier = Modifier,
     label: String = "",
+    isError : Boolean = false,
     textStyle: androidx.compose.ui.text.TextStyle = MaterialTheme.typography.bodyMedium
 ) {
     OutlinedTextField(
@@ -33,6 +34,7 @@ fun TextInputField(
         onValueChange = onValueChange,
         modifier = modifier.fillMaxWidth(),
         textStyle = textStyle,
+        isError = isError,
         leadingIcon = {
             Icon(
                 imageVector = Icons.Outlined.Edit,
