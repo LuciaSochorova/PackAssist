@@ -16,6 +16,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
@@ -31,13 +33,15 @@ fun CollectionCreationScreen(
     collectionUiState: CollectionUiState,
     onNameChange: (String) -> Unit,
     onNewItemChange: (String) -> Unit,
-    onChangeItem: (Int, String) -> Unit,
-    inputItemAction: () -> Unit,
+    onChangeItem: (String, Int) -> Unit,
+    inputItemAction: (Int) -> Unit,
+    saveCollection: () -> Unit,
     addItemAction: () -> Unit,
-    cancelAction: () -> Unit,
-    confirmAction: () -> Unit,
+    onCancel: () -> Unit,
+    onConfirm: () -> Unit,
     importAction: () -> Unit
 ) {
+    /*
     var newItem by remember {
         mutableStateOf("")
     }
@@ -47,6 +51,7 @@ fun CollectionCreationScreen(
     var nameText by remember {
         mutableStateOf("")
     }
+    */
     Scaffold(topBar = {
         ThreeIconButtonsBar(
             firstIcon = ImageVector.vectorResource(R.drawable.download),
@@ -56,8 +61,15 @@ fun CollectionCreationScreen(
             secondIconContentDescription = stringResource(id = R.string.cancel_button_description),
             thirdIconContentDescription = stringResource(id = R.string.confirm_button_description),
             firstButtonOnClick = importAction,
-            secondButtonOnClick = cancelAction,
-            thirdButtonOnClick = confirmAction
+            secondButtonOnClick = onCancel,
+            thirdButtonOnClick = {
+                if  (collectionUiState.isValid) {
+                    saveCollection()
+                    onConfirm()
+                } else {
+                    /*TODo*/
+                }
+            }
         )
     })
 
@@ -91,36 +103,21 @@ fun CollectionCreationScreen(
                 textStyle = MaterialTheme.typography.bodyLarge
             )
 
-            LazyColumn {
+            LazyColumn() {
                 itemsIndexed(collectionUiState.items) { index, item ->
                     TextInputField(
                         value = item,
-                        onValueChange = { onChangeItem(index, it) },
+                        onValueChange = { onChangeItem(it, index) },
                         textStyle = MaterialTheme.typography.bodyLarge,
                         keyboardAction = {
-                            inputItemAction()
+                            inputItemAction(index)
                             focusManager.clearFocus()
-                        }
-                    )
-                }
-                /*
-                items(itemsString.size) { index ->
-                    TextInputField(
-                        value = itemsString[index],
-                        onValueChange = { itemsString[index] = it },
-                        textStyle = MaterialTheme.typography.bodyLarge,
-                        keyboardAction = {
-                            if (itemsString[index].isEmpty()) itemsString.remove(
-                                itemsString[index]
-                            )
-                            focusManager.clearFocus()
-                        }
+                        },
+                        modifier = Modifier.onFocusChanged { inputItemAction(index) }
                     )
                 }
 
-                 */
             }
-
 
         }
 

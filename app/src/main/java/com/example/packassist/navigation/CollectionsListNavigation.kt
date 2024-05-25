@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.example.packassist.ui.screens.collections.CollectionListScreen
 import com.example.packassist.ui.screens.collections.CollectionsListViewModel
@@ -29,7 +30,7 @@ fun NavGraphBuilder.collectionsListScreen(
     }
 }
 
-fun NavController.navigateToCollectionsList() {
-    this.navigate(CollectionsListRoute)
+fun NavController.navigateToCollectionsList(navOptions: NavOptions? = null) {
+    this.navigate(CollectionsListRoute, navOptions)
 }
 

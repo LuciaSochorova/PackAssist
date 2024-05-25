@@ -3,15 +3,23 @@ package com.example.packassist.ui.screens.collections
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.packassist.PackAssistApplication
 import com.example.packassist.data.entitiesAndDaos.Collection
 import com.example.packassist.data.entitiesAndDaos.Item
 import com.example.packassist.data.repositories.CollectionsRepository
 import com.example.packassist.data.repositories.ItemsRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class CollectionCreationViewModel(
+class CollectionCreationViewModel (
     private val collectionsRepository: CollectionsRepository,
     private val itemsRepository: ItemsRepository
-) {
+) : ViewModel() {
     var state by mutableStateOf(CollectionUiState())
         private set
 
@@ -45,27 +53,31 @@ class CollectionCreationViewModel(
             state = state.copy(items = items)
         }
         validate()
-
     }
 
-    suspend fun saveCollection() {
-        if (state.validForInsertion) {
-            val rowId = collectionsRepository.insertCollection(
-                Collection(name = state.name)
-            )
+    fun saveCollection() {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (state.isValid) {
+                val rowId = collectionsRepository.insertCollection(
+                    Collection(name = state.name)
+                )
 
-            val coll = collectionsRepository.getCollectionId(rowId)
+                val coll = collectionsRepository.getCollectionId(rowId)
 
-            state.items.forEach { name ->
-                itemsRepository.upsertItem(itemToItem(name = name, collection = coll))
+                state.items.forEach { name ->
+                    if  (name.isNotEmpty() ) {
+                    itemsRepository.upsertItem(itemToItem(name = name, collection = coll))
+                    }
+                }
+
             }
-
         }
+
     }
 
-    fun validate() {
+    private fun validate() {
         state = state.copy(
-            validForInsertion =
+            isValid =
             (state.items.isNotEmpty() && state.name.isNotEmpty())
         )
     }
@@ -76,13 +88,29 @@ class CollectionCreationViewModel(
     )
 
     /*TODO IMPORT*/
+
+
+
+
+    companion object {
+        val Factory  = viewModelFactory {
+            initializer {
+                val collRepository = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as PackAssistApplication).container.collectionsRepository
+                val itemRepository = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as PackAssistApplication).container.itemsRepository
+                CollectionCreationViewModel(
+                    collectionsRepository = collRepository,
+                    itemsRepository = itemRepository
+                )
+            }
+        }
+    }
 }
 
 data class CollectionUiState(
     val name: String = "",
     val newItem: String = "",
     val items: List<String> = listOf(),
-    val validForInsertion: Boolean = false
+    val isValid: Boolean = false
 )
 
 

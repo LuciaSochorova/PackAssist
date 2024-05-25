@@ -32,7 +32,7 @@ class Converters {
     entities = [
         Collection::class, Event::class, Item::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

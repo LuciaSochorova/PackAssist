@@ -74,9 +74,9 @@ dependencies {
 
 
     implementation(libs.androidx.room.ktx)
-
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
     //room
-
 
     implementation(libs.androidx.room.runtime)
     annotationProcessor(libs.androidx.room.compiler)
