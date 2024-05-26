@@ -3,7 +3,6 @@ package com.example.packassist.navigation
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.example.packassist.ui.screens.collections.CollectionCreationScreen
 import com.example.packassist.ui.screens.collections.CollectionCreationViewModel
@@ -25,9 +24,8 @@ fun NavGraphBuilder.collectionCreationScreen(
             saveCollection = viewModel::saveCollection ,
             inputItemAction = viewModel::ifEmptyDeleteItem,
             addItemAction = viewModel::addItem,
-            onCancel = onNavigateBack,
-            onConfirm = onNavigateBack,
-            importAction = { /*todo*/ }
+            navigateBack = onNavigateBack,
+            onImport = { /*todo*/ }
         )
 
     }

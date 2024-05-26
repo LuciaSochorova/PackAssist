@@ -25,6 +25,7 @@ class CollectionCreationViewModel (
 
     fun onNameChange(name: String) {
         state = state.copy(name = name)
+        validate()
     }
 
     fun onNewItemChange(newItem: String) {

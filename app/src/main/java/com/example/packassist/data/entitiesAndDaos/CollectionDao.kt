@@ -33,7 +33,7 @@ interface CollectionDao {
 
     @Transaction
     @Query("SELECT * from collections where id = :id")
-    fun getItemsOfCollection(id : Int):Flow<ItemsOfCollection>
+    suspend fun getItemsOfCollection(id : Int):ItemsOfCollection
 
     @Query("SELECT * FROM collections where event = null")
     fun getAllNoEventCollections() : Flow<List<Collection>>

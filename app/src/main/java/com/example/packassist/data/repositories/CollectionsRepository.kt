@@ -12,13 +12,14 @@ interface CollectionsRepository {
 
     suspend fun deleteCollection(collection: Collection)
 
+
     suspend fun upsertItemsOfCollection(collection: Collection, items : List<Item>)
 
     fun getCollectionStream(id : Int): Flow<Collection>
 
     fun getCollectionsWithItemsStream(): Flow<List<ItemsOfCollection>>
 
-    fun getItemsOfCollectionStream(id : Int):Flow<ItemsOfCollection>
+    suspend fun getItemsOfCollection(id : Int):ItemsOfCollection
 
     fun getAllNoEventCollections() : Flow<List<Collection>>
 

@@ -18,6 +18,8 @@ interface ItemDao {
 
     @Upsert
     suspend fun upsert(item: Item)
+    @Query("DELETE FROM items where id = :id")
+    fun deleteItem(id : Int)
 
     @Query("SELECT * FROM items where id = :id")
     fun getItem(id: Int): Flow<Item>

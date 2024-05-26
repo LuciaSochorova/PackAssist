@@ -18,6 +18,7 @@ class OfflineCollectionRepository(private val collDao : CollectionDao) : Collect
         collDao.delete(collection)
     }
 
+
     override suspend fun upsertItemsOfCollection(collection: Collection, items: List<Item>) {
         collDao.upsertItemsOfCollection(collection, items)
     }
@@ -28,7 +29,7 @@ class OfflineCollectionRepository(private val collDao : CollectionDao) : Collect
     override fun getCollectionsWithItemsStream(): Flow<List<ItemsOfCollection>> = collDao.getCollectionsWithItems()
 
 
-    override fun getItemsOfCollectionStream(id: Int): Flow<ItemsOfCollection> = collDao.getItemsOfCollection(id)
+    override suspend fun getItemsOfCollection(id: Int): ItemsOfCollection = collDao.getItemsOfCollection(id)
     override fun getAllNoEventCollections(): Flow<List<Collection>> = collDao.getAllNoEventCollections()
     override fun getCollectionId(rowId: Long): Int = collDao.getCollectionId(rowId)
 
