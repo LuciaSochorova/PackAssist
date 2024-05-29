@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material.icons.Icons
@@ -28,52 +29,61 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.packassist.R
-import com.example.packassist.ui.components.TextAndIconButtonBar
+import com.example.packassist.data.entitiesAndDaos.Event
+import com.example.packassist.ui.components.BottomNavBar
+import com.example.packassist.ui.components.ScreenErrorMessage
+import com.example.packassist.ui.components.TextAndIconButtonTopBar
 import java.time.LocalDate
 
 
 @Composable
 fun EventsListScreen(
+    uiState: ListOfEventsUiState,
+    onAddNewEvent: () -> Unit,
+    onEventClick: (eventId: Int) -> Unit,
+    route: String,
+    onNavigateToRoute: (route: String) -> Unit,
     modifier: Modifier = Modifier
-    // todo viewModel
 ) {
-    val eventlist = listOf(
-        EventLocal(id = 1, name = "Event1", null, null, "notes, notes, notes, notes..........."),
-        EventLocal(
-            id = 2,
-            name = "Event2",
-            "Somewhere",
-            LocalDate.of(2024, 5, 2),
-            "notes, notes, notes, notes..........."
-        )
-    )
-
     Scaffold(
         topBar = {
-            TextAndIconButtonBar(
+            TextAndIconButtonTopBar(
                 text = stringResource(R.string.Events_screen_name),
                 icon = Icons.Default.Add,
                 iconContentDescription = stringResource(R.string.add_new_button_description),
-                buttonOnClick = {/*TODO*/}
+                buttonOnClick = onAddNewEvent
             )
         },
+        bottomBar = {
+            BottomNavBar(onNavigateToRoute = onNavigateToRoute, currentRoute = route)
+        },
         modifier = modifier
-    ) {
-        LazyColumn(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            contentPadding = PaddingValues(8.dp),
-            modifier = Modifier.padding(it)
-        ) {
+    ) { innerPadding ->
+        if (uiState.listOfEvents.isNotEmpty()) {
+            LazyColumn(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                contentPadding = PaddingValues(8.dp),
+                modifier = Modifier.padding(
+                    top = innerPadding.calculateTopPadding(),
+                    bottom = innerPadding.calculateBottomPadding()
+                )
+            ) {
 
+                items(uiState.listOfEvents) { event ->
+                    Spacer(modifier = modifier.size(8.dp))
+                    EventField(
+                        event = event,
+                        onEventClick = onEventClick
+                    )
+                    Spacer(modifier = modifier.size(24.dp))
 
-            itemsIndexed(eventlist) { index, item ->
-                Spacer(modifier = modifier.size(8.dp))
-                EventField(
-                    event = item,
-                    onItemClick = { event -> //Navigation.current.navigate("productDetail/${event.id}
-                    })
-                Spacer(modifier = modifier.size(24.dp))
+                }
             }
+        } else {
+            ScreenErrorMessage(
+                text = stringResource(R.string.no_events_messege),
+                modifier = Modifier.padding(innerPadding)
+            )
         }
 
     }
@@ -82,16 +92,16 @@ fun EventsListScreen(
 }
 
 @Composable
-fun EventField(
-    event: EventLocal,
-    onItemClick: (EventLocal) -> Unit,
+private fun EventField(
+    event: Event,
+    onEventClick: (eventId: Int) -> Unit,
     modifier: Modifier = Modifier,
     shape: CornerBasedShape = MaterialTheme.shapes.medium
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
-            .clickable { onItemClick }
+            .clickable { onEventClick(event.id) }
             .fillMaxWidth()
             .border(
                 color = MaterialTheme.colorScheme.scrim,
@@ -151,5 +161,11 @@ fun EventField(
 @Preview(showBackground = true)
 @Composable
 fun EventsListsPreview() {
-    EventsListScreen()
+ EventsListScreen(
+     uiState = ListOfEventsUiState(),
+     onAddNewEvent = {  },
+     onEventClick = {  },
+     route = "route",
+     onNavigateToRoute = {}
+ )
 }

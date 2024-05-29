@@ -11,11 +11,11 @@ import com.example.packassist.ui.screens.collections.CollectionListScreen
 import com.example.packassist.ui.screens.collections.CollectionsListViewModel
 
 
-//private const val collectionIdArgs = "collectionId"
 const val CollectionsListRoute = "collections"
 fun NavGraphBuilder.collectionsListScreen(
     onAddNewCollection: () -> Unit,
-    onEditCollection: (collectionId: Int) -> Unit
+    onEditCollection: (collectionId: Int) -> Unit,
+    onNavigateToRoute: (route: String) -> Unit
 ) {
     composable(route = CollectionsListRoute) {
         val viewModel: CollectionsListViewModel =
@@ -24,13 +24,15 @@ fun NavGraphBuilder.collectionsListScreen(
         CollectionListScreen(
             uiState = uiState,
             onAddNewCollection = onAddNewCollection,
-            onEditCollection = onEditCollection
+            onEditCollection = onEditCollection,
+            route = CollectionsListRoute,
+            onNavigateToRoute = onNavigateToRoute
         )
 
     }
 }
 
-fun NavController.navigateToCollectionsList(navOptions: NavOptions? = null) {
-    this.navigate(CollectionsListRoute, navOptions)
+fun NavController.navigateToCollectionsList() {
+    this.navigate(CollectionsListRoute)
 }
 

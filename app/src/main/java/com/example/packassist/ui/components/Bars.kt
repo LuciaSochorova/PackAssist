@@ -10,15 +10,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -26,12 +25,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import com.example.packassist.R
+import com.example.packassist.navigation.NavigationBarRoutes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TextAndIconButtonBar(
+fun TextAndIconButtonTopBar(
     text: String,
     icon: ImageVector,
     modifier: Modifier = Modifier,
@@ -77,7 +77,7 @@ fun TextAndIconButtonBar(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ThreeIconButtonsBar(
+fun ThreeIconButtonsTopBar(
     firstIcon: ImageVector,
     secondIcon: ImageVector,
     thirdIcon: ImageVector,
@@ -91,7 +91,8 @@ fun ThreeIconButtonsBar(
 
 ) {
     Column(
-        modifier = modifier.windowInsetsPadding(TopAppBarDefaults.windowInsets)
+        modifier = modifier
+            .windowInsetsPadding(TopAppBarDefaults.windowInsets)
             .background(MaterialTheme.colorScheme.primaryContainer)
 
     ) {
@@ -149,5 +150,33 @@ fun ThreeIconButtonsBar(
 
         HorizontalDivider()
     }
+}
+
+@Composable
+fun BottomNavBar(
+    onNavigateToRoute: (String) -> Unit,
+    currentRoute: String,
+    modifier: Modifier = Modifier
+) {
+    BottomAppBar(
+        actions = {
+            val tabs = listOf(NavigationBarRoutes.COLLECTIONS, NavigationBarRoutes.EVENTS)
+            NavigationBar {
+                tabs.forEach {
+                    NavigationBarItem(
+                        selected = it.route == currentRoute,
+                        onClick = { onNavigateToRoute(it.route) },
+                        label = {Text(text = stringResource(id = it.label))},
+                        icon = {
+                            Icon(
+                                ImageVector.vectorResource(it.iconRes),
+                                contentDescription = null
+                            )
+                        },
+                    )
+                }
+            }
+        }
+    )
 }
 

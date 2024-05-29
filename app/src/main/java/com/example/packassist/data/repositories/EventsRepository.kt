@@ -19,9 +19,11 @@ interface EventsRepository {
         collections: List<Collection>
     )
 
+    fun getAllEventsStream(): Flow<List<Event>>
+
     fun getEventStream(id: Int): Flow<Event>
 
-    fun getAllEventsWithCollectionsStream(): Flow<EventsCollections>
+    fun getAllEventsWithCollectionsStream(): Flow<List<EventsCollections>>
 
     fun getEventsCollectionsStream(id: Int): Flow<EventsCollections>
 

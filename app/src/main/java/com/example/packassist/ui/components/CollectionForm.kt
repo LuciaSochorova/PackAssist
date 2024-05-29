@@ -54,7 +54,7 @@ fun CollectionField(
         ) {
             Text(
                 text = collection.collection.name,
-                style = MaterialTheme.typography.headlineLarge
+                style = MaterialTheme.typography.bodyLarge
             )
             IconButton(
                 onClick = {editAction(collection.collection.id)},
@@ -74,7 +74,7 @@ fun CollectionField(
                 HorizontalDivider()
                 Text(
                     text = item.name,
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.bodyMedium,
                     modifier = textModifier
                 )
             }

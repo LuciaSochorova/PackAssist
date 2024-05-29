@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.example.packassist.R
 import com.example.packassist.ui.components.CollectionForm
 import com.example.packassist.ui.components.CollectionFormInformation
-import com.example.packassist.ui.components.ThreeIconButtonsBar
+import com.example.packassist.ui.components.ThreeIconButtonsTopBar
 
 
 @Composable
@@ -34,7 +34,7 @@ fun CollectionEditScreen(
     Scaffold(
 
         topBar = {
-            ThreeIconButtonsBar(
+            ThreeIconButtonsTopBar(
                 firstIcon = Icons.Default.Delete,
                 secondIcon = Icons.Default.Clear,
                 thirdIcon = Icons.Default.Check,

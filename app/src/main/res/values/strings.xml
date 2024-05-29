@@ -14,4 +14,7 @@
     <string name="collapse_icon_description">Collapse</string>
     <string name="expand_icon_description">expand</string>
     <string name="no_collections">No collections</string>
+    <string name="collections_title">Collections</string>
+    <string name="events_title">Events</string>
+    <string name="no_events_messege">No events yet</string>
 </resources>

@@ -35,7 +35,6 @@ fun NavGraphBuilder.collectionCreationScreen(
 
 fun NavController.navigateToCollectionCreation() {
     this.navigate(CollectionCreationRoute)
-
 }
 
 

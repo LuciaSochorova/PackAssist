@@ -30,9 +30,10 @@ class OfflineEventsRepository(private val eventDao: EventDao) : EventsRepository
         eventDao.upsertEventsCollections(event, collections)
     }
 
+    override fun getAllEventsStream(): Flow<List<Event>> = eventDao.getAllEvents()
     override fun getEventStream(id: Int): Flow<Event> = eventDao.getEvent(id)
 
-    override fun getAllEventsWithCollectionsStream(): Flow<EventsCollections> = eventDao.getAllEventsWithCollections()
+    override fun getAllEventsWithCollectionsStream(): Flow<List<EventsCollections>> = eventDao.getAllEventsWithCollections()
 
     override fun getEventsCollectionsStream(id: Int): Flow<EventsCollections> = eventDao.getEventsCollections(id)
 }
