@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.packassist.R
@@ -54,7 +55,7 @@ fun CollectionField(
         ) {
             Text(
                 text = collection.collection.name,
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
             )
             IconButton(
                 onClick = {editAction(collection.collection.id)},
@@ -64,18 +65,17 @@ fun CollectionField(
                 Icon(
                     Icons.Outlined.Edit,
                     contentDescription = stringResource(R.string.edit_button_description),
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(0.8f)
                 )
             }
         }
         Column(modifier = Modifier.background(MaterialTheme.colorScheme.secondaryContainer)) {
-            val textModifier = Modifier.padding(start = 8.dp)
             for (item in collection.items) {
                 HorizontalDivider()
                 Text(
                     text = item.name,
                     style = MaterialTheme.typography.bodyMedium,
-                    modifier = textModifier
+                    modifier = Modifier.padding(start = 12.dp, top = 4.dp, bottom = 4.dp)
                 )
             }
         }
@@ -98,17 +98,17 @@ fun CollectionForm(
     Column(
         modifier = modifier
     ) {
-        TextInputField(
+        TextEditField(
             value = informations.name,
             onValueChange = onNameChange,
-            isError = informations.name.isEmpty(),
+            isError = informations.name.isBlank(),
             keyboardAction = { focusManager.clearFocus() },
             label = stringResource(R.string.type_name_label),
             textStyle = MaterialTheme.typography.titleLarge,
             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
         )
 
-        TextInputField(
+        TextEditField(
             value = informations.newItem,
             onValueChange = onNewItemChange,
             keyboardAction = {
@@ -121,7 +121,7 @@ fun CollectionForm(
 
         LazyColumn() {
             itemsIndexed(informations.items) { index, item ->
-                TextInputField(
+                TextEditField(
                     value = item,
                     onValueChange = { onChangeItem(it, index) },
                     textStyle = MaterialTheme.typography.bodyLarge,

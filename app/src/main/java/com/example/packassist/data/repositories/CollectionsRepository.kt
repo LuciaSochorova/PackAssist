@@ -23,5 +23,5 @@ interface CollectionsRepository {
 
     fun getAllNoEventCollections() : Flow<List<Collection>>
 
-    fun getCollectionId(rowId : Long) : Int
+    suspend fun getCollectionId(rowId : Long) : Int
 }

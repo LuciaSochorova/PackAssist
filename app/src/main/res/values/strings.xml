@@ -17,4 +17,8 @@
     <string name="collections_title">Collections</string>
     <string name="events_title">Events</string>
     <string name="no_events_messege">No events yet</string>
+    <string name="create_new_event">Create new Event</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="event_name">Event name</string>
+    <string name="save">Save</string>
 </resources>

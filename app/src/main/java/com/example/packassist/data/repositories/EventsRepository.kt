@@ -6,7 +6,7 @@ import com.example.packassist.data.entitiesAndDaos.EventsCollections
 import kotlinx.coroutines.flow.Flow
 
 interface EventsRepository {
-    suspend fun insertEvent(event: Event)
+    suspend fun insertEvent(event: Event) : Long
 
     suspend fun updateEvent(event: Event)
 
@@ -19,6 +19,7 @@ interface EventsRepository {
         collections: List<Collection>
     )
 
+    suspend fun getEventId(rowId : Long) : Int
     fun getAllEventsStream(): Flow<List<Event>>
 
     fun getEventStream(id: Int): Flow<Event>

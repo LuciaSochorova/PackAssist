@@ -39,6 +39,6 @@ interface CollectionDao {
     fun getAllNoEventCollections() : Flow<List<Collection>>
 
     @Query("Select id from collections where rowid = :rowId")
-    fun getCollectionId(rowId : Long) : Int
+    suspend fun getCollectionId(rowId : Long) : Int
 
 }

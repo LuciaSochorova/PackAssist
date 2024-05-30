@@ -75,7 +75,7 @@ class CollectionEditViewModel(
 
     fun ifEmptyDeleteItem(index: Int) {
         val item = state.items[index]
-        if (item.second.isEmpty()) {
+        if (item.second.isBlank()) {
             if (item.first != 0) {
                 deleted.add(state.items[index].first)
             }

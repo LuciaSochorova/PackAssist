@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun TextInputField(
+fun TextEditField(
     value: String,
     onValueChange: (String) -> Unit,
     keyboardAction: (KeyboardActionScope) -> Unit,
@@ -55,6 +55,6 @@ fun TextInputField(
 
 @Preview(showBackground = true)
 @Composable
-fun TextInputFieldPreview() {
-    TextInputField(value = "alfvnn", onValueChange = {}, keyboardAction = {})
+fun TextEditFieldPreview() {
+    TextEditField(value = "alfvnn", onValueChange = {}, keyboardAction = {})
 }

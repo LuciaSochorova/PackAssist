@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface EventDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(event: Event)
+    suspend fun insert(event: Event) : Long
 
     @Update
     suspend fun update(event: Event)
@@ -31,6 +31,8 @@ interface EventDao {
         collections: List<Collection>
     )
 
+    @Query("Select id from events where rowid = :rowId")
+    suspend fun getEventId(rowId : Long) : Int
     @Query("SELECT * FROM events where id = :id")
     fun getEvent(id: Int): Flow<Event>
 
