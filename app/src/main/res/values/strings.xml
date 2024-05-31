@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">PackAssist</string>
     <string name="Events_screen_name">Events</string>
-    <string name="add_new_button_description">Add new button</string>
-    <string name="edit_button_description">Edit button</string>
+    <string name="add_new_button_description">Add new</string>
+    <string name="edit_button_description">Edit</string>
     <string name="collections_screeen_name">Collections</string>
-    <string name="delete_button_description">Delete button</string>
-    <string name="cancel_button_description">Cancel button</string>
-    <string name="confirm_button_description">Confirm button</string>
+    <string name="delete_button_description">Delete</string>
+    <string name="cancel_button_description">Cancel</string>
+    <string name="confirm_button_description">Confirm</string>
     <string name="type_name_label">Type name</string>
     <string name="type_new_item_label">Type new item</string>
     <string name="import_icon_description">Import</string>
@@ -21,4 +21,8 @@
     <string name="dismiss">Dismiss</string>
     <string name="event_name">Event name</string>
     <string name="save">Save</string>
+    <string name="location">Location</string>
+    <string name="date">Date</string>
+    <string name="manage_collections">Manage Collections</string>
+    <string name="type_notes">Type notes</string>
 </resources>

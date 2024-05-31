@@ -55,7 +55,6 @@ fun TextAndIconButtonTopBar(
             IconButton(
                 onClick = buttonOnClick,
                 modifier = Modifier
-                    .wrapContentSize()
                     .border(
                         color = MaterialTheme.colorScheme.scrim,
                         width = 1.dp
@@ -106,8 +105,7 @@ fun ThreeIconButtonsTopBar(
             Row(modifier = Modifier.weight(1f)) {
                 IconButton(
                     onClick = firstButtonOnClick,
-                    modifier = Modifier
-                        .wrapContentSize()
+
                 ) {
                     Icon(
                         firstIcon,
@@ -120,8 +118,7 @@ fun ThreeIconButtonsTopBar(
             Row(horizontalArrangement = Arrangement.End, modifier = Modifier.weight(1f)) {
                 IconButton(
                     onClick = secondButtonOnClick,
-                    modifier = Modifier
-                        .wrapContentSize()
+
                 ) {
                     Icon(
                         secondIcon,
@@ -134,7 +131,6 @@ fun ThreeIconButtonsTopBar(
                 IconButton(
                     onClick = thirdButtonOnClick,
                     modifier = Modifier
-                        .wrapContentSize()
                         .padding(start = 36.dp)
                 ) {
                     Icon(

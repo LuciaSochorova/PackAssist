@@ -21,5 +21,5 @@ data class Item(
     val name: String,
     @ColumnInfo(index = true)
     val collection : Int,
-    val packet : Boolean = false
+    val packed : Boolean = false
 )

@@ -1,8 +1,10 @@
 package com.example.packassist.ui.screens.events
 
+import android.icu.text.DateFormat
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -13,10 +15,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -26,8 +29,12 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.HorizontalDivider
@@ -39,7 +46,10 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -54,58 +64,55 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.example.packassist.R
-import com.example.packassist.ui.screens.collections.CollectionLocal
-import java.time.LocalDate
+import com.example.packassist.data.entitiesAndDaos.Item
+import com.example.packassist.ui.components.TextEditField
 
-data class ItemLocal( /*TODO delete*/
-    val name : String,
-    val col : Int,
 
-    val packed : Boolean = false
-)
-/*TODO delete*/
-data class EventLocal(
-    val id: Int = 0,
-    val name: String,
-    val location: String?,
-    val date: LocalDate?,
-    val notes: String?
-)
-data class CollectionItems(val collection: CollectionLocal, val items: List<ItemLocal>)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EventDetailsScreen(
-    backAction: () -> Unit,
+    uiState: EventDetailsUiState,
+    onEventNameChange: (String) -> Unit,
+    onItemCheckedChange: (Item) -> Unit,
+    saveChanges: () -> Unit,
+    navigateBack: () -> Unit,
     deleteAction: () -> Unit,
+    onLocationChange: (String) -> Unit,
+    onWriteNotes: (Boolean) -> Unit,
+    onNotesChange: (String) -> Unit,
+    onPickDate: (Boolean) -> Unit,
+    onDateChange: (Long?) -> Unit,
     floatingButtonAction: () -> Unit
 ) {
     val normalFont = MaterialTheme.typography.bodyMedium
-    val kolekcie = listOf(CollectionItems(
-        CollectionLocal(name = "Bla bla bla"),
-        listOf(ItemLocal("Spacák", 0), ItemLocal("Taška", 0))
-    ))
-    val focusManager = LocalFocusManager.current
-    val event =
-        EventLocal(name = "Event pokus", date = LocalDate.of(2024, 5, 2), notes = null, location = null)
-    var eventName by remember {
-        mutableStateOf("Event pokus kjh hiu hiuhuih uiui")
-    }
 
+    val focusManager = LocalFocusManager.current
 
     Scaffold(
         floatingActionButton = {
-            ExtendedFloatingActionButton(onClick = floatingButtonAction, containerColor = MaterialTheme.colorScheme.primary) {
-            Icon(
-                Icons.Default.Edit,
-                contentDescription = stringResource(id = R.string.edit_button_description)
-            )
+            ExtendedFloatingActionButton(
+                onClick = floatingButtonAction,
+                containerColor = MaterialTheme.colorScheme.primary
+            ) {
+                Icon(
+                    Icons.Default.Edit,
+                    contentDescription = stringResource(id = R.string.edit_button_description)
+                )
 
-            Text(text = "Manage Collections", style = MaterialTheme.typography.titleSmall)
-        }},
+                Text(text = stringResource(R.string.manage_collections), style = MaterialTheme.typography.titleSmall)
+            }
+        },
         floatingActionButtonPosition = FabPosition.Start,
 
         topBar = {
-            Column(modifier = Modifier.fillMaxWidth()) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .windowInsetsPadding(TopAppBarDefaults.windowInsets)
+            ) {
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
@@ -116,49 +123,53 @@ fun EventDetailsScreen(
 
                 ) {
                     IconButton(
-                        onClick = backAction,
+                        onClick = {
+                            if (uiState.event.name.isNotBlank()) {
+                                navigateBack()
+                                saveChanges()
+                            }
+                        },
                         modifier = Modifier
-                            .wrapContentSize()
                             .weight(1f)
 
                     ) {
                         Icon(
                             Icons.AutoMirrored.Default.ArrowBack,
-                            contentDescription = "" /*TODO*/,
-                            modifier = Modifier.fillMaxSize()
+                            contentDescription = stringResource(R.string.back_icon_description),
+                            modifier = Modifier.fillMaxSize(0.8f)
                         )
                     }
 
-                    TextField(
-                        value = eventName,
-                        onValueChange = {
-                            if (it.isNotEmpty()) {
-                                eventName = it
-                            }
-                        },
-                        textStyle = MaterialTheme.typography.displaySmall,
+                    TextEditField(
+                        value = uiState.event.name,
+                        onValueChange = { onEventNameChange(it) },
+                        keyboardAction = { focusManager.clearFocus() },
+                        isError = uiState.event.name.isBlank(),
+                        textStyle = MaterialTheme.typography.headlineSmall,
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
                             unfocusedContainerColor = Color.Transparent,
                             disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
                         ),
-                        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
-                        keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
                         modifier = Modifier
                             .weight(5f)
                     )
 
+
                     IconButton(
-                        onClick = deleteAction,
+                        onClick = {
+                            navigateBack()
+                            deleteAction()
+                        },
                         modifier = Modifier
                             .weight(1f)
-                            .wrapContentSize()
+
 
                     ) {
                         Icon(
                             Icons.Default.Delete,
                             contentDescription = stringResource(id = R.string.delete_button_description),
-                            modifier = Modifier.fillMaxSize()
+                            modifier = Modifier.fillMaxSize(0.8f)
                         )
                     }
                 }
@@ -186,117 +197,165 @@ fun EventDetailsScreen(
                             .fillMaxWidth()
                             .height(IntrinsicSize.Max)
                     ) {
-                        Box(
+
+                        TextField(
+                            value = uiState.event.location ?: "",
+
+                            label = {
+                                if (uiState.event.location.isNullOrBlank()) {
+                                    Text(
+                                        text = stringResource(R.string.location),
+                                        style = normalFont
+                                    )
+                                }
+                            },
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Outlined.Edit,
+                                    contentDescription = null
+                                )
+                            },
+                            onValueChange = onLocationChange,
+                            textStyle = normalFont,
+                            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                            keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                unfocusedContainerColor = Color.Transparent,
+                                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            ),
                             modifier = Modifier
+                                .fillMaxSize()
                                 .border(
                                     width = 1.dp,
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
-                                .weight(3f)
-                        ) {
-                            TextField(
-                                modifier = Modifier.fillMaxHeight(),
-                                value = event.location ?: "",
-                                label = {
-                                    if (event.location.isNullOrBlank()) {
-                                        Text(text = "Location", style = normalFont)
-                                    }
-                                },
-                                onValueChange = {/*TODO*/ },
-                                textStyle = normalFont,
-                                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
-                                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
-                                colors = OutlinedTextFieldDefaults.colors(
-                                    focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                    unfocusedContainerColor = Color.Transparent,
-                                    disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                ),
-                            )
-                        }
-                        Box(
+                                .weight(3f),
+                        )
+
+
+
+                        OutlinedButton(
+                            onClick = { onPickDate(true) },
+                            shape = RoundedCornerShape(0.dp),
+                            colors = ButtonDefaults.outlinedButtonColors()
+                                .copy(contentColor = MaterialTheme.colorScheme.onSurface),
                             modifier = Modifier
                                 .border(
                                     width = 1.dp,
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
                                 .weight(2f)
+                                .fillMaxHeight()
+                                .fillMaxWidth()
+
+
                         ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
 
-                            OutlinedButton(
-                                onClick = { /*TODO*/ },
-                                shape = RoundedCornerShape(0.dp),
-                                colors = ButtonDefaults.outlinedButtonColors()
-                                    .copy(contentColor = MaterialTheme.colorScheme.onSurface),
-                                modifier = Modifier
-                                    .fillMaxHeight()
-                                    .fillMaxWidth()
-
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Start
                             ) {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
 
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Start
-                                ) {
-                                    Text(
-                                        text = event.date?.toString() ?: "Date",
-                                        style = normalFont,
-                                        modifier = Modifier.weight(4f),
-                                    )
-                                    Icon(
-                                        Icons.Default.DateRange,
-                                        contentDescription = null,
-                                        modifier = Modifier
-                                            .padding(start = 4.dp)
-                                            .weight(1f)
-                                    )
+                                val text: String = if (uiState.event.date != null) {
+                                    DateFormat.getDateInstance(3).format(uiState.event.date)
+                                        .toString()
+                                } else {
+                                    stringResource(R.string.date)
                                 }
 
+                                Text(
+                                    text = text,
+                                    style = normalFont,
+                                    modifier = Modifier.weight(5f),
+                                )
+                                Icon(
+                                    Icons.Default.DateRange,
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .padding(start = 4.dp)
+                                        .weight(1f)
+                                )
                             }
+
                         }
+
 
                     }
 
                     Text(
-                        text = event.notes ?: "Type new",
+                        text = uiState.event.notes ?: stringResource(R.string.type_notes),
                         textAlign = TextAlign.Center,
                         style = normalFont,
                         modifier = Modifier
+                            .clickable {
+                                onWriteNotes(true)
+                            }
                             .fillMaxWidth()
                             .border(width = 1.dp, color = MaterialTheme.colorScheme.onSurface)
                             .defaultMinSize(minHeight = 48.dp)
+                            .padding(12.dp)
                     )
                 }
             }
 
-            item { Spacer(modifier = Modifier
-                .fillMaxWidth()
-                .height(12.dp)) }
+            item {
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(12.dp)
+                )
+            }
 
 
-            itemsIndexed(kolekcie){ index, item ->
-                ExpandingListOfItems(coll = item, modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, bottom = 8.dp))
+
+            if (uiState.collections.isNotEmpty()) {
+                items(uiState.collections) { collection ->
+                    ExpandingListOfItems(
+                        coll = collection,
+                        onCheckedChange = onItemCheckedChange,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp, bottom = 8.dp)
+                    )
+                }
             }
 
         }
     }
-}
 
+    when {
+        uiState.event.writingNotes ->
+            NotesInputDialog(
+                value = uiState.event.notes ?: "",
+                onValueChange = { onNotesChange(it) },
+                onDismiss = { onWriteNotes(false) },
+                modifier = Modifier.fillMaxSize()
+            )
+
+        uiState.event.pickingDate ->
+            DateInputDialog(
+                onConfirm = { onDateChange(it) },
+                onDismiss = { onPickDate(false) },
+                date = uiState.event.date?.time
+            )
+    }
+
+
+}
 
 @Preview(showBackground = true)
 @Composable
 fun EventDetailsScreenPreview() {
-    EventDetailsScreen({}, {}, {})
+    EventDetailsScreen(EventDetailsUiState(), {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {})
 }
 
 
-
-
 @Composable
-fun ExpandingListOfItems(
+private fun ExpandingListOfItems(
     coll: CollectionItems,
+    onCheckedChange: (Item) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var isExpanded by remember {
@@ -307,7 +366,7 @@ fun ExpandingListOfItems(
         ListItem(
             headlineContent = {
                 Text(
-                    text = coll.collection.name,
+                    text = coll.name,
                     style = MaterialTheme.typography.titleMedium
                 )
             },
@@ -344,10 +403,10 @@ fun ExpandingListOfItems(
                         )
                     },
                     trailingContent = {
-                        Checkbox(checked = item.packed, onCheckedChange = {/*TODO*/ })
+                        Checkbox(checked = item.packed, onCheckedChange = { onCheckedChange(item) })
 
                     }
-                    )
+                )
 
             }
         }
@@ -355,14 +414,61 @@ fun ExpandingListOfItems(
 
 }
 
-@Preview(showBackground = true)
+
 @Composable
-fun ExpandingListOfItemsPreview() {
-    ExpandingListOfItems(
-        coll = CollectionItems(
-            CollectionLocal(name = "Bla bla bla"),
-            listOf(ItemLocal("Spacák", 0), ItemLocal("Taška", 0))
-        )
-    )
+private fun NotesInputDialog(
+    value: String,
+    onValueChange: (String) -> Unit,
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Dialog(
+        onDismissRequest = { },
+        properties = DialogProperties(dismissOnClickOutside = false, dismissOnBackPress = false)
+    ) {
+        Column(
+            modifier
+                .background(MaterialTheme.colorScheme.surfaceDim)
+                .padding(16.dp)
+        ) {
+            Row(modifier = Modifier.fillMaxWidth()) {
+                IconButton(onClick = onDismiss) {
+                    Icon(
+                        Icons.AutoMirrored.Default.ArrowBack, contentDescription = stringResource(
+                            id = R.string.back_icon_description
+                        )
+                    )
+                }
+            }
+
+            BasicTextField(
+                value = value,
+                onValueChange = onValueChange,
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+
+    }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DateInputDialog(
+    onConfirm: (Long?) -> Unit,
+    onDismiss: () -> Unit,
+    date: Long? = null,
+) {
+    val datePickerState = rememberDatePickerState(initialSelectedDateMillis = date)
+    DatePickerDialog(
+        onDismissRequest = onDismiss,
+        confirmButton = {
+            TextButton(onClick = {
+                onConfirm(datePickerState.selectedDateMillis)
+                onDismiss()
+            }) {
+                Text(text = stringResource(id = R.string.confirm_button_description))
+            }
+        }) {
+        DatePicker(state = datePickerState)
+    }
+}

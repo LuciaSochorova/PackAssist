@@ -39,7 +39,6 @@ fun CollectionField(
 
     Column(
         modifier = modifier
-            .wrapContentSize()
             .border(
                 color = MaterialTheme.colorScheme.scrim,
                 width = 1.dp
@@ -60,7 +59,7 @@ fun CollectionField(
             IconButton(
                 onClick = {editAction(collection.collection.id)},
                 modifier = Modifier
-                    .wrapContentSize()
+
             ) {
                 Icon(
                     Icons.Outlined.Edit,
@@ -73,7 +72,7 @@ fun CollectionField(
             for (item in collection.items) {
                 HorizontalDivider()
                 Text(
-                    text = item.name,
+                    text = item!!.name,
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(start = 12.dp, top = 4.dp, bottom = 4.dp)
                 )

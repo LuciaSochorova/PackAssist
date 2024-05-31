@@ -71,8 +71,6 @@ fun ManageEventCollectionsScreen(
 
                     IconButton(
                         onClick = backAction,
-                        modifier = Modifier
-                            .wrapContentSize()
 
                     ) {
                         Icon(

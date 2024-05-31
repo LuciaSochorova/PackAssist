@@ -40,7 +40,7 @@ import java.time.LocalDate
 fun EventsListScreen(
     uiState: ListOfEventsUiState,
     onAddNewEvent: () -> Unit,
-    onEventClick: (eventId: Int) -> Unit,
+    onEventClick: (Int) -> Unit,
     route: String,
     onNavigateToRoute: (route: String) -> Unit,
     modifier: Modifier = Modifier
@@ -94,7 +94,7 @@ fun EventsListScreen(
 @Composable
 private fun EventField(
     event: Event,
-    onEventClick: (eventId: Int) -> Unit,
+    onEventClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
     shape: CornerBasedShape = MaterialTheme.shapes.medium
 ) {

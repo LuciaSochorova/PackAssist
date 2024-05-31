@@ -12,9 +12,9 @@ data class Event(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name: String,
-    val location: String?,
-    val date : Date?,
-    val notes: String?
+    val location: String? = null,
+    val date : Date? = null,
+    val notes: String? = null
 )
 
 data class EventsCollections(
@@ -22,5 +22,5 @@ data class EventsCollections(
     @Relation(
         parentColumn = "id",
         entityColumn = "event"
-    ) val collections : List<Collection>
+    ) val collections : List<Collection?>
 )

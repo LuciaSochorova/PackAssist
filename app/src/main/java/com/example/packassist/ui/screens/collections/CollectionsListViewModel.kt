@@ -23,7 +23,7 @@ class CollectionsListViewModel(
         collectionsRepository.getCollectionsWithItemsStream().map { CollectionsListUiState(it) }
             .stateIn(
                 scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5000),
+                started = SharingStarted.WhileSubscribed(5000L),
                 initialValue = CollectionsListUiState()
             )
 

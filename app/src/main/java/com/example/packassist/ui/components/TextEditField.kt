@@ -1,6 +1,7 @@
 package com.example.packassist.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActionScope
 import androidx.compose.foundation.text.KeyboardActions
@@ -12,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
@@ -24,6 +26,11 @@ fun TextEditField(
     onValueChange: (String) -> Unit,
     keyboardAction: (KeyboardActionScope) -> Unit,
     modifier: Modifier = Modifier,
+    colors: TextFieldColors = OutlinedTextFieldDefaults.colors(
+        focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+        unfocusedContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
+        disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+    ),
     label: String = "",
     isError : Boolean = false,
     textStyle: androidx.compose.ui.text.TextStyle = MaterialTheme.typography.bodyMedium
@@ -41,11 +48,7 @@ fun TextEditField(
                 contentDescription = null
             )
         },
-        colors = OutlinedTextFieldDefaults.colors(
-            focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-            unfocusedContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
-            disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-        ),
+        colors = colors,
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(onDone = keyboardAction),
         shape = RoundedCornerShape(0.dp)

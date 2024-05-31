@@ -21,11 +21,12 @@ interface EventsRepository {
 
     suspend fun getEventId(rowId : Long) : Int
     fun getAllEventsStream(): Flow<List<Event>>
+    fun getAllEventsOrderedStream(): Flow<List<Event>>
 
     fun getEventStream(id: Int): Flow<Event>
 
     fun getAllEventsWithCollectionsStream(): Flow<List<EventsCollections>>
 
-    fun getEventsCollectionsStream(id: Int): Flow<EventsCollections>
+    suspend fun getEventCollections(id: Int): EventsCollections
 
 }

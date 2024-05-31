@@ -22,7 +22,7 @@ class EventsListViewModel(
     private val eventsRepository: EventsRepository
 ) : ViewModel() {
     val uiState: StateFlow<ListOfEventsUiState> =
-        eventsRepository.getAllEventsStream().map { ListOfEventsUiState(it) }
+        eventsRepository.getAllEventsOrderedStream().map { ListOfEventsUiState(it) }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),

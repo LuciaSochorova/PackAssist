@@ -10,11 +10,13 @@ import com.example.packassist.navigation.collectionCreationScreen
 import com.example.packassist.navigation.collectionEditScreen
 import com.example.packassist.navigation.collectionsListScreen
 import com.example.packassist.navigation.eventCreationDialog
+import com.example.packassist.navigation.eventDetailsScreen
 import com.example.packassist.navigation.eventsListScreen
 import com.example.packassist.navigation.navigateToBottomBarRoute
 import com.example.packassist.navigation.navigateToCollectionCreation
 import com.example.packassist.navigation.navigateToCollectionEdit
 import com.example.packassist.navigation.navigateToEventCreationDialog
+import com.example.packassist.navigation.navigateToEventDetails
 
 
 @Composable
@@ -46,13 +48,17 @@ fun PackAssistApp(modifier: Modifier = Modifier) {
         eventsListScreen(
             onAddNewEvent = {navController.navigateToEventCreationDialog()},
             onNavigateToRoute = navController::navigateToBottomBarRoute,
-            onEventClick = {/*TODO*/}
+            onEventClick = {navController.navigateToEventDetails(it)}
         )
 
         eventCreationDialog(
             onDismiss = {navController.popBackStack()},
-            navigateToEditEvent = {/*todo*/}
+            navigateToEditEvent = navController::navigateToEventDetails
         )
+
+        eventDetailsScreen (onBack = {
+            navController.popBackStack(EventsListRoute, false)
+        })
     }
 }
 

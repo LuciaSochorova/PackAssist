@@ -57,10 +57,14 @@ fun EventCreationDialog(
             }
 
             TextButton(
-                onClick = { coroutineScope.launch {
-                    val id = saveEvent()
-                    navigateToEventDetails(id)
-                }}
+                onClick = {
+                    if (state.isNotBlank()) {
+                        coroutineScope.launch {
+                            val id = saveEvent()
+                            navigateToEventDetails(id)
+                        }
+                    }
+                }
             ) {
                 Text(text = stringResource(R.string.save))
             }

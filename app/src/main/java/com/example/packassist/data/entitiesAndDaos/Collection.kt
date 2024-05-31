@@ -29,5 +29,5 @@ data class ItemsOfCollection(
         parentColumn = "id",
         entityColumn = "collection"
     )
-    val items : List<Item>
+    val items : List<Item?>
 )

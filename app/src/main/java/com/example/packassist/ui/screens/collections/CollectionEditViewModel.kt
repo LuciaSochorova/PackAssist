@@ -40,7 +40,10 @@ class CollectionEditViewModel(
             state =
                 CollectionEditUiState(
                     name = original.collection.name,
-                    items = original.items.map { Pair(it.id, it.name) },
+                    items = if (original.items.isEmpty()) emptyList() else original.items.map {
+                        Pair(it!!.id, it.name)
+                    },
+                    //items =  original.items.map { Pair(it.id, it.name) },
                     isValid = true
                 )
 

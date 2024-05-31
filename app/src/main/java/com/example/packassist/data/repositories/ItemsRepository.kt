@@ -11,5 +11,7 @@ interface ItemsRepository {
 
     suspend fun upsertItem(item : Item)
 
-    fun getItemStream(id : Int) : Flow<Item>
+    fun getItemStream(id : Int) : Flow<Item?>
+
+    suspend fun getItemsOfCollection(collectionId: Int): List<Item>
 }
