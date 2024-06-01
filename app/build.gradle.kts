@@ -2,7 +2,8 @@ plugins {
 
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    id("com.google.devtools.ksp") version "1.9.20-1.0.14"
+    id("com.google.devtools.ksp") version "1.9.24-1.0.20"
+    kotlin("plugin.serialization") version "1.9.24"
 }
 
 android {
@@ -42,7 +43,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
     packaging {
         resources {
@@ -77,6 +78,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
+    implementation(libs.androidx.lifecycle.runtime.compose)
 
     //room
 
@@ -84,6 +86,10 @@ dependencies {
     annotationProcessor(libs.androidx.room.compiler)
     ksp(libs.androidx.room.room.compiler)
 
+
+    implementation(libs.kotlinx.serialization.json)
+
+    implementation(libs.androidx.navigation.compose)
 
 
 
