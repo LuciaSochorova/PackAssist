@@ -30,20 +30,22 @@ class CollectionEditViewModel(
 
 
     private val deleted = mutableListOf<Int>()
-
+    private var eventId: Int? = null
     var state by mutableStateOf(CollectionEditUiState())
         private set
 
     init {
+        viewModelScope.launch {
+            eventId = collectionsRepository.getCollectionEvent(collectionId)
+        }
         viewModelScope.launch {
             val original = collectionsRepository.getItemsOfCollection(collectionId)
             state =
                 CollectionEditUiState(
                     name = original.collection.name,
                     items = if (original.items.isEmpty()) emptyList() else original.items.map {
-                        Pair(it!!.id, it.name)
+                        Pair(it.id, it.name)
                     },
-                    //items =  original.items.map { Pair(it.id, it.name) },
                     isValid = true
                 )
 
@@ -100,7 +102,8 @@ class CollectionEditViewModel(
                 collectionsRepository.upsertItemsOfCollection(
                     collection = Collection(
                         id = collectionId,
-                        name = state.name
+                        name = state.name,
+                        event = eventId
                     ),
                     items = state.items.map {
                         Item(

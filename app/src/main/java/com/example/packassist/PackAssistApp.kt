@@ -1,14 +1,15 @@
 package com.example.packassist
 
+
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.example.packassist.navigation.CollectionsListRoute
-import com.example.packassist.navigation.EventsListRoute
+import com.example.packassist.navigation.EVENT_LIST_ROUTE
 import com.example.packassist.navigation.collectionCreationScreen
 import com.example.packassist.navigation.collectionEditScreen
 import com.example.packassist.navigation.collectionsListScreen
+import com.example.packassist.navigation.eventCollectionsManagementScreen
 import com.example.packassist.navigation.eventCreationDialog
 import com.example.packassist.navigation.eventDetailsScreen
 import com.example.packassist.navigation.eventsListScreen
@@ -17,6 +18,7 @@ import com.example.packassist.navigation.navigateToCollectionCreation
 import com.example.packassist.navigation.navigateToCollectionEdit
 import com.example.packassist.navigation.navigateToEventCreationDialog
 import com.example.packassist.navigation.navigateToEventDetails
+import com.example.packassist.navigation.navigateToEventsCollectionManagement
 
 
 @Composable
@@ -25,12 +27,13 @@ fun PackAssistApp(modifier: Modifier = Modifier) {
 
     NavHost(
         navController = navController,
-        startDestination = EventsListRoute,
+        startDestination = EVENT_LIST_ROUTE,
         modifier = Modifier
     )
     {
+
         collectionsListScreen(
-            onEditCollection = { collectionId -> navController.navigateToCollectionEdit(collectionId.toString()) },
+            onEditCollection = { collectionId -> navController.navigateToCollectionEdit(collectionId) },
             onAddNewCollection = { navController.navigateToCollectionCreation() },
             onNavigateToRoute = navController::navigateToBottomBarRoute
         )
@@ -46,19 +49,28 @@ fun PackAssistApp(modifier: Modifier = Modifier) {
         }
 
         eventsListScreen(
-            onAddNewEvent = {navController.navigateToEventCreationDialog()},
+            onAddNewEvent = { navController.navigateToEventCreationDialog() },
             onNavigateToRoute = navController::navigateToBottomBarRoute,
-            onEventClick = {navController.navigateToEventDetails(it)}
+            onEventClick = { navController.navigateToEventDetails(it) }
         )
 
         eventCreationDialog(
-            onDismiss = {navController.popBackStack()},
+            onDismiss = { navController.popBackStack() },
             navigateToEditEvent = navController::navigateToEventDetails
         )
 
-        eventDetailsScreen (onBack = {
-            navController.popBackStack(EventsListRoute, false)
-        })
+        eventDetailsScreen(
+            onBack = {
+                navController.popBackStack(EVENT_LIST_ROUTE, false)
+            },
+            onManageCollections = { navController.navigateToEventsCollectionManagement(it) }
+        )
+
+        eventCollectionsManagementScreen(
+            onCollectionClick = navController::navigateToCollectionEdit,
+            onBack = {navController.navigateUp()},
+            onAddCollection = {navController.navigateToCollectionCreation(it)}
+        )
     }
 }
 

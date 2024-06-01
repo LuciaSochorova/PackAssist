@@ -85,7 +85,7 @@ fun EventDetailsScreen(
     onNotesChange: (String) -> Unit,
     onPickDate: (Boolean) -> Unit,
     onDateChange: (Long?) -> Unit,
-    floatingButtonAction: () -> Unit
+    floatingButtonAction: (Int) -> Unit
 ) {
     val normalFont = MaterialTheme.typography.bodyMedium
 
@@ -94,7 +94,9 @@ fun EventDetailsScreen(
     Scaffold(
         floatingActionButton = {
             ExtendedFloatingActionButton(
-                onClick = floatingButtonAction,
+                onClick = {
+                    saveChanges()
+                    floatingButtonAction(uiState.event.id)},
                 containerColor = MaterialTheme.colorScheme.primary
             ) {
                 Icon(

@@ -8,12 +8,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -21,6 +22,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,27 +30,24 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.packassist.R
-import com.example.packassist.ui.screens.collections.CollectionLocal
+import com.example.packassist.ui.components.CollectionField
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ManageEventCollectionsScreen(
+    uiState: ListOfEventCollectionsUiState,
     backAction: () -> Unit,
-    eventName: String,
-    addAction: () -> Unit
+    onAddCollection: (Int) -> Unit,
+    onCollectionClick: (Int) -> Unit
 ) {
-
-    val collectionList = listOf(
-        CollectionLocal(5, "Kolekcia1"),
-        CollectionLocal(6, "Kolekcia2"),
-        CollectionLocal(8, "Kolekcia3"),
-        CollectionLocal(125, "Kolekcia19"),
-        CollectionLocal(1, "Kolekcia20"),
-    )
 
 
     Scaffold(
         floatingActionButton = {
-            ExtendedFloatingActionButton(onClick = addAction, containerColor = MaterialTheme.colorScheme.primary) {
+            ExtendedFloatingActionButton(
+                onClick = { onAddCollection(uiState.eventId) },
+                containerColor = MaterialTheme.colorScheme.primary
+            ) {
                 Icon(
                     Icons.Default.Add,
                     contentDescription = stringResource(id = R.string.add_new_button_description)
@@ -58,7 +57,7 @@ fun ManageEventCollectionsScreen(
             }
         },
         topBar = {
-            Column(modifier = Modifier.fillMaxWidth()) {
+            Column(modifier = Modifier.fillMaxWidth().windowInsetsPadding(TopAppBarDefaults.windowInsets)) {
                 Row(
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically,
@@ -71,8 +70,7 @@ fun ManageEventCollectionsScreen(
 
                     IconButton(
                         onClick = backAction,
-
-                    ) {
+                        ) {
                         Icon(
                             Icons.AutoMirrored.Default.ArrowBack,
                             contentDescription = stringResource(id = R.string.back_icon_description),
@@ -81,9 +79,9 @@ fun ManageEventCollectionsScreen(
                     }
 
                     Text(
-                        text = eventName,
+                        text = uiState.eventName,
                         style = MaterialTheme.typography.displaySmall,
-                        modifier = Modifier.padding(start = 8.dp)
+                        modifier = Modifier.padding(start = 16.dp, end = 8.dp)
                     )
                 }
                 HorizontalDivider()
@@ -97,17 +95,15 @@ fun ManageEventCollectionsScreen(
                 top = innerPadding.calculateTopPadding()
             )
         ) {
-            itemsIndexed(collectionList) { index, item ->
+            items(uiState.collections) { collection ->
                 Spacer(modifier = Modifier.size(8.dp))
-                /* TODO
                 CollectionField(
-                    item.name,
-                    {/*TODO*/}
+                    collection =collection,
+                    editAction = onCollectionClick
                 )
-
-                 */
                 Spacer(modifier = Modifier.size(24.dp))
             }
+
         }
     }
 }
@@ -116,7 +112,10 @@ fun ManageEventCollectionsScreen(
 @Preview(showBackground = true)
 @Composable
 fun ManageEventCollectionsScreenPreview() {
-    ManageEventCollectionsScreen(backAction = { /*TODO*/ }, eventName = "Pokusnýýýýýýýýýý ýýýýý Event") {
+    ManageEventCollectionsScreen(
+        uiState = ListOfEventCollectionsUiState() ,
+        backAction = { /*TODO*/ },
+        onAddCollection = {}) {
 
     }
 }

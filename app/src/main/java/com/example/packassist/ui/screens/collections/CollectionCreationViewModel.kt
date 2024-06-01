@@ -3,8 +3,10 @@ package com.example.packassist.ui.screens.collections
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -13,16 +15,20 @@ import com.example.packassist.data.entitiesAndDaos.Collection
 import com.example.packassist.data.entitiesAndDaos.Item
 import com.example.packassist.data.repositories.CollectionsRepository
 import com.example.packassist.data.repositories.ItemsRepository
+import com.example.packassist.navigation.EventIdArg
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CollectionCreationViewModel (
+    savedStateHandle: SavedStateHandle,
     private val collectionsRepository: CollectionsRepository,
     private val itemsRepository: ItemsRepository
 ) : ViewModel() {
     var state by mutableStateOf(CollectionUiState())
         private set
 
+    private val eventId: Int? = savedStateHandle.get<String>(EventIdArg)?.toInt()
+    //private val eventId: Int = savedStateHandle[EventIdArg]?.toInt() ?: 0
     fun onNameChange(name: String) {
         state = state.copy(name = name)
         validate()
@@ -60,7 +66,7 @@ class CollectionCreationViewModel (
         viewModelScope.launch(Dispatchers.IO) {
             if (state.isValid) {
                 val rowId = collectionsRepository.insertCollection(
-                    Collection(name = state.name)
+                    Collection(name = state.name, event = eventId)
                 )
 
                 val coll = collectionsRepository.getCollectionId(rowId)
@@ -99,6 +105,7 @@ class CollectionCreationViewModel (
                 val collRepository = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as PackAssistApplication).container.collectionsRepository
                 val itemRepository = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as PackAssistApplication).container.itemsRepository
                 CollectionCreationViewModel(
+                    savedStateHandle = this.createSavedStateHandle(),
                     collectionsRepository = collRepository,
                     itemsRepository = itemRepository
                 )

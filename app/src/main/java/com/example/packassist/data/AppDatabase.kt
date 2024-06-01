@@ -23,7 +23,7 @@ class Converters {
 
     @TypeConverter
     fun dateToTimestamp(date: Date?): Long? {
-        return date?.time?.toLong()
+        return date?.time
     }
 }
 
@@ -32,7 +32,7 @@ class Converters {
     entities = [
         Collection::class, Event::class, Item::class
     ],
-    version = 4,
+    version = 5,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

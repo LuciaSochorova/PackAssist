@@ -1,6 +1,6 @@
 package com.example.packassist.navigation
 
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -13,7 +13,8 @@ const val EventIdArg = "eventId"
 const val EventDetailsRoute = "eventDetails/{$EventIdArg}"
 
 fun NavGraphBuilder.eventDetailsScreen(
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onManageCollections: (Int) -> Unit
 ) {
     composable(
         route = EventDetailsRoute,
@@ -21,7 +22,7 @@ fun NavGraphBuilder.eventDetailsScreen(
         val viewModel: EventDetailsViewModel =
             viewModel(factory = EventDetailsViewModel.Factory)
 
-        val uiState = viewModel.state.collectAsState()
+        val uiState = viewModel.state.collectAsStateWithLifecycle(lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current)
 
         EventDetailsScreen(
             uiState = uiState.value,
@@ -34,7 +35,7 @@ fun NavGraphBuilder.eventDetailsScreen(
             onLocationChange = viewModel::changeLocation,
             onDateChange = viewModel::changeDate,
             onPickDate = viewModel::pickDate,
-            floatingButtonAction = {/*TODO*/},
+            floatingButtonAction = onManageCollections,
             deleteAction = viewModel::deleteEvent
         )
 

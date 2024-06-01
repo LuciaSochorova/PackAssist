@@ -28,17 +28,20 @@ interface CollectionDao {
     fun getCollection(id: Int): Flow<Collection>
 
     @Transaction
-    @Query("SELECT * FROM collections order by name ASC")
-    fun getCollectionsWithItems(): Flow<List<ItemsOfCollection>>
+    @Query("SELECT * FROM collections where event = :eventId order by name ASC")
+    fun getEventCollectionsWithItems(eventId : Int): Flow<List<ItemsOfCollection>>
 
     @Transaction
     @Query("SELECT * from collections where id = :id")
     suspend fun getItemsOfCollection(id : Int):ItemsOfCollection
 
-    @Query("SELECT * FROM collections where event = null")
-    fun getAllNoEventCollections() : Flow<List<Collection>>
+    @Query("SELECT * FROM collections where event is null")
+    fun getAllNoEventCollectionsWithItems() : Flow<List<ItemsOfCollection>>
 
     @Query("Select id from collections where rowid = :rowId")
     suspend fun getCollectionId(rowId : Long) : Int
+
+    @Query("Select event from collections where id = :id")
+    suspend fun getCollectionEvent(id : Int) : Int?
 
 }

@@ -10,13 +10,16 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.packassist.PackAssistApplication
 import com.example.packassist.data.entitiesAndDaos.Event
 import com.example.packassist.data.entitiesAndDaos.Item
+import com.example.packassist.data.repositories.CollectionsRepository
 import com.example.packassist.data.repositories.EventsRepository
 import com.example.packassist.data.repositories.ItemsRepository
 import com.example.packassist.navigation.EventIdArg
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -30,6 +33,7 @@ data class EventDetailsUiState(
 
 
 data class EventState(
+    val id: Int = 0,
     val name: String = "",
     val location: String? = null,
     val date: Date? = null,
@@ -49,18 +53,31 @@ data class CollectionItems(
 class EventDetailsViewModel(
     savedStateHandle: SavedStateHandle,
     private val eventsRepository: EventsRepository,
-    private val itemsRepository: ItemsRepository
+    private val itemsRepository: ItemsRepository,
+    private val collectionsRepository: CollectionsRepository
 ) : ViewModel() {
     private val eventId: Int =
         checkNotNull(savedStateHandle[EventIdArg]).toString().toInt()
 
     private val _eventState = MutableStateFlow(EventState())
 
+    private val _collItems: StateFlow<List<CollectionItems>> = collectionsRepository.getEventCollectionsWithItemsStream(eventId).map {list ->
+        list.map {
+            CollectionItems(
+                collectionId = it.collection.id,
+                name = it.collection.name,
+                items = it.items
+            )
+        }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), listOf())
+
+
+
     private val _collectionItems = MutableStateFlow(listOf<CollectionItems>())
 
     val state = combine(
         _eventState,
-        _collectionItems
+        _collItems
     ) { event, collections ->
         EventDetailsUiState(
             event = event,
@@ -74,6 +91,7 @@ class EventDetailsViewModel(
             val original = eventsRepository.getEventCollections(eventId)
             _eventState.update {
                 it.copy(
+                    id = eventId,
                     name = original.event.name,
                     location = original.event.location,
                     date = original.event.date,
@@ -81,17 +99,15 @@ class EventDetailsViewModel(
                 )
             }
             original.collections.map { coll ->
-                if (coll != null) {
-                    _collectionItems.update { b ->
-                        b.plus(
-                            CollectionItems(
-                                collectionId = coll.id,
-                                name = coll.name,
-                                items = itemsRepository.getItemsOfCollection(coll.id)
-                            )
+                _collectionItems.update { b ->
+                    b.plus(
+                        CollectionItems(
+                            collectionId = coll.id,
+                            name = coll.name,
+                            items = itemsRepository.getItemsOfCollection(coll.id)
                         )
+                    )
 
-                    }
                 }
 
             }
@@ -169,11 +185,14 @@ class EventDetailsViewModel(
                     (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as PackAssistApplication).container.eventsRepository
                 val itemsRepository =
                     (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as PackAssistApplication).container.itemsRepository
+                val collectionsRepository =
+                    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as PackAssistApplication).container.collectionsRepository
                 val savedStateHandle = createSavedStateHandle()
                 EventDetailsViewModel(
                     eventsRepository = eventsRepository,
                     savedStateHandle = savedStateHandle,
-                    itemsRepository = itemsRepository
+                    itemsRepository = itemsRepository,
+                    collectionsRepository = collectionsRepository
                 )
             }
         }

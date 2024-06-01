@@ -22,5 +22,5 @@ data class EventsCollections(
     @Relation(
         parentColumn = "id",
         entityColumn = "event"
-    ) val collections : List<Collection?>
+    ) val collections : List<Collection>
 )

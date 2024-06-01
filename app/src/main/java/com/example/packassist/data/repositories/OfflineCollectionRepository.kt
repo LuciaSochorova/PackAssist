@@ -26,11 +26,11 @@ class OfflineCollectionRepository(private val collDao : CollectionDao) : Collect
     override fun getCollectionStream(id: Int): Flow<Collection> = collDao.getCollection(id)
 
 
-    override fun getCollectionsWithItemsStream(): Flow<List<ItemsOfCollection>> = collDao.getCollectionsWithItems()
+    override fun getEventCollectionsWithItemsStream(eventId : Int): Flow<List<ItemsOfCollection>> = collDao.getEventCollectionsWithItems(eventId)
 
 
     override suspend fun getItemsOfCollection(id: Int): ItemsOfCollection = collDao.getItemsOfCollection(id)
-    override fun getAllNoEventCollections(): Flow<List<Collection>> = collDao.getAllNoEventCollections()
+    override fun getAllNoEventCollectionsWithItems(): Flow<List<ItemsOfCollection>> = collDao.getAllNoEventCollectionsWithItems()
     override suspend fun getCollectionId(rowId: Long): Int = collDao.getCollectionId(rowId)
-
+    override suspend fun getCollectionEvent(id : Int) : Int? = collDao.getCollectionEvent(id)
 }

@@ -24,8 +24,7 @@ interface EventsRepository {
     fun getAllEventsOrderedStream(): Flow<List<Event>>
 
     fun getEventStream(id: Int): Flow<Event>
-
-    fun getAllEventsWithCollectionsStream(): Flow<List<EventsCollections>>
+    suspend fun getEventName(id: Int) : String
 
     suspend fun getEventCollections(id: Int): EventsCollections
 

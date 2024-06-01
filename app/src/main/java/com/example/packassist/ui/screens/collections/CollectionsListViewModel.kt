@@ -20,7 +20,7 @@ class CollectionsListViewModel(
     private val collectionsRepository: CollectionsRepository
 ) : ViewModel() {
     val collectionsListUiState: StateFlow<CollectionsListUiState> =
-        collectionsRepository.getCollectionsWithItemsStream().map { CollectionsListUiState(it) }
+        collectionsRepository.getAllNoEventCollectionsWithItems().map { CollectionsListUiState(it) }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000L),

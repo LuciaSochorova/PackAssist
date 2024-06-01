@@ -2,6 +2,7 @@ package com.example.packassist.navigation
 
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -20,7 +21,7 @@ fun NavGraphBuilder.collectionsListScreen(
     composable(route = CollectionsListRoute) {
         val viewModel: CollectionsListViewModel =
             viewModel(factory = CollectionsListViewModel.Factory)
-        val uiState by viewModel.collectionsListUiState.collectAsState()
+        val uiState by viewModel.collectionsListUiState.collectAsStateWithLifecycle(lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current)
         CollectionListScreen(
             uiState = uiState,
             onAddNewCollection = onAddNewCollection,

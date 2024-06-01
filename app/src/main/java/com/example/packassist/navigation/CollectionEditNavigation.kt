@@ -8,7 +8,7 @@ import com.example.packassist.ui.screens.collections.CollectionEditScreen
 import com.example.packassist.ui.screens.collections.CollectionEditViewModel
 
 const val collectionIdArg = "collectionId"
-const val CollectionEditRoute = "collectionCreation/{$collectionIdArg}"
+private const val CollectionEditRoute = "collectionCreation/{$collectionIdArg}"
 
 fun NavGraphBuilder.collectionEditScreen(
     onBack: () -> Unit
@@ -36,6 +36,6 @@ fun NavGraphBuilder.collectionEditScreen(
     }
 }
 
-fun NavController.navigateToCollectionEdit(collectionId : String){
-    this.navigate(CollectionEditRoute.replace("{$collectionIdArg}", collectionId))
+fun NavController.navigateToCollectionEdit(collectionId : Int){
+    this.navigate(CollectionEditRoute.replace("{$collectionIdArg}", collectionId.toString()))
 }

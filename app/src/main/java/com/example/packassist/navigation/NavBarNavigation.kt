@@ -18,7 +18,7 @@ enum class NavigationBarRoutes(
 
     ),
     EVENTS(
-        EventsListRoute,
+        EVENT_LIST_ROUTE,
         R.drawable.event_icon,
         R.string.events_title
     )
@@ -30,7 +30,7 @@ enum class NavigationBarRoutes(
 fun NavController.navigateToBottomBarRoute(route: String) {
     if (route != this.currentDestination?.route) {
         this.navigate(route) {
-            popUpTo(EventsListRoute) {
+            popUpTo(EVENT_LIST_ROUTE) {
                 saveState = true
             }
             launchSingleTop = true

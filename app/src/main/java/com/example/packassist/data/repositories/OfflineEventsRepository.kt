@@ -33,9 +33,7 @@ class OfflineEventsRepository(private val eventDao: EventDao) : EventsRepository
     override fun getAllEventsOrderedStream(): Flow<List<Event>> = eventDao.getAllEventsOrdered()
 
     override fun getEventStream(id: Int): Flow<Event> = eventDao.getEvent(id)
-
-    override fun getAllEventsWithCollectionsStream(): Flow<List<EventsCollections>> =
-        eventDao.getAllEventsWithCollections()
+    override suspend fun getEventName(id: Int) : String = eventDao.getEventName(id)
 
     override suspend fun getEventCollections(id: Int): EventsCollections =
         eventDao.getEventsCollections(id)

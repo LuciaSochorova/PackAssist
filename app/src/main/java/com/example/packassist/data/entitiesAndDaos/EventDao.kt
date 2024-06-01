@@ -41,12 +41,12 @@ interface EventDao {
 
     @Query("SELECT * FROM events order by date, name ASC")
     fun getAllEventsOrdered(): Flow<List<Event>>
-    @Transaction
-    @Query("SELECT * FROM events order by date, name ASC")
-    fun getAllEventsWithCollections(): Flow<List<EventsCollections>>
 
     @Transaction
     @Query("SELECT * FROM events where id = :id")
     suspend fun getEventsCollections(id: Int): EventsCollections
+
+    @Query ("SELECT name FROM events where id = :id")
+    suspend fun getEventName(id: Int) : String
 
 }
