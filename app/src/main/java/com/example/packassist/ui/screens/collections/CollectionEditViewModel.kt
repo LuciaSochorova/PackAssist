@@ -78,16 +78,9 @@ class CollectionEditViewModel(
     }
 
 
-    fun ifEmptyDeleteItem(index: Int) {
-        val item = state.items[index]
-        if (item.second.isBlank()) {
-            if (item.first != 0) {
-                deleted.add(state.items[index].first)
-            }
-            val items = state.items.toMutableList()
-            items.removeAt(index)
-            state = state.copy(items = items)
-        }
+    fun ifEmptyDeleteItem() {
+        val items = state.items.filter { it.second.isNotBlank()}
+        state = state.copy(items = items)
         validate()
     }
 
@@ -105,7 +98,8 @@ class CollectionEditViewModel(
                         name = state.name,
                         event = eventId
                     ),
-                    items = state.items.map {
+
+                    items = state.items.filter { it.second.isNotBlank() }.map {
                         Item(
                             id = it.first,
                             name = it.second,

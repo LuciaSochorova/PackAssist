@@ -60,14 +60,12 @@ class CollectionCreationViewModel (
         validate()
     }
 
-    fun ifEmptyDeleteItem(index: Int) {
-        if (state.items[index].isEmpty()) {
-            val items = state.items.toMutableList()
-            items.removeAt(index)
-            state = state.copy(items = items)
-        }
+    fun ifEmptyDeleteItem() {
+        val items = state.items.filter { it.isNotBlank() }
+        state = state.copy(items = items)
         validate()
     }
+
 
     fun saveCollection() {
         viewModelScope.launch(Dispatchers.IO) {

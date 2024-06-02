@@ -92,9 +92,9 @@ fun CollectionForm(
     information: CollectionFormInformation,
     onNameChange: (String) -> Unit,
     onNewItemChange: (String) -> Unit,
-    addItemAction: () -> Unit,
+    onAddItem: () -> Unit,
     onChangeItem: (String, Int) -> Unit,
-    inputItemAction: (Int) -> Unit
+    onEditItem: () -> Unit
 ) {
     val focusManager = LocalFocusManager.current
     Column(
@@ -115,14 +115,14 @@ fun CollectionForm(
             onValueChange = onNewItemChange,
             keyboardAction = {
                 focusManager.clearFocus()
-                addItemAction()
+                onAddItem()
             },
             label = stringResource(R.string.type_new_item_label),
             textStyle = MaterialTheme.typography.bodyLarge,
             colors = OutlinedTextFieldDefaults.colors().copy(
                 focusedContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
                 unfocusedContainerColor =  MaterialTheme.colorScheme.secondaryContainer,
-            ),
+            )
         )
 
         LazyColumn {
@@ -132,10 +132,10 @@ fun CollectionForm(
                     onValueChange = { onChangeItem(it, index) },
                     textStyle = MaterialTheme.typography.bodyLarge,
                     keyboardAction = {
-                        inputItemAction(index)
+                        onEditItem()
                         focusManager.clearFocus()
                     },
-                    modifier = Modifier.onFocusChanged { inputItemAction(index) }
+                    modifier = Modifier.onFocusChanged { onEditItem() }
                 )
             }
 

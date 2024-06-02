@@ -1,16 +1,16 @@
 package com.example.packassist.ui.screens.collections
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -20,17 +20,16 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import com.example.packassist.R
 import com.example.packassist.ui.components.CollectionForm
 import com.example.packassist.ui.components.CollectionFormInformation
-import com.example.packassist.ui.components.ScreenErrorMessage
 import com.example.packassist.ui.components.ThreeIconButtonsTopBar
 import kotlinx.coroutines.launch
 
@@ -40,9 +39,9 @@ fun CollectionCreationScreen(
     onNameChange: (String) -> Unit,
     onNewItemChange: (String) -> Unit,
     onChangeItem: (String, Int) -> Unit,
-    inputItemAction: (Int) -> Unit,
+    onEditItem: () -> Unit,
     saveCollection: () -> Unit,
-    addItemAction: () -> Unit,
+    onAddItem: () -> Unit,
     navigateBack: () -> Unit,
     onShowImport: (Boolean) -> Unit,
     importItems: (Int) -> Unit
@@ -93,9 +92,9 @@ fun CollectionCreationScreen(
             ),
             onNameChange,
             onNewItemChange,
-            addItemAction,
+            onAddItem,
             onChangeItem,
-            inputItemAction
+            onEditItem
         )
 
     }
@@ -117,10 +116,10 @@ fun CreateCollectionScreenPreview() {
         onNameChange = {},
         onNewItemChange = {},
         onChangeItem = { _, _ -> },
-        inputItemAction ={} ,
-        saveCollection = {  },
-        addItemAction = { },
-        navigateBack = {  },
+        onEditItem = {},
+        saveCollection = { },
+        onAddItem = { },
+        navigateBack = { },
         onShowImport = {}
     ) {
 
@@ -134,32 +133,48 @@ private fun ImportCollectionDialog(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Dialog(
-        onDismissRequest = onDismiss
-    ) {
-        Column(modifier = modifier.background(MaterialTheme.colorScheme.background)) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {Text(
+            text = stringResource(R.string.import_items_message),
+            color = MaterialTheme.colorScheme.onSurface,
+            style = MaterialTheme.typography.bodyMedium
+        )},
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
+                Text(text = stringResource(R.string.dismiss), color = MaterialTheme.colorScheme.primary)
+            }
+        },
+        shape =  MaterialTheme.shapes.small,
+        text = {
             if (collections.isNotEmpty()) {
-                LazyColumn {
+                LazyColumn(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
                     itemsIndexed(collections) { index, collection ->
                         ListItem(
-                            headlineContent = { Text(text = collection) },
-                            modifier = Modifier.clickable {
-                                onSelected(index)
-                                onDismiss()
-                            }
+                            headlineContent = { Text(text = collection, color = MaterialTheme.colorScheme.onSecondaryContainer) },
+                            modifier = Modifier
+                                .border(1.dp, MaterialTheme.colorScheme.outline)
+                                .clickable {
+                                    onSelected(index)
+                                    onDismiss()
+                                },
+                            colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
                         )
-                        HorizontalDivider()
                     }
                 }
             } else {
-                ScreenErrorMessage(text = stringResource(R.string.no_collections_found))
+                Text(
+                    text = stringResource(R.string.no_collections_found),
+                    color = MaterialTheme.colorScheme.onSurface,
+                    style = MaterialTheme.typography.bodyMedium
+                )
             }
-            TextButton(onClick = onDismiss) {
-                Text(text = stringResource(R.string.dismiss))
-            }
-
         }
 
-    }
+
+    )
+
 }
 

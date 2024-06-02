@@ -27,4 +27,6 @@
     <string name="type_notes">Type notes</string>
     <string name="no_collections_found">No collections found to import</string>
     <string name="collection_validation_rules">Collection must have a name and at least one item</string>
+    <string name="delete_collection_confirmation_messege">Are you sure you want to delete this collection?</string>
+    <string name="import_items_message">Import items from an existing collection</string>
 </resources>
