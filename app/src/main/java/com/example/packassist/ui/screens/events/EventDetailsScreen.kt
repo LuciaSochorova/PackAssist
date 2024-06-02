@@ -204,7 +204,6 @@ fun EventDetailsScreen(
 
                         TextField(
                             value = uiState.event.location ?: "",
-
                             label = {
                                 if (uiState.event.location.isNullOrBlank()) {
                                     Text(
@@ -237,10 +236,10 @@ fun EventDetailsScreen(
                                 .weight(3f),
                         )
 
-
-
                         OutlinedButton(
-                            onClick = { onPickDate(true) },
+                            onClick = {
+                                focusManager.clearFocus()
+                                onPickDate(true) },
                             shape = RoundedCornerShape(0.dp),
                             colors = ButtonDefaults.outlinedButtonColors()
                                 .copy(contentColor = MaterialTheme.colorScheme.onSurface),
@@ -294,6 +293,7 @@ fun EventDetailsScreen(
                         style = normalFont,
                         modifier = Modifier
                             .clickable {
+                                focusManager.clearFocus()
                                 onWriteNotes(true)
                             }
                             .fillMaxWidth()
@@ -429,10 +429,13 @@ private fun NotesInputDialog(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+
+
     Dialog(
         onDismissRequest = { },
         properties = DialogProperties(dismissOnClickOutside = false, dismissOnBackPress = false)
     ) {
+
         Column(
             modifier
                 .fillMaxSize()
@@ -452,7 +455,8 @@ private fun NotesInputDialog(
             BasicTextField(
                 value = value,
                 onValueChange = onValueChange,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
+
             )
         }
 

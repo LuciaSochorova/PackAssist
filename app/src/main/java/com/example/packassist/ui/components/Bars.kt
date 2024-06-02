@@ -23,6 +23,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -35,10 +36,13 @@ fun TextAndIconButtonTopBar(
     text: String,
     icon: ImageVector,
     modifier: Modifier = Modifier,
+    contentColor: Color = MaterialTheme.colorScheme.primary,
+    iconColor: Color = MaterialTheme.colorScheme.onPrimary,
     iconContentDescription: String? = null,
     buttonOnClick: () -> Unit
 ) {
-    Column(modifier = modifier.windowInsetsPadding(TopAppBarDefaults.windowInsets)) {
+    Column(modifier = modifier.background(MaterialTheme.colorScheme.surfaceContainerLow)
+        .windowInsetsPadding(TopAppBarDefaults.windowInsets)) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
@@ -51,13 +55,16 @@ fun TextAndIconButtonTopBar(
             Text(
                 text = text,
                 style = MaterialTheme.typography.displayMedium,
+                color = contentColor
             )
             IconButton(
                 onClick = buttonOnClick,
                 modifier = Modifier
+                    .background(contentColor, shape = MaterialTheme.shapes.extraSmall)
                     .border(
-                        color = MaterialTheme.colorScheme.scrim,
-                        width = 1.dp
+                        color = MaterialTheme.colorScheme.outline,
+                        width = 1.dp,
+                        shape = MaterialTheme.shapes.extraSmall
                     )
 
 
@@ -65,6 +72,7 @@ fun TextAndIconButtonTopBar(
                 Icon(
                     icon,
                     contentDescription = iconContentDescription,
+                    tint = iconColor,
                     modifier = Modifier.fillMaxSize()
                 )
             }

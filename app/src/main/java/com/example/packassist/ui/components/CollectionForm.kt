@@ -17,6 +17,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -37,51 +38,56 @@ fun CollectionField(
     modifier: Modifier = Modifier
 ) {
 
-    Column(
+
+    Surface(
+        shape = MaterialTheme.shapes.extraSmall,
         modifier = modifier
             .border(
                 color = MaterialTheme.colorScheme.outline,
-                width = 1.dp
+                width = 1.dp,
+                shape = MaterialTheme.shapes.extraSmall
             )
     ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primaryContainer)
-                .padding(start = 8.dp, end = 8.dp)
-                .fillMaxWidth()
-        ) {
-            Text(
-                text = collection.collection.name,
-                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
-            )
-            IconButton(
-                onClick = { editAction(collection.collection.id) },
+        Column {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-
+                    .background(MaterialTheme.colorScheme.primaryContainer)
+                    .padding(start = 8.dp, end = 8.dp)
+                    .fillMaxWidth()
             ) {
-                Icon(
-                    Icons.Outlined.Edit,
-                    contentDescription = stringResource(R.string.edit_button_description),
-                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                    modifier = Modifier.fillMaxSize(0.8f)
-                )
-            }
-        }
-        Column(modifier = Modifier.background(MaterialTheme.colorScheme.secondaryContainer)) {
-            for (item in collection.items) {
-                HorizontalDivider()
                 Text(
-                    text = item.name,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer,
-                    modifier = Modifier.padding(start = 12.dp, top = 4.dp, bottom = 4.dp)
+                    text = collection.collection.name,
+                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
-            }
-        }
+                IconButton(
+                    onClick = { editAction(collection.collection.id) },
+                    modifier = Modifier
 
+                ) {
+                    Icon(
+                        Icons.Outlined.Edit,
+                        contentDescription = stringResource(R.string.edit_button_description),
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                        modifier = Modifier.fillMaxSize(0.8f)
+                    )
+                }
+            }
+            Column(modifier = Modifier.background(MaterialTheme.colorScheme.secondaryContainer)) {
+                for (item in collection.items) {
+                    HorizontalDivider()
+                    Text(
+                        text = item.name,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        modifier = Modifier.padding(start = 12.dp, top = 4.dp, bottom = 4.dp)
+                    )
+                }
+            }
+
+        }
     }
 }
 
@@ -121,7 +127,7 @@ fun CollectionForm(
             textStyle = MaterialTheme.typography.bodyLarge,
             colors = OutlinedTextFieldDefaults.colors().copy(
                 focusedContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                unfocusedContainerColor =  MaterialTheme.colorScheme.secondaryContainer,
+                unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
             )
         )
 

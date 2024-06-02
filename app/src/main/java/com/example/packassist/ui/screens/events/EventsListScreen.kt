@@ -1,5 +1,6 @@
 package com.example.packassist.ui.screens.events
 
+import android.icu.text.DateFormat
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -13,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -33,7 +33,6 @@ import com.example.packassist.data.entitiesAndDaos.Event
 import com.example.packassist.ui.components.BottomNavBar
 import com.example.packassist.ui.components.ScreenErrorMessage
 import com.example.packassist.ui.components.TextAndIconButtonTopBar
-import java.time.LocalDate
 
 
 @Composable
@@ -104,7 +103,7 @@ private fun EventField(
             .clickable { onEventClick(event.id) }
             .fillMaxWidth()
             .border(
-                color = MaterialTheme.colorScheme.scrim,
+                color = MaterialTheme.colorScheme.outline,
                 width = 2.dp,
                 shape = shape
             )
@@ -120,6 +119,7 @@ private fun EventField(
         Text(
             text = event.name,
             style = MaterialTheme.typography.headlineLarge,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
         if (event.location != null || event.date != null || event.notes != null) {
             HorizontalDivider()
@@ -128,12 +128,13 @@ private fun EventField(
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier.fillMaxWidth()
+            modifier = modifier.fillMaxWidth().padding(4.dp)
         ) {
             if (event.location != null) {
                 Text(
                     text = event.location,
                     textAlign = TextAlign.Start,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.weight(3f)
 
@@ -141,8 +142,10 @@ private fun EventField(
             }
             if (event.date != null) {
                 Text(
-                    text = event.date.toString(),
+                    text = DateFormat.getDateInstance(3).format(event.date)
+                        .toString(),
                     textAlign = TextAlign.End,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.weight(1f)
                 )
@@ -152,7 +155,9 @@ private fun EventField(
         if (event.notes != null) {
             Text(
                 text = event.notes,
-                style = MaterialTheme.typography.bodyMedium
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(4.dp)
             )
         }
     }
