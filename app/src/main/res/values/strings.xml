@@ -25,4 +25,5 @@
     <string name="date">Date</string>
     <string name="manage_collections">Manage Collections</string>
     <string name="type_notes">Type notes</string>
+    <string name="no_collections_found">No collections found to import</string>
 </resources>

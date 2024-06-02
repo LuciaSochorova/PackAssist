@@ -30,7 +30,8 @@ fun NavGraphBuilder.collectionCreationScreen(
             inputItemAction = viewModel::ifEmptyDeleteItem,
             addItemAction = viewModel::addItem,
             navigateBack = onNavigateBack,
-            onImport = { /*todo*/ }
+            onShowImport = viewModel::showImportDialog,
+            importItems = viewModel::importItemsFromCollection,
         )
 
     }

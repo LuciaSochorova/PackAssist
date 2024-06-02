@@ -13,10 +13,12 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.packassist.PackAssistApplication
 import com.example.packassist.data.entitiesAndDaos.Collection
 import com.example.packassist.data.entitiesAndDaos.Item
+import com.example.packassist.data.entitiesAndDaos.ItemsOfCollection
 import com.example.packassist.data.repositories.CollectionsRepository
 import com.example.packassist.data.repositories.ItemsRepository
 import com.example.packassist.navigation.EventIdArg
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class CollectionCreationViewModel (
@@ -24,11 +26,16 @@ class CollectionCreationViewModel (
     private val collectionsRepository: CollectionsRepository,
     private val itemsRepository: ItemsRepository
 ) : ViewModel() {
-    var state by mutableStateOf(CollectionUiState())
+    var state by mutableStateOf(CollectionCreationUiState())
         private set
 
     private val eventId: Int? = savedStateHandle.get<String>(EventIdArg)?.toInt()
-    //private val eventId: Int = savedStateHandle[EventIdArg]?.toInt() ?: 0
+
+    init {
+        viewModelScope.launch{
+            state = state.copy(collectionsToImport = collectionsRepository.getAllNoEventCollectionsWithItems().first())
+        }
+    }
     fun onNameChange(name: String) {
         state = state.copy(name = name)
         validate()
@@ -82,6 +89,19 @@ class CollectionCreationViewModel (
 
     }
 
+    /*TODO IMPORT*/
+
+    fun showImportDialog(bool: Boolean)  {
+        state = state.copy(showImportDialog = bool)
+    }
+
+    fun importItemsFromCollection(index: Int) {
+        val items = state.collectionsToImport[index].items
+        state = state.copy(items = state.items + items.map { it.name })
+        validate()
+    }
+
+
     private fun validate() {
         state = state.copy(
             isValid =
@@ -94,7 +114,7 @@ class CollectionCreationViewModel (
         collection = collection
     )
 
-    /*TODO IMPORT*/
+
 
 
 
@@ -114,11 +134,13 @@ class CollectionCreationViewModel (
     }
 }
 
-data class CollectionUiState(
+data class CollectionCreationUiState(
     val name: String = "",
     val newItem: String = "",
     val items: List<String> = listOf(),
-    val isValid: Boolean = false
+    val isValid: Boolean = false,
+    val collectionsToImport: List<ItemsOfCollection> = listOf(),
+    val showImportDialog: Boolean = false
 )
 
 

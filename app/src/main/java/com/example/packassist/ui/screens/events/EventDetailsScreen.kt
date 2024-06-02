@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -184,7 +185,8 @@ fun EventDetailsScreen(
             modifier = Modifier.padding(
                 start = 8.dp,
                 end = 8.dp,
-                top = innerPadding.calculateTopPadding()
+                top = innerPadding.calculateTopPadding(),
+                bottom = innerPadding.calculateBottomPadding()
             )
         ) {
             item {
@@ -324,6 +326,9 @@ fun EventDetailsScreen(
                 }
             }
 
+            item { Spacer(modifier = Modifier.size(64.dp)) }
+
+
         }
     }
 
@@ -430,6 +435,7 @@ private fun NotesInputDialog(
     ) {
         Column(
             modifier
+                .fillMaxSize()
                 .background(MaterialTheme.colorScheme.surfaceDim)
                 .padding(16.dp)
         ) {
