@@ -86,7 +86,7 @@ fun CollectionEditScreen(
             CollectionFormInformation(
                 name = uiState.name,
                 newItem = uiState.newItem,
-                items = uiState.items.map { it.second },
+                items = uiState.items.map { it.name },
             ),
             onNameChange,
             onNewItemChange,

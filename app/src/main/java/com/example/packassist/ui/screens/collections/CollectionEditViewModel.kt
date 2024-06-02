@@ -43,9 +43,13 @@ class CollectionEditViewModel(
             state =
                 CollectionEditUiState(
                     name = original.collection.name,
+                    /*
                     items = if (original.items.isEmpty()) emptyList() else original.items.map {
                         Pair(it.id, it.name)
                     },
+
+                     */
+                    items = original.items,
                     isValid = true
                 )
 
@@ -64,14 +68,14 @@ class CollectionEditViewModel(
 
     fun onChangeExistingItem(item: String, index: Int) {
         val items = state.items.toMutableList()
-        items[index] = items[index].copy(second = item)
+        items[index] = items[index].copy(name = item)
         state = state.copy(items = items)
     }
 
     fun addItem() {
         if (state.newItem.isNotEmpty()) {
             val items = state.items.toMutableList()
-            items.add(0, Pair(0, state.newItem))
+            items.add(0, Item(id = 0, name = state.newItem, collection = collectionId))
             state = state.copy(items = items, newItem = "")
         }
         validate()
@@ -79,7 +83,8 @@ class CollectionEditViewModel(
 
 
     fun ifEmptyDeleteItem() {
-        val items = state.items.filter { it.second.isNotBlank()}
+        val items = state.items.filter { it.name.isNotBlank()}
+        deleted.addAll(state.items.filter { it.name.isBlank() }.map { it.id })
         state = state.copy(items = items)
         validate()
     }
@@ -99,13 +104,7 @@ class CollectionEditViewModel(
                         event = eventId
                     ),
 
-                    items = state.items.filter { it.second.isNotBlank() }.map {
-                        Item(
-                            id = it.first,
-                            name = it.second,
-                            collection = collectionId
-                        )
-                    }
+                    items = state.items.filter { it.name.isNotBlank() }
                 )
             }
         }
@@ -146,6 +145,6 @@ class CollectionEditViewModel(
 data class CollectionEditUiState(
     val name: String = "",
     val newItem: String = "",
-    val items: List<Pair<Int, String>> = listOf(),
+    val items: List<Item> = listOf(),
     val isValid: Boolean = false
 )

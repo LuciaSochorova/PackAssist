@@ -29,4 +29,6 @@
     <string name="collection_validation_rules">Collection must have a name and at least one item</string>
     <string name="delete_collection_confirmation_messege">Are you sure you want to delete this collection?</string>
     <string name="import_items_message">Import items from an existing collection</string>
+    <string name="all_packed">All packed</string>
+    <string name="delete_event_confirmation_message">Are you sure you want to delete this event?</string>
 </resources>
