@@ -87,7 +87,6 @@ class CollectionCreationViewModel (
 
     }
 
-    /*TODO IMPORT*/
 
     fun showImportDialog(bool: Boolean)  {
         state = state.copy(showImportDialog = bool)

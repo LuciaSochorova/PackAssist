@@ -114,7 +114,7 @@ fun ManageEventCollectionsScreen(
 fun ManageEventCollectionsScreenPreview() {
     ManageEventCollectionsScreen(
         uiState = ListOfEventCollectionsUiState() ,
-        backAction = { /*TODO*/ },
+        backAction = {  },
         onAddCollection = {}) {
 
     }

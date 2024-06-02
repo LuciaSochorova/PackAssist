@@ -22,10 +22,7 @@ import com.example.packassist.ui.components.CollectionField
 import com.example.packassist.ui.components.ScreenErrorMessage
 import com.example.packassist.ui.components.TextAndIconButtonTopBar
 
-/*TODO delete*/
-data class CollectionLocal(
-    val id: Int = 0, val name: String = ""
-)
+
 
 
 
@@ -99,7 +96,7 @@ fun EventsListsPreview() {
     CollectionListScreen(
         uiState = CollectionsListUiState(),
         route = NavigationBarRoutes.COLLECTIONS.name,
-        onAddNewCollection = { /*TODO*/ },
+        onAddNewCollection = { },
         onEditCollection = {},
         onNavigateToRoute = {})
 }
