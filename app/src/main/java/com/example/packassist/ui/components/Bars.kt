@@ -9,12 +9,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -92,9 +92,14 @@ fun ThreeIconButtonsTopBar(
     Column(
         modifier = modifier
             .windowInsetsPadding(TopAppBarDefaults.windowInsets)
-            .background(MaterialTheme.colorScheme.primaryContainer)
+            .background(MaterialTheme.colorScheme.surfaceContainerLow)
 
     ) {
+        val iconColors = IconButtonDefaults.iconButtonColors().copy(
+            contentColor = MaterialTheme.colorScheme.onSurface
+        )
+        val iconModifier = Modifier.fillMaxSize()
+
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
@@ -105,12 +110,12 @@ fun ThreeIconButtonsTopBar(
             Row(modifier = Modifier.weight(1f)) {
                 IconButton(
                     onClick = firstButtonOnClick,
-
+                    colors = iconColors
                 ) {
                     Icon(
                         firstIcon,
                         contentDescription = firstIconContentDescription,
-                        modifier = Modifier.fillMaxSize()
+                        modifier = iconModifier
                     )
 
                 }
@@ -118,25 +123,26 @@ fun ThreeIconButtonsTopBar(
             Row(horizontalArrangement = Arrangement.End, modifier = Modifier.weight(1f)) {
                 IconButton(
                     onClick = secondButtonOnClick,
-
+                    colors = iconColors
                 ) {
                     Icon(
                         secondIcon,
                         contentDescription = secondIconContentDescription,
-                        modifier = Modifier.fillMaxSize()
+                        modifier = iconModifier
                     )
 
                 }
 
                 IconButton(
                     onClick = thirdButtonOnClick,
+                    colors = iconColors,
                     modifier = Modifier
                         .padding(start = 36.dp)
                 ) {
                     Icon(
                         thirdIcon,
                         contentDescription = thirdIconContentDescription,
-                        modifier = Modifier.fillMaxSize()
+                        modifier = iconModifier
                     )
 
                 }
@@ -152,7 +158,6 @@ fun ThreeIconButtonsTopBar(
 fun BottomNavBar(
     onNavigateToRoute: (String) -> Unit,
     currentRoute: String,
-    modifier: Modifier = Modifier
 ) {
     BottomAppBar(
         actions = {

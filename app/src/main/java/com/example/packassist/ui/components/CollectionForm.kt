@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
@@ -17,6 +16,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -32,7 +32,7 @@ import com.example.packassist.data.entitiesAndDaos.ItemsOfCollection
 
 @Composable
 fun CollectionField(
-    collection : ItemsOfCollection,
+    collection: ItemsOfCollection,
     editAction: (collectionId: Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -40,7 +40,7 @@ fun CollectionField(
     Column(
         modifier = modifier
             .border(
-                color = MaterialTheme.colorScheme.scrim,
+                color = MaterialTheme.colorScheme.outline,
                 width = 1.dp
             )
     ) {
@@ -54,16 +54,18 @@ fun CollectionField(
         ) {
             Text(
                 text = collection.collection.name,
-                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
             )
             IconButton(
-                onClick = {editAction(collection.collection.id)},
+                onClick = { editAction(collection.collection.id) },
                 modifier = Modifier
 
             ) {
                 Icon(
                     Icons.Outlined.Edit,
                     contentDescription = stringResource(R.string.edit_button_description),
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     modifier = Modifier.fillMaxSize(0.8f)
                 )
             }
@@ -72,8 +74,9 @@ fun CollectionField(
             for (item in collection.items) {
                 HorizontalDivider()
                 Text(
-                    text = item!!.name,
+                    text = item.name,
                     style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer,
                     modifier = Modifier.padding(start = 12.dp, top = 4.dp, bottom = 4.dp)
                 )
             }
@@ -86,7 +89,7 @@ fun CollectionField(
 @Composable
 fun CollectionForm(
     modifier: Modifier = Modifier,
-    informations: CollectionFormInformation,
+    information: CollectionFormInformation,
     onNameChange: (String) -> Unit,
     onNewItemChange: (String) -> Unit,
     addItemAction: () -> Unit,
@@ -98,9 +101,9 @@ fun CollectionForm(
         modifier = modifier
     ) {
         TextEditField(
-            value = informations.name,
+            value = information.name,
             onValueChange = onNameChange,
-            isError = informations.name.isBlank(),
+            isError = information.name.isBlank(),
             keyboardAction = { focusManager.clearFocus() },
             label = stringResource(R.string.type_name_label),
             textStyle = MaterialTheme.typography.titleLarge,
@@ -108,18 +111,22 @@ fun CollectionForm(
         )
 
         TextEditField(
-            value = informations.newItem,
+            value = information.newItem,
             onValueChange = onNewItemChange,
             keyboardAction = {
                 focusManager.clearFocus()
                 addItemAction()
             },
             label = stringResource(R.string.type_new_item_label),
-            textStyle = MaterialTheme.typography.bodyLarge
+            textStyle = MaterialTheme.typography.bodyLarge,
+            colors = OutlinedTextFieldDefaults.colors().copy(
+                focusedContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                unfocusedContainerColor =  MaterialTheme.colorScheme.secondaryContainer,
+            ),
         )
 
-        LazyColumn() {
-            itemsIndexed(informations.items) { index, item ->
+        LazyColumn {
+            itemsIndexed(information.items) { index, item ->
                 TextEditField(
                     value = item,
                     onValueChange = { onChangeItem(it, index) },
@@ -138,11 +145,12 @@ fun CollectionForm(
 }
 
 
-data class CollectionFormInformation (
+data class CollectionFormInformation(
     val name: String = "",
     val newItem: String = "",
-    val items: List<String> = listOf<String>()
+    val items: List<String> = listOf()
 )
+
 @Preview(showBackground = true)
 @Composable
 fun CollectionFieldPreview() {

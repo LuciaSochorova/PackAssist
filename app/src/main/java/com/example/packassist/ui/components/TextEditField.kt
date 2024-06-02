@@ -1,7 +1,6 @@
 package com.example.packassist.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActionScope
 import androidx.compose.foundation.text.KeyboardActions
@@ -26,10 +25,9 @@ fun TextEditField(
     onValueChange: (String) -> Unit,
     keyboardAction: (KeyboardActionScope) -> Unit,
     modifier: Modifier = Modifier,
-    colors: TextFieldColors = OutlinedTextFieldDefaults.colors(
-        focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+    colors: TextFieldColors = OutlinedTextFieldDefaults.colors().copy(
+        focusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
         unfocusedContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
-        disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
     ),
     label: String = "",
     isError : Boolean = false,

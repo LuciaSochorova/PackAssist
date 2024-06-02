@@ -13,9 +13,13 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -28,6 +32,7 @@ import com.example.packassist.ui.components.CollectionForm
 import com.example.packassist.ui.components.CollectionFormInformation
 import com.example.packassist.ui.components.ScreenErrorMessage
 import com.example.packassist.ui.components.ThreeIconButtonsTopBar
+import kotlinx.coroutines.launch
 
 @Composable
 fun CollectionCreationScreen(
@@ -42,27 +47,36 @@ fun CollectionCreationScreen(
     onShowImport: (Boolean) -> Unit,
     importItems: (Int) -> Unit
 ) {
-    
-    Scaffold(topBar = {
-        ThreeIconButtonsTopBar(
-            firstIcon = ImageVector.vectorResource(R.drawable.download),
-            secondIcon = Icons.Default.Clear,
-            thirdIcon = Icons.Default.Check,
-            firstIconContentDescription = stringResource(R.string.import_icon_description),
-            secondIconContentDescription = stringResource(id = R.string.cancel_button_description),
-            thirdIconContentDescription = stringResource(id = R.string.confirm_button_description),
-            firstButtonOnClick = {onShowImport(true)},
-            secondButtonOnClick = navigateBack,
-            thirdButtonOnClick = {
-                if  (collectionUiState.isValid) {
-                    saveCollection()
-                    navigateBack()
-                } else {
-                    /*TODo*/
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val snackbarMessage = stringResource(R.string.collection_validation_rules)
+
+    Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        topBar = {
+            ThreeIconButtonsTopBar(
+                firstIcon = ImageVector.vectorResource(R.drawable.download),
+                secondIcon = Icons.Default.Clear,
+                thirdIcon = Icons.Default.Check,
+                firstIconContentDescription = stringResource(R.string.import_icon_description),
+                secondIconContentDescription = stringResource(id = R.string.cancel_button_description),
+                thirdIconContentDescription = stringResource(id = R.string.confirm_button_description),
+                firstButtonOnClick = { onShowImport(true) },
+                secondButtonOnClick = navigateBack,
+                thirdButtonOnClick = {
+                    if (collectionUiState.isValid) {
+                        saveCollection()
+                        navigateBack()
+                    } else {
+                        scope.launch {
+                            snackbarHostState.showSnackbar(
+                                snackbarMessage
+                            )
+                        }
+                    }
                 }
-            }
-        )
-    })
+            )
+        })
 
     { innerPadding ->
 
@@ -86,8 +100,8 @@ fun CollectionCreationScreen(
 
     }
 
-    when{
-        collectionUiState.showImportDialog -> importCollectionDialog(
+    when {
+        collectionUiState.showImportDialog -> ImportCollectionDialog(
             collections = collectionUiState.collectionsToImport.map { it.collection.name },
             onSelected = importItems,
             onDismiss = { onShowImport(false) })
@@ -95,27 +109,38 @@ fun CollectionCreationScreen(
 }
 
 
-
 @Preview(showBackground = true)
 @Composable
 fun CreateCollectionScreenPreview() {
+    CollectionCreationScreen(
+        collectionUiState = CollectionCreationUiState(),
+        onNameChange = {},
+        onNewItemChange = {},
+        onChangeItem = { _, _ -> },
+        inputItemAction ={} ,
+        saveCollection = {  },
+        addItemAction = { },
+        navigateBack = {  },
+        onShowImport = {}
+    ) {
 
+    }
 }
 
 @Composable
-private fun importCollectionDialog(
+private fun ImportCollectionDialog(
     collections: List<String>,
     onSelected: (Int) -> Unit,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
-){
+) {
     Dialog(
         onDismissRequest = onDismiss
     ) {
         Column(modifier = modifier.background(MaterialTheme.colorScheme.background)) {
             if (collections.isNotEmpty()) {
                 LazyColumn {
-                    itemsIndexed(collections){ index, collection ->
+                    itemsIndexed(collections) { index, collection ->
                         ListItem(
                             headlineContent = { Text(text = collection) },
                             modifier = Modifier.clickable {
@@ -135,7 +160,6 @@ private fun importCollectionDialog(
 
         }
 
-        
     }
 }
 
