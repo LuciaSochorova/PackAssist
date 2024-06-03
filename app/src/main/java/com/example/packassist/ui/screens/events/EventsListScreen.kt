@@ -136,7 +136,7 @@ private fun EventField(
                     textAlign = TextAlign.Start,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.weight(3f)
+                    modifier = Modifier.weight(2f)
 
                 )
             }
