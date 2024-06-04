@@ -30,7 +30,6 @@ import java.util.Date
 @Immutable
 data class EventDetailsUiState(
     val event: EventState = EventState(),
-    //val collections: List<CollectionItems> = listOf()
     val collections: List<Pair<CollectionItems, Boolean>> = listOf()
 )
 

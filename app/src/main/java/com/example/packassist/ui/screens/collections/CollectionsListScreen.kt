@@ -20,10 +20,7 @@ import com.example.packassist.navigation.NavigationBarRoutes
 import com.example.packassist.ui.components.BottomNavBar
 import com.example.packassist.ui.components.CollectionField
 import com.example.packassist.ui.components.ScreenErrorMessage
-import com.example.packassist.ui.components.TextAndIconButtonTopBar
-
-
-
+import com.example.packassist.ui.components.SearchBarAndButtonTopBar
 
 
 @Composable
@@ -32,6 +29,7 @@ fun CollectionListScreen(
     onAddNewCollection: () -> Unit,
     onEditCollection: (collectionId: Int) -> Unit,
     onNavigateToRoute: (route: String) -> Unit,
+    filterCollections: (String) -> Unit,
     route: String,
     modifier: Modifier = Modifier
 
@@ -39,25 +37,21 @@ fun CollectionListScreen(
 
     Scaffold(
         topBar = {
-
-
-            TextAndIconButtonTopBar(
-                text = stringResource(R.string.collections_screeen_name),
+            SearchBarAndButtonTopBar(
+                onSearch = filterCollections,
+                searchLabel = stringResource(id = R.string.search_collection),
                 icon = Icons.Default.Add,
                 iconContentDescription = stringResource(R.string.add_new_button_description),
                 buttonOnClick = onAddNewCollection
             )
 
-
         },
-
 
         bottomBar = {
             BottomNavBar(onNavigateToRoute = onNavigateToRoute, currentRoute = route)
         },
-
-
         modifier = modifier
+
     ) { innerPadding ->
         if (uiState.collList.isNotEmpty()) {
             LazyColumn(
@@ -68,8 +62,6 @@ fun CollectionListScreen(
                     bottom = innerPadding.calculateBottomPadding()
                 )
             ) {
-
-
                 items(uiState.collList) { collection ->
                     Spacer(modifier = Modifier.size(8.dp))
                     CollectionField(
@@ -77,11 +69,14 @@ fun CollectionListScreen(
                     )
                     Spacer(modifier = Modifier.size(24.dp))
                 }
-
             }
 
+
         } else {
-            ScreenErrorMessage(stringResource(R.string.no_collections) ,Modifier.padding(innerPadding))
+            ScreenErrorMessage(
+                stringResource(R.string.no_collections),
+                Modifier.padding(innerPadding)
+            )
         }
 
 
@@ -97,6 +92,8 @@ fun EventsListsPreview() {
         route = NavigationBarRoutes.COLLECTIONS.name,
         onAddNewCollection = { },
         onEditCollection = {},
-        onNavigateToRoute = {})
+        onNavigateToRoute = {},
+        filterCollections = {}
+    )
 }
 

@@ -1,12 +1,10 @@
 package com.example.packassist.navigation
 
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.example.packassist.ui.screens.collections.CollectionListScreen
 import com.example.packassist.ui.screens.collections.CollectionsListViewModel
@@ -27,7 +25,8 @@ fun NavGraphBuilder.collectionsListScreen(
             onAddNewCollection = onAddNewCollection,
             onEditCollection = onEditCollection,
             route = CollectionsListRoute,
-            onNavigateToRoute = onNavigateToRoute
+            onNavigateToRoute = onNavigateToRoute,
+            filterCollections = viewModel::filter
         )
 
     }

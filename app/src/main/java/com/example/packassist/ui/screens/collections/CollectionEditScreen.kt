@@ -48,9 +48,7 @@ fun CollectionEditScreen(
     }
 
     Scaffold(
-
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-
         topBar = {
             ThreeIconButtonsTopBar(
                 firstIcon = Icons.Default.Delete,

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -25,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
@@ -41,7 +43,8 @@ fun TextAndIconButtonTopBar(
     iconContentDescription: String? = null,
     buttonOnClick: () -> Unit
 ) {
-    Column(modifier = modifier.background(MaterialTheme.colorScheme.surfaceContainerLow)
+    Column(modifier = modifier
+        .background(MaterialTheme.colorScheme.surfaceContainerLow)
         .windowInsetsPadding(TopAppBarDefaults.windowInsets)) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -80,6 +83,70 @@ fun TextAndIconButtonTopBar(
         HorizontalDivider()
     }
 }
+
+
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SearchBarAndButtonTopBar(
+    onSearch: (String) -> Unit,
+    icon: ImageVector,
+    buttonOnClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    contentColor: Color = MaterialTheme.colorScheme.primary,
+    iconColor: Color = MaterialTheme.colorScheme.onPrimary,
+    searchLabel: String? = null,
+    iconContentDescription: String? = null,
+
+) {
+    Column(modifier = modifier
+        .background(MaterialTheme.colorScheme.surfaceContainerLow)
+        .windowInsetsPadding(TopAppBarDefaults.windowInsets)) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier
+                .padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 4.dp)
+                .fillMaxWidth()
+
+
+        ) {
+            val focusManager = LocalFocusManager.current
+            SearchField(
+                onSearch = onSearch,
+                labelText = searchLabel,
+                keyboardActions = KeyboardActions { focusManager.clearFocus() },
+                modifier = Modifier.weight(1f).padding(end = 8.dp)
+            )
+            IconButton(
+                onClick = buttonOnClick,
+                modifier = Modifier
+                    .background(contentColor, shape = MaterialTheme.shapes.extraSmall)
+                    .border(
+                        color = MaterialTheme.colorScheme.outline,
+                        width = 1.dp,
+                        shape = MaterialTheme.shapes.extraSmall
+                    )
+
+
+            ) {
+                Icon(
+                    icon,
+                    contentDescription = iconContentDescription,
+                    tint = iconColor,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+        }
+        HorizontalDivider()
+    }
+}
+
+
+
+
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)

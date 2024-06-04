@@ -156,6 +156,7 @@ fun EventDetailsScreen(
                         )
                     }
 
+                    // Editable name of event
                     TextEditField(
                         value = uiState.event.name,
                         onValueChange = { onEventNameChange(it) },
@@ -179,8 +180,6 @@ fun EventDetailsScreen(
                         },
                         modifier = Modifier
                             .weight(1f)
-
-
                     ) {
                         Icon(
                             Icons.Default.Delete,
@@ -202,6 +201,7 @@ fun EventDetailsScreen(
                 bottom = innerPadding.calculateBottomPadding()
             )
         ) {
+            // location, date, notes information
             item {
                 Surface(
                     color = MaterialTheme.colorScheme.surfaceContainer,
@@ -317,6 +317,7 @@ fun EventDetailsScreen(
                 }
             }
 
+
             item {
                 Spacer(
                     modifier = Modifier
@@ -325,7 +326,7 @@ fun EventDetailsScreen(
                 )
             }
 
-
+            // collections to pack
             if (uiState.collections.isNotEmpty()) {
                 items(items = uiState.collections,
                     key = { it.first.collectionId}) { collection ->
