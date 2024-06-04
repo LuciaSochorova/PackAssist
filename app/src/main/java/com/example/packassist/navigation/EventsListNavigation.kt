@@ -24,7 +24,8 @@ fun NavGraphBuilder.eventsListScreen(
             onAddNewEvent = onAddNewEvent,
             onEventClick = onEventClick,
             route = EVENT_LIST_ROUTE,
-            onNavigateToRoute = onNavigateToRoute
+            onNavigateToRoute = onNavigateToRoute,
+            filterEvents = viewModel::filterEvents
         )
     }
 

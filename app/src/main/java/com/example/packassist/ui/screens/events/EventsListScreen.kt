@@ -32,7 +32,7 @@ import com.example.packassist.R
 import com.example.packassist.data.entitiesAndDaos.Event
 import com.example.packassist.ui.components.BottomNavBar
 import com.example.packassist.ui.components.ScreenErrorMessage
-import com.example.packassist.ui.components.TextAndIconButtonTopBar
+import com.example.packassist.ui.components.SearchBarAndButtonTopBar
 
 
 @Composable
@@ -42,16 +42,24 @@ fun EventsListScreen(
     onEventClick: (Int) -> Unit,
     route: String,
     onNavigateToRoute: (route: String) -> Unit,
+    filterEvents: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
         topBar = {
-            TextAndIconButtonTopBar(
-                text = stringResource(R.string.Events_screen_name),
+            SearchBarAndButtonTopBar(
+                onSearch = filterEvents,
+                searchLabel = stringResource(R.string.search_event),
                 icon = Icons.Default.Add,
                 iconContentDescription = stringResource(R.string.add_new_button_description),
                 buttonOnClick = onAddNewEvent
             )
+//            TextAndIconButtonTopBar(
+//                text = stringResource(R.string.Events_screen_name),
+//                icon = Icons.Default.Add,
+//                iconContentDescription = stringResource(R.string.add_new_button_description),
+//                buttonOnClick = onAddNewEvent
+//            )
         },
         bottomBar = {
             BottomNavBar(onNavigateToRoute = onNavigateToRoute, currentRoute = route)
@@ -128,7 +136,9 @@ private fun EventField(
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier.fillMaxWidth().padding(4.dp)
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(4.dp)
         ) {
             if (event.location != null) {
                 Text(
@@ -171,6 +181,7 @@ fun EventsListsPreview() {
      onAddNewEvent = {  },
      onEventClick = {  },
      route = "route",
-     onNavigateToRoute = {}
+     onNavigateToRoute = {},
+     filterEvents = {}
  )
 }
