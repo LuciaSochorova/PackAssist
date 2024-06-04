@@ -93,7 +93,8 @@ fun EventDetailsScreen(
     onNotesChange: (String) -> Unit,
     onPickDate: (Boolean) -> Unit,
     onDateChange: (Long?) -> Unit,
-    floatingButtonAction: (Int) -> Unit
+    floatingButtonAction: (Int) -> Unit,
+    changeExpand: (id: Int) -> Unit
 ) {
     val normalFont = MaterialTheme.typography.bodyMedium
     val focusManager = LocalFocusManager.current
@@ -211,13 +212,11 @@ fun EventDetailsScreen(
                         .padding(top = 16.dp)
                 ) {
                     Column {
-
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(IntrinsicSize.Max)
                         ) {
-
                             TextField(
                                 value = uiState.event.location ?: "",
                                 label = {
@@ -327,11 +326,12 @@ fun EventDetailsScreen(
             }
 
 
-
             if (uiState.collections.isNotEmpty()) {
-                items(uiState.collections) { collection ->
+                items(items = uiState.collections,
+                    key = { it.first.collectionId}) { collection ->
                     ExpandingListOfItems(
-                        coll = collection,
+                        coll = collection.first,
+                        isExpanded = collection.second,
                         onCheckedChange = onItemCheckedChange,
                         captionColors = ListItemDefaults.colors(
                             containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
@@ -341,6 +341,7 @@ fun EventDetailsScreen(
                         listColors = ListItemDefaults.colors(
                             containerColor = MaterialTheme.colorScheme.surfaceContainer
                         ),
+                        changeExpand = changeExpand,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 8.dp, bottom = 8.dp)
@@ -387,7 +388,7 @@ fun EventDetailsScreen(
 @Preview(showBackground = true)
 @Composable
 fun EventDetailsScreenPreview() {
-    EventDetailsScreen(EventDetailsUiState(), {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {})
+    EventDetailsScreen(EventDetailsUiState(), {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {},{})
 }
 
 
@@ -395,13 +396,12 @@ fun EventDetailsScreenPreview() {
 private fun ExpandingListOfItems(
     coll: CollectionItems,
     onCheckedChange: (Item) -> Unit,
+    isExpanded: Boolean,
+    changeExpand: (id: Int) -> Unit,
     modifier: Modifier = Modifier,
     captionColors: ListItemColors = ListItemDefaults.colors(),
     listColors: ListItemColors = ListItemDefaults.colors()
 ) {
-    var isExpanded by remember {
-        mutableStateOf(!coll.items.all { it.packed })
-    }
 
     Surface(
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
@@ -424,18 +424,16 @@ private fun ExpandingListOfItems(
                             )
                         }
                     }
-
                 },
                 colors = captionColors,
                 trailingContent = {
-                    IconButton(onClick = { isExpanded = !(isExpanded) }) {
+                    IconButton(onClick = { changeExpand(coll.collectionId) }) {
                         if (isExpanded) {
                             Icon(
                                 Icons.Default.KeyboardArrowUp,
                                 contentDescription = null,
                             )
                         } else {
-
                             Icon(
                                 Icons.Default.KeyboardArrowDown,
                                 contentDescription = null,

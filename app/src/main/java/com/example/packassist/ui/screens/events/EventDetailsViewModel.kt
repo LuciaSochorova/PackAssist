@@ -1,5 +1,6 @@
 package com.example.packassist.ui.screens.events
 
+import androidx.compose.runtime.Immutable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -26,12 +27,14 @@ import kotlinx.coroutines.launch
 import java.util.Date
 
 
+@Immutable
 data class EventDetailsUiState(
     val event: EventState = EventState(),
-    val collections: List<CollectionItems> = listOf()
+    //val collections: List<CollectionItems> = listOf()
+    val collections: List<Pair<CollectionItems, Boolean>> = listOf()
 )
 
-
+@Immutable
 data class EventState(
     val id: Int = 0,
     val name: String = "",
@@ -42,7 +45,7 @@ data class EventState(
     val pickingDate: Boolean = false
 )
 
-
+@Immutable
 data class CollectionItems(
     val collectionId: Int = 0,
     val name: String = "",
@@ -61,29 +64,19 @@ class EventDetailsViewModel(
 
     private val _eventState = MutableStateFlow(EventState())
 
-    private val _collItems: StateFlow<List<CollectionItems>> = collectionsRepository.getEventCollectionsWithItemsStream(eventId).map {list ->
-        list.map {
-            CollectionItems(
-                collectionId = it.collection.id,
-                name = it.collection.name,
-                items = it.items
-            )
-        }
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), listOf())
+    private val _expanded = MutableStateFlow(mapOf<Int, Boolean>())
 
 
-
-    private val _collectionItems = MutableStateFlow(listOf<CollectionItems>())
-
-    val state = combine(
-        _eventState,
-        _collItems
-    ) { event, collections ->
-        EventDetailsUiState(
-            event = event,
-            collections = collections
-        )
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), EventDetailsUiState())
+    private val _collItems: StateFlow<List<CollectionItems>> =
+        collectionsRepository.getEventCollectionsWithItemsStream(eventId).map { list ->
+            list.map {
+                CollectionItems(
+                    collectionId = it.collection.id,
+                    name = it.collection.name,
+                    items = it.items.sortedBy { item -> item.name }
+                )
+            }
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), listOf())
 
 
     init {
@@ -98,16 +91,11 @@ class EventDetailsViewModel(
                     notes = original.event.notes
                 )
             }
-            original.collections.map { coll ->
-                _collectionItems.update { b ->
-                    b.plus(
-                        CollectionItems(
-                            collectionId = coll.id,
-                            name = coll.name,
-                            items = itemsRepository.getItemsOfCollection(coll.id)
-                        )
-                    )
 
+            original.collections.forEach { coll ->
+                _expanded.update {
+                    it + (coll.id to !itemsRepository.getItemsOfCollection(coll.id)
+                        .all { item -> item.packed })
                 }
 
             }
@@ -115,6 +103,18 @@ class EventDetailsViewModel(
         }
 
     }
+
+    val state = combine(
+        _eventState,
+        _collItems,
+        _expanded
+    ) { event, collections, expanded ->
+
+        EventDetailsUiState(
+            event = event,
+            collections = collections.map { it to (expanded[it.collectionId] ?: true) }
+        )
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), EventDetailsUiState())
 
     fun saveEventInformation() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -135,6 +135,7 @@ class EventDetailsViewModel(
             eventsRepository.deleteEvent(Event(id = eventId, name = _eventState.value.name))
         }
     }
+
     fun changeName(newName: String) {
         _eventState.update {
             it.copy(name = newName)
@@ -177,6 +178,14 @@ class EventDetailsViewModel(
         }
     }
 
+    fun changeExpandCollection(collectionId: Int) {
+        _expanded.update {
+            val mutable = it.toMutableMap()
+            it[collectionId]?.let { mutable.replace(collectionId, !mutable[collectionId]!!) }
+                ?: mutable.put(collectionId, false)
+            mutable.toMap()
+        }
+    }
 
     companion object {
         val Factory = viewModelFactory {

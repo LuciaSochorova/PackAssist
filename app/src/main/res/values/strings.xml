@@ -31,4 +31,5 @@
     <string name="import_items_message">Import items from an existing collection</string>
     <string name="all_packed">All packed</string>
     <string name="delete_event_confirmation_message">Are you sure you want to delete this event?</string>
+    <string name="search">Search</string>
 </resources>

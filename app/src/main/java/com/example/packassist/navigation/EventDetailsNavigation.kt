@@ -36,7 +36,8 @@ fun NavGraphBuilder.eventDetailsScreen(
             onDateChange = viewModel::changeDate,
             onPickDate = viewModel::pickDate,
             floatingButtonAction = onManageCollections,
-            deleteAction = viewModel::deleteEvent
+            deleteAction = viewModel::deleteEvent,
+            changeExpand = viewModel::changeExpandCollection
         )
 
     }

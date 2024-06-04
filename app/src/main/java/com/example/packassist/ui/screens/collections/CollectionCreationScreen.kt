@@ -2,13 +2,20 @@ package com.example.packassist.ui.screens.collections
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
@@ -17,14 +24,20 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.packassist.R
@@ -44,7 +57,8 @@ fun CollectionCreationScreen(
     onAddItem: () -> Unit,
     navigateBack: () -> Unit,
     onShowImport: (Boolean) -> Unit,
-    importItems: (Int) -> Unit
+    importItems: (Int) -> Unit,
+    filterImportOptions: (String) -> Unit
 ) {
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -103,7 +117,8 @@ fun CollectionCreationScreen(
         collectionUiState.showImportDialog -> ImportCollectionDialog(
             collections = collectionUiState.collectionsToImport.map { it.collection.name },
             onSelected = importItems,
-            onDismiss = { onShowImport(false) })
+            onDismiss = { onShowImport(false) },
+            onFilter = filterImportOptions)
     }
 }
 
@@ -120,7 +135,8 @@ fun CreateCollectionScreenPreview() {
         saveCollection = { },
         onAddItem = { },
         navigateBack = { },
-        onShowImport = {}
+        onShowImport = {},
+        importItems = {}
     ) {
 
     }
@@ -131,8 +147,13 @@ private fun ImportCollectionDialog(
     collections: List<String>,
     onSelected: (Int) -> Unit,
     onDismiss: () -> Unit,
+    onFilter: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    var searchText by remember {
+        mutableStateOf("")
+    }
+
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {Text(
@@ -147,29 +168,45 @@ private fun ImportCollectionDialog(
         },
         shape =  MaterialTheme.shapes.small,
         text = {
-            if (collections.isNotEmpty()) {
-                LazyColumn(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    itemsIndexed(collections) { index, collection ->
-                        ListItem(
-                            headlineContent = { Text(text = collection, color = MaterialTheme.colorScheme.onSecondaryContainer) },
-                            modifier = Modifier
-                                .border(1.dp, MaterialTheme.colorScheme.outline)
-                                .clickable {
-                                    onSelected(index)
-                                    onDismiss()
-                                },
-                            colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
-                        )
-                    }
-                }
-            } else {
-                Text(
-                    text = stringResource(R.string.no_collections_found),
-                    color = MaterialTheme.colorScheme.onSurface,
-                    style = MaterialTheme.typography.bodyMedium
+            Column {
+                val focusManager = LocalFocusManager.current
+                TextField(
+                    value = searchText,
+                    onValueChange = {searchText = it
+                        onFilter(it)},
+                    shape = MaterialTheme.shapes.medium,
+                    label = { Text(text = stringResource(R.string.search))},
+                    leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                    keyboardActions = KeyboardActions { focusManager.clearFocus() }
                 )
+
+                Spacer(modifier = Modifier.size(16.dp))
+                if (collections.isNotEmpty()) {
+                    LazyColumn(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        itemsIndexed(collections){
+                                index, collection ->
+                            ListItem(
+                                headlineContent = { Text(text = collection, color = MaterialTheme.colorScheme.onSecondaryContainer) },
+                                modifier = Modifier
+                                    .border(1.dp, MaterialTheme.colorScheme.outline)
+                                    .clickable {
+                                        onSelected(index)
+                                        onDismiss()
+                                    },
+                                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
+                            )
+                        }
+                    }
+                } else {
+                    Text(
+                        text = stringResource(R.string.no_collections_found),
+                        color = MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
             }
         }
 

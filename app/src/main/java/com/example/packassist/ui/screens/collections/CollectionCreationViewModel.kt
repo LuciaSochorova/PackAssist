@@ -21,7 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-class CollectionCreationViewModel (
+class CollectionCreationViewModel(
     savedStateHandle: SavedStateHandle,
     private val collectionsRepository: CollectionsRepository,
     private val itemsRepository: ItemsRepository
@@ -30,12 +30,16 @@ class CollectionCreationViewModel (
         private set
 
     private val eventId: Int? = savedStateHandle.get<String>(EventIdArg)?.toInt()
+    private var _allCollectionsToImport: List<ItemsOfCollection> = listOf()
 
     init {
-        viewModelScope.launch{
-            state = state.copy(collectionsToImport = collectionsRepository.getAllNoEventCollectionsWithItems().first())
+        viewModelScope.launch {
+            _allCollectionsToImport =
+                collectionsRepository.getAllNoEventCollectionsWithItems().first()
+            state = state.copy(collectionsToImport = _allCollectionsToImport)
         }
     }
+
     fun onNameChange(name: String) {
         state = state.copy(name = name)
         validate()
@@ -76,9 +80,10 @@ class CollectionCreationViewModel (
 
                 val coll = collectionsRepository.getCollectionId(rowId)
 
+                state = state.copy(items = state.items.sorted())
                 state.items.forEach { name ->
-                    if  (name.isNotEmpty() ) {
-                    itemsRepository.upsertItem(itemToItem(name = name, collection = coll))
+                    if (name.isNotEmpty()) {
+                        itemsRepository.upsertItem(itemToItem(name = name, collection = coll))
                     }
                 }
 
@@ -87,8 +92,16 @@ class CollectionCreationViewModel (
 
     }
 
+    fun filterImportCollections(query: String) {
+        state = state.copy(collectionsToImport = _allCollectionsToImport.filter {
+            it.collection.name.contains(
+                query,
+                ignoreCase = true
+            )
+        })
+    }
 
-    fun showImportDialog(bool: Boolean)  {
+    fun showImportDialog(bool: Boolean) {
         state = state.copy(showImportDialog = bool)
     }
 
@@ -112,15 +125,13 @@ class CollectionCreationViewModel (
     )
 
 
-
-
-
-
     companion object {
-        val Factory  = viewModelFactory {
+        val Factory = viewModelFactory {
             initializer {
-                val collRepository = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as PackAssistApplication).container.collectionsRepository
-                val itemRepository = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as PackAssistApplication).container.itemsRepository
+                val collRepository =
+                    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as PackAssistApplication).container.collectionsRepository
+                val itemRepository =
+                    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as PackAssistApplication).container.itemsRepository
                 CollectionCreationViewModel(
                     savedStateHandle = this.createSavedStateHandle(),
                     collectionsRepository = collRepository,

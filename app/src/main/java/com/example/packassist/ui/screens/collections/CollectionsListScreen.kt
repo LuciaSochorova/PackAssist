@@ -70,10 +70,10 @@ fun CollectionListScreen(
             ) {
 
 
-                items(uiState.collList) { item ->
+                items(uiState.collList) { collection ->
                     Spacer(modifier = Modifier.size(8.dp))
                     CollectionField(
-                        item, onEditCollection
+                        collection, onEditCollection
                     )
                     Spacer(modifier = Modifier.size(24.dp))
                 }
@@ -82,7 +82,6 @@ fun CollectionListScreen(
 
         } else {
             ScreenErrorMessage(stringResource(R.string.no_collections) ,Modifier.padding(innerPadding))
-
         }
 
 

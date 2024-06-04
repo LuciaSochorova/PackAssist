@@ -32,6 +32,7 @@ fun NavGraphBuilder.collectionCreationScreen(
             navigateBack = onNavigateBack,
             onShowImport = viewModel::showImportDialog,
             importItems = viewModel::importItemsFromCollection,
+            filterImportOptions = viewModel::filterImportCollections
         )
 
     }
