@@ -12,7 +12,7 @@ enum class NavigationBarRoutes(
     @StringRes val label: Int,
     ) {
     COLLECTIONS(
-        CollectionsListRoute,
+        COLLECTIONS_LIST_ROUTE,
         R.drawable.collections_icon,
         R.string.collections_title
 

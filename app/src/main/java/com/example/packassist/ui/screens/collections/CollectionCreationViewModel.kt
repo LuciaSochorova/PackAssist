@@ -16,7 +16,7 @@ import com.example.packassist.data.entitiesAndDaos.Item
 import com.example.packassist.data.entitiesAndDaos.ItemsOfCollection
 import com.example.packassist.data.repositories.CollectionsRepository
 import com.example.packassist.data.repositories.ItemsRepository
-import com.example.packassist.navigation.EventIdArg
+import com.example.packassist.navigation.EVENT_ID_ARG
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -29,7 +29,7 @@ class CollectionCreationViewModel(
     var state by mutableStateOf(CollectionCreationUiState())
         private set
 
-    private val eventId: Int? = savedStateHandle.get<String>(EventIdArg)?.toInt()
+    private val eventId: Int? = savedStateHandle.get<String>(EVENT_ID_ARG)?.toInt()
     private var _allCollectionsToImport: List<ItemsOfCollection> = listOf()
 
     init {

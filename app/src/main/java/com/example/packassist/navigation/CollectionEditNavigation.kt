@@ -7,14 +7,14 @@ import androidx.navigation.compose.composable
 import com.example.packassist.ui.screens.collections.CollectionEditScreen
 import com.example.packassist.ui.screens.collections.CollectionEditViewModel
 
-const val collectionIdArg = "collectionId"
-private const val CollectionEditRoute = "collectionCreation/{$collectionIdArg}"
+const val COLLECTION_ID_ARG = "collectionId"
+private const val COLLECTION_EDIT_ROUTE = "collectionCreation/{$COLLECTION_ID_ARG}"
 
 fun NavGraphBuilder.collectionEditScreen(
     onBack: () -> Unit
 ) {
     composable(
-        route = CollectionEditRoute,
+        route = COLLECTION_EDIT_ROUTE,
     ) {
         val viewModel: CollectionEditViewModel =
             viewModel(factory = CollectionEditViewModel.Factory)
@@ -37,5 +37,5 @@ fun NavGraphBuilder.collectionEditScreen(
 }
 
 fun NavController.navigateToCollectionEdit(collectionId : Int){
-    this.navigate(CollectionEditRoute.replace("{$collectionIdArg}", collectionId.toString()))
+    this.navigate(COLLECTION_EDIT_ROUTE.replace("{$COLLECTION_ID_ARG}", collectionId.toString()))
 }

@@ -15,7 +15,7 @@ import com.example.packassist.data.entitiesAndDaos.Collection
 import com.example.packassist.data.entitiesAndDaos.Item
 import com.example.packassist.data.repositories.CollectionsRepository
 import com.example.packassist.data.repositories.ItemsRepository
-import com.example.packassist.navigation.collectionIdArg
+import com.example.packassist.navigation.COLLECTION_ID_ARG
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -26,7 +26,7 @@ class CollectionEditViewModel(
     private val itemsRepository: ItemsRepository,
 ) : ViewModel() {
     private val collectionId: Int =
-        checkNotNull(savedStateHandle[collectionIdArg]).toString().toInt()
+        checkNotNull(savedStateHandle[COLLECTION_ID_ARG]).toString().toInt()
 
 
     private val deleted = mutableListOf<Int>()

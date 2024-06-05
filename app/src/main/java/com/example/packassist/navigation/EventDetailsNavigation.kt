@@ -9,15 +9,15 @@ import com.example.packassist.ui.screens.events.EventDetailsScreen
 import com.example.packassist.ui.screens.events.EventDetailsViewModel
 
 
-const val EventIdArg = "eventId"
-const val EventDetailsRoute = "eventDetails/{$EventIdArg}"
+const val EVENT_ID_ARG = "eventId"
+private const val EVENT_DETAILS_ROUTE = "eventDetails/{$EVENT_ID_ARG}"
 
 fun NavGraphBuilder.eventDetailsScreen(
     onBack: () -> Unit,
     onManageCollections: (Int) -> Unit
 ) {
     composable(
-        route = EventDetailsRoute,
+        route = EVENT_DETAILS_ROUTE,
     ) {
         val viewModel: EventDetailsViewModel =
             viewModel(factory = EventDetailsViewModel.Factory)
@@ -44,5 +44,5 @@ fun NavGraphBuilder.eventDetailsScreen(
 }
 
 fun NavController.navigateToEventDetails(eventId : Int){
-    this.navigate(EventDetailsRoute.replace("{$EventIdArg}", eventId.toString()))
+    this.navigate(EVENT_DETAILS_ROUTE.replace("{$EVENT_ID_ARG}", eventId.toString()))
 }

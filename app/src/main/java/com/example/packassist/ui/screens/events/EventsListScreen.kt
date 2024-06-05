@@ -54,12 +54,6 @@ fun EventsListScreen(
                 iconContentDescription = stringResource(R.string.add_new_button_description),
                 buttonOnClick = onAddNewEvent
             )
-//            TextAndIconButtonTopBar(
-//                text = stringResource(R.string.Events_screen_name),
-//                icon = Icons.Default.Add,
-//                iconContentDescription = stringResource(R.string.add_new_button_description),
-//                buttonOnClick = onAddNewEvent
-//            )
         },
         bottomBar = {
             BottomNavBar(onNavigateToRoute = onNavigateToRoute, currentRoute = route)

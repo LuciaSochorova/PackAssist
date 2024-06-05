@@ -1,6 +1,5 @@
 package com.example.packassist.ui.screens.events
 
-import androidx.compose.runtime.Immutable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -14,7 +13,7 @@ import com.example.packassist.data.entitiesAndDaos.Item
 import com.example.packassist.data.repositories.CollectionsRepository
 import com.example.packassist.data.repositories.EventsRepository
 import com.example.packassist.data.repositories.ItemsRepository
-import com.example.packassist.navigation.EventIdArg
+import com.example.packassist.navigation.EVENT_ID_ARG
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -27,13 +26,11 @@ import kotlinx.coroutines.launch
 import java.util.Date
 
 
-@Immutable
 data class EventDetailsUiState(
     val event: EventState = EventState(),
     val collections: List<Pair<CollectionItems, Boolean>> = listOf()
 )
 
-@Immutable
 data class EventState(
     val id: Int = 0,
     val name: String = "",
@@ -44,7 +41,6 @@ data class EventState(
     val pickingDate: Boolean = false
 )
 
-@Immutable
 data class CollectionItems(
     val collectionId: Int = 0,
     val name: String = "",
@@ -59,7 +55,7 @@ class EventDetailsViewModel(
     private val collectionsRepository: CollectionsRepository
 ) : ViewModel() {
     private val eventId: Int =
-        checkNotNull(savedStateHandle[EventIdArg]).toString().toInt()
+        checkNotNull(savedStateHandle[EVENT_ID_ARG]).toString().toInt()
 
     private val _eventState = MutableStateFlow(EventState())
 

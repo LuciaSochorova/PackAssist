@@ -9,7 +9,7 @@ import androidx.navigation.compose.composable
 import com.example.packassist.ui.screens.events.EventCollectionsManagementViewModel
 import com.example.packassist.ui.screens.events.ManageEventCollectionsScreen
 
-private const val EVENT_COLL_MANAGEMENT_ROUTE = "event_coll_management/{$EventIdArg}"
+private const val EVENT_COLL_MANAGEMENT_ROUTE = "event_coll_management/{$EVENT_ID_ARG}"
 fun NavGraphBuilder.eventCollectionsManagementScreen(
     onBack: () -> Unit,
     onAddCollection: (Int) -> Unit,
@@ -33,7 +33,7 @@ fun NavGraphBuilder.eventCollectionsManagementScreen(
 }
 
 fun NavController.navigateToEventsCollectionManagement(eventId: Int) {
-    this.navigate(EVENT_COLL_MANAGEMENT_ROUTE.replace("{$EventIdArg}", eventId.toString()))
+    this.navigate(EVENT_COLL_MANAGEMENT_ROUTE.replace("{$EVENT_ID_ARG}", eventId.toString()))
 }
 
 

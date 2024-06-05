@@ -10,13 +10,13 @@ import com.example.packassist.ui.screens.collections.CollectionListScreen
 import com.example.packassist.ui.screens.collections.CollectionsListViewModel
 
 
-const val CollectionsListRoute = "collections"
+const val COLLECTIONS_LIST_ROUTE = "collections"
 fun NavGraphBuilder.collectionsListScreen(
     onAddNewCollection: () -> Unit,
     onEditCollection: (collectionId: Int) -> Unit,
     onNavigateToRoute: (route: String) -> Unit
 ) {
-    composable(route = CollectionsListRoute) {
+    composable(route = COLLECTIONS_LIST_ROUTE) {
         val viewModel: CollectionsListViewModel =
             viewModel(factory = CollectionsListViewModel.Factory)
         val uiState by viewModel.collectionsListUiState.collectAsStateWithLifecycle(lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current)
@@ -24,7 +24,7 @@ fun NavGraphBuilder.collectionsListScreen(
             uiState = uiState,
             onAddNewCollection = onAddNewCollection,
             onEditCollection = onEditCollection,
-            route = CollectionsListRoute,
+            route = COLLECTIONS_LIST_ROUTE,
             onNavigateToRoute = onNavigateToRoute,
             filterCollections = viewModel::filter
         )
@@ -33,6 +33,6 @@ fun NavGraphBuilder.collectionsListScreen(
 }
 
 fun NavController.navigateToCollectionsList() {
-    this.navigate(CollectionsListRoute)
+    this.navigate(COLLECTIONS_LIST_ROUTE)
 }
 

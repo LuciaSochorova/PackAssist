@@ -11,7 +11,7 @@ import com.example.packassist.PackAssistApplication
 import com.example.packassist.data.entitiesAndDaos.ItemsOfCollection
 import com.example.packassist.data.repositories.CollectionsRepository
 import com.example.packassist.data.repositories.EventsRepository
-import com.example.packassist.navigation.EventIdArg
+import com.example.packassist.navigation.EVENT_ID_ARG
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -29,7 +29,7 @@ class EventCollectionsManagementViewModel(
     private val collectionsRepository: CollectionsRepository,
     private val eventsRepository: EventsRepository
 ) : ViewModel() {
-    private val eventId: Int = checkNotNull(savedStateHandle[EventIdArg]).toString().toInt()
+    private val eventId: Int = checkNotNull(savedStateHandle[EVENT_ID_ARG]).toString().toInt()
     private var eventName = ""
     init {
         viewModelScope.launch {

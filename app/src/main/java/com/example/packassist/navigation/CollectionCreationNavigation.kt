@@ -8,14 +8,14 @@ import androidx.navigation.navArgument
 import com.example.packassist.ui.screens.collections.CollectionCreationScreen
 import com.example.packassist.ui.screens.collections.CollectionCreationViewModel
 
-const val CollectionCreationRoute = "collectionCreation?eventId={$EventIdArg}"
+private const val COLLECTION_CREATION_ROUTE = "collectionCreation?eventId={$EVENT_ID_ARG}"
 
 fun NavGraphBuilder.collectionCreationScreen(
     onNavigateBack: () -> Unit
 ) {
     composable(
-        route = CollectionCreationRoute,
-        arguments = listOf(navArgument(EventIdArg) { nullable = true })
+        route = COLLECTION_CREATION_ROUTE,
+        arguments = listOf(navArgument(EVENT_ID_ARG) { nullable = true })
     ) {
         val viewModel: CollectionCreationViewModel =
             viewModel(factory = CollectionCreationViewModel.Factory)
@@ -41,9 +41,9 @@ fun NavGraphBuilder.collectionCreationScreen(
 
 fun NavController.navigateToCollectionCreation(eventId: Int? = null) {
     if (eventId != null)
-        this.navigate(CollectionCreationRoute.replace("{$EventIdArg}", eventId.toString()))
+        this.navigate(COLLECTION_CREATION_ROUTE.replace("{$EVENT_ID_ARG}", eventId.toString()))
     else
-        this.navigate(CollectionCreationRoute)
+        this.navigate(COLLECTION_CREATION_ROUTE)
 
 }
 

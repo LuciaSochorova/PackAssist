@@ -7,13 +7,13 @@ import androidx.navigation.compose.dialog
 import com.example.packassist.ui.screens.events.EventCreationDialog
 import com.example.packassist.ui.screens.events.EventCreationViewModel
 
-const val EventCreationRoute = "EventCreation"
+private const val EVENT_CREATION_ROUTE = "EventCreation"
 
 fun NavGraphBuilder.eventCreationDialog(
     navigateToEditEvent: (Int) -> Unit,
     onDismiss: () -> Unit
 ) {
-    dialog(route = EventCreationRoute) {
+    dialog(route = EVENT_CREATION_ROUTE) {
         val viewModel: EventCreationViewModel = viewModel(factory = EventCreationViewModel.Factory)
         EventCreationDialog(
             state = viewModel.state.value,
@@ -27,5 +27,5 @@ fun NavGraphBuilder.eventCreationDialog(
 }
 
 fun NavController.navigateToEventCreationDialog() {
-    this.navigate(EventCreationRoute)
+    this.navigate(EVENT_CREATION_ROUTE)
 }
