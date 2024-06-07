@@ -23,7 +23,7 @@
     <string name="save">Save</string>
     <string name="location">Location</string>
     <string name="date">Date</string>
-    <string name="manage_collections">Manage Collections</string>
+    <string name="manage_pack_lists">Manage lists</string>
     <string name="type_notes">Type notes</string>
     <string name="no_collections_found">No collections found to import</string>
     <string name="collection_validation_rules">Collection must have a name and at least one item</string>
@@ -34,4 +34,5 @@
     <string name="search">Search</string>
     <string name="search_collection">Search collection</string>
     <string name="search_event">Search event</string>
+    <string name="add_list">Add list</string>
 </resources>

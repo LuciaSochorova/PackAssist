@@ -53,11 +53,13 @@ fun ManageEventCollectionsScreen(
                     contentDescription = stringResource(id = R.string.add_new_button_description)
                 )
 
-                Text(text = "Add collection", style = MaterialTheme.typography.titleSmall)
+                Text(text = stringResource(R.string.add_list), style = MaterialTheme.typography.titleSmall)
             }
         },
         topBar = {
-            Column(modifier = Modifier.fillMaxWidth().windowInsetsPadding(TopAppBarDefaults.windowInsets)) {
+            Column(modifier = Modifier
+                .fillMaxWidth()
+                .windowInsetsPadding(TopAppBarDefaults.windowInsets)) {
                 Row(
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically,

@@ -115,7 +115,7 @@ fun EventDetailsScreen(
                 )
 
                 Text(
-                    text = stringResource(R.string.manage_collections),
+                    text = stringResource(R.string.manage_pack_lists),
                     style = MaterialTheme.typography.titleSmall
                 )
             }

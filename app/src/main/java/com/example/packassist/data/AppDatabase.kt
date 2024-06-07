@@ -1,6 +1,7 @@
 package com.example.packassist.data
 
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -32,8 +33,10 @@ class Converters {
     entities = [
         Collection::class, Event::class, Item::class
     ],
-    version = 5,
-    exportSchema = false
+    version = 6,
+    autoMigrations = [
+        AutoMigration (from = 5, to = 6)
+    ]
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
