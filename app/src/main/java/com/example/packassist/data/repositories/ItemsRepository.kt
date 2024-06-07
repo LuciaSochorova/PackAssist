@@ -1,17 +1,45 @@
 package com.example.packassist.data.repositories
 
 import com.example.packassist.data.entitiesAndDaos.Item
-import kotlinx.coroutines.flow.Flow
 
+/**
+ * Repository interface for managing items.
+ *
+ */
 interface ItemsRepository {
-    suspend fun updateItem(item : Item)
+    /**
+     * Updates an existing item.
+     *
+     * @param item The item to update.
+     */
+    suspend fun updateItem(item: Item)
 
-    suspend fun deleteItem(item : Item)
-    suspend fun deleteItem(itemId : Int)
+    /**
+     * Deletes an item.
+     *
+     * @param item The item to delete.
+     */
+    suspend fun deleteItem(item: Item)
 
-    suspend fun upsertItem(item : Item)
+    /**
+     * Deletes an item by its ID.
+     *
+     * @param itemId The ID of the item to delete.
+     */
+    suspend fun deleteItem(itemId: Int)
 
-    fun getItemStream(id : Int) : Flow<Item?>
+    /**
+     * Upsert an item
+     *
+     * @param item The item to upsert.
+     */
+    suspend fun upsertItem(item: Item)
 
+    /**
+     * Gets a list of items associated with a collection.
+     *
+     * @param collectionId The ID of the collection.
+     * @return A list of Item objects.
+     */
     suspend fun getItemsOfCollection(collectionId: Int): List<Item>
 }
