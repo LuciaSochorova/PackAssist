@@ -10,6 +10,12 @@ import com.example.packassist.ui.screens.collections.CollectionCreationViewModel
 
 private const val COLLECTION_CREATION_ROUTE = "collectionCreation?eventId={$EVENT_ID_ARG}"
 
+/**
+ * Adds the collection creation screen to the navigation graph.
+ *
+ * @param onNavigateBack Callback to navigate back to the previous screen.
+ * @receiver The navigation graph builder to add the screen to.
+ */
 fun NavGraphBuilder.collectionCreationScreen(
     onNavigateBack: () -> Unit
 ) {
@@ -39,6 +45,12 @@ fun NavGraphBuilder.collectionCreationScreen(
 }
 
 
+/**
+ * Navigates to the collection creation screen.
+ *
+ * @param eventId The ID of the event associated with the collection, if any.
+ * @receiver The NavController object that is used to navigate between screens.
+ */
 fun NavController.navigateToCollectionCreation(eventId: Int? = null) {
     if (eventId != null)
         this.navigate(COLLECTION_CREATION_ROUTE.replace("{$EVENT_ID_ARG}", eventId.toString()))

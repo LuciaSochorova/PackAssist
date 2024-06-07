@@ -9,8 +9,19 @@ import androidx.navigation.compose.composable
 import com.example.packassist.ui.screens.events.EventsListScreen
 import com.example.packassist.ui.screens.events.EventsListViewModel
 
+/**
+ * The route for the events list screen.
+ */
 const val EVENT_LIST_ROUTE = "events"
 
+/**
+ * Adds the events list screen to the navigation graph.
+ *
+ * @param onAddNewEvent Callback to navigate to the event creation screen.
+ * @param onEventClick Callback to navigate to the event details screen.
+ * @param onNavigateToRoute Callback to navigate to a different screen.
+ * @receiver The NavGraphBuilder object that is used to construct the navigation graph.
+ */
 fun NavGraphBuilder.eventsListScreen(
     onAddNewEvent: () -> Unit,
     onEventClick: (Int) -> Unit,
@@ -31,6 +42,11 @@ fun NavGraphBuilder.eventsListScreen(
 
 }
 
+/**
+ * Navigates to the events list screen.
+ *
+ * @receiver The NavController object that is used to navigate between screens.
+ */
 fun NavController.navigateToEventsList() {
     this.navigate(EVENT_LIST_ROUTE)
 }

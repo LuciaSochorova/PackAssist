@@ -9,8 +9,19 @@ import androidx.navigation.compose.composable
 import com.example.packassist.ui.screens.collections.CollectionListScreen
 import com.example.packassist.ui.screens.collections.CollectionsListViewModel
 
-
+/**
+ * The route for the collections list screen.
+ */
 const val COLLECTIONS_LIST_ROUTE = "collections"
+
+/**
+ * Adds the collections list screen to the navigation graph.
+ *
+ * @param onAddNewCollection Callback to navigate to the add new collection screen.
+ * @param onEditCollection Callback to navigate to the edit collection screen.
+ * @param onNavigateToRoute Callback to navigate to a different route.
+ * @receiver The NavGraphBuilder object that is used to construct the navigation graph.
+ */
 fun NavGraphBuilder.collectionsListScreen(
     onAddNewCollection: () -> Unit,
     onEditCollection: (collectionId: Int) -> Unit,
@@ -32,6 +43,11 @@ fun NavGraphBuilder.collectionsListScreen(
     }
 }
 
+/**
+ * Navigates to the collections list screen.
+ *
+ * @receiver The NavController object that is used to navigate between screens.
+ */
 fun NavController.navigateToCollectionsList() {
     this.navigate(COLLECTIONS_LIST_ROUTE)
 }
