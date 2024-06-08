@@ -18,11 +18,22 @@ import androidx.compose.ui.unit.dp
 import com.example.packassist.R
 import com.example.packassist.navigation.NavigationBarRoutes
 import com.example.packassist.ui.components.BottomNavBar
-import com.example.packassist.ui.components.CollectionField
+import com.example.packassist.ui.components.CollectionCard
 import com.example.packassist.ui.components.ScreenErrorMessage
 import com.example.packassist.ui.components.SearchBarAndButtonTopBar
 
 
+/**
+ * A composable function that displays screen with all collections without event.
+ *
+ * @param uiState The current state of the screen.
+ * @param onAddNewCollection A callback to be invoked when the user wants to add a new collection.
+ * @param onEditCollection A callback to be invoked when the user wants to edit a collection.
+ * @param onNavigateToRoute A callback to be invoked when the user wants to navigate to a different screen.
+ * @param filterCollections A callback to be invoked when the user wants to filter (search) the collections.
+ * @param route The route of the screen.
+ * @param modifier The modifier to be applied to the screen.
+ */
 @Composable
 fun CollectionListScreen(
     uiState: CollectionsListUiState,
@@ -53,7 +64,7 @@ fun CollectionListScreen(
         modifier = modifier
 
     ) { innerPadding ->
-        if (uiState.collList.isNotEmpty()) {
+        if (uiState.collectionList.isNotEmpty()) {
             LazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 contentPadding = PaddingValues(8.dp),
@@ -62,9 +73,9 @@ fun CollectionListScreen(
                     bottom = innerPadding.calculateBottomPadding()
                 )
             ) {
-                items(uiState.collList) { collection ->
+                items(uiState.collectionList) { collection ->
                     Spacer(modifier = Modifier.size(8.dp))
-                    CollectionField(
+                    CollectionCard(
                         collection, onEditCollection
                     )
                     Spacer(modifier = Modifier.size(24.dp))
@@ -84,6 +95,10 @@ fun CollectionListScreen(
 }
 
 
+/**
+ * Events lists preview
+ *
+ */
 @Preview(showBackground = true)
 @Composable
 fun EventsListsPreview() {

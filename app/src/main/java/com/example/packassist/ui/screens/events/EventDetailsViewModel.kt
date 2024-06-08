@@ -26,11 +26,30 @@ import kotlinx.coroutines.launch
 import java.util.Date
 
 
+/**
+ * Event details ui state
+ *
+ * @property event The current event being displayed.
+ * @property collections A list of collections and whether or not they are associated with the event.
+ * @constructor Create empty Event details ui state
+ */
 data class EventDetailsUiState(
     val event: EventState = EventState(),
     val collections: List<Pair<CollectionItems, Boolean>> = listOf()
 )
 
+/**
+ * Represents the state of an event.
+ *
+ * @property id The ID of the event.
+ * @property name The name of the event.
+ * @property location The location of the event.
+ * @property date The date of the event.
+ * @property notes Any notes associated with the event.
+ * @property writingNotes Whether or not the user is currently editing the notes.
+ * @property pickingDate Whether or not the user is currently picking a date.
+ * @constructor Create empty Event state
+ */
 data class EventState(
     val id: Int = 0,
     val name: String = "",
@@ -41,6 +60,14 @@ data class EventState(
     val pickingDate: Boolean = false
 )
 
+/**
+ * Represents a collection and its associated items.
+ *
+ * @property collectionId The ID of the collection.
+ * @property name The name of the collection.
+ * @property items The list of items in the collection.
+ * @constructor Create empty Collection items
+ */
 data class CollectionItems(
     val collectionId: Int = 0,
     val name: String = "",
@@ -48,6 +75,15 @@ data class CollectionItems(
 )
 
 
+/**
+ * ViewModel for the EventDetailsScreen.
+ *
+ * @property eventsRepository Repository for accessing event data.
+ * @property itemsRepository Repository for accessing item data.
+ * @property collectionsRepository Repository for accessing collection data.
+ *
+ * @param savedStateHandle Handle to the saved state of the event details screen.
+ */
 class EventDetailsViewModel(
     savedStateHandle: SavedStateHandle,
     private val eventsRepository: EventsRepository,
@@ -111,6 +147,10 @@ class EventDetailsViewModel(
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), EventDetailsUiState())
 
+    /**
+     * Save event information
+     *
+     */
     fun saveEventInformation() {
         viewModelScope.launch(Dispatchers.IO) {
             eventsRepository.updateEvent(
@@ -125,40 +165,74 @@ class EventDetailsViewModel(
         }
     }
 
+    /**
+     * Delete event
+     *
+     */
     fun deleteEvent() {
         viewModelScope.launch(Dispatchers.IO) {
             eventsRepository.deleteEvent(Event(id = eventId, name = _eventState.value.name))
         }
     }
 
+    /**
+     * Changes the name of the event.
+     *
+     * @param newName The new name for the event.
+     */
     fun changeName(newName: String) {
         _eventState.update {
             it.copy(name = newName)
         }
     }
 
-    fun writeNotes(truth: Boolean) {
-        _eventState.update { it.copy(writingNotes = truth) }
+    /**
+     * Toggles the "writing notes" state.
+     *
+     * @param bool Whether the user is writing notes or not.
+     */
+    fun writeNotes(bool: Boolean) {
+        _eventState.update { it.copy(writingNotes = bool) }
     }
 
+    /**
+     * Changes the notes for the event.
+     *
+     * @param newNotes The new notes for the event.
+     */
     fun changeNotes(newNotes: String) {
         _eventState.update {
             if (newNotes.isBlank()) it.copy(notes = null) else it.copy(notes = newNotes)
         }
     }
 
+    /**
+     * Changes the location of the event.
+     *
+     * @param newLocation The new location for the event.
+     */
     fun changeLocation(newLocation: String) {
         _eventState.update {
             if (newLocation.isBlank()) it.copy(location = null) else it.copy(location = newLocation)
         }
     }
 
+    /**
+     * Packs (if it was unpacked) or unpacks (if it was packed) an item.
+     *
+     * @param item The item to pack or unpack.
+     */
     fun packItem(item: Item) {
         viewModelScope.launch {
             itemsRepository.updateItem(item.copy(packed = !item.packed))
         }
     }
 
+    /**
+     * Changes the date of the event.
+     *
+     * @param newDate The new date for the event.
+     */
     fun changeDate(newDate: Long?) {
         _eventState.update {
             it.copy(
@@ -167,12 +241,22 @@ class EventDetailsViewModel(
         }
     }
 
-    fun pickDate(truth: Boolean) {
+    /**
+     * Toggles the "picking date" state.
+     *
+     * @param bool Whether the user is picking a date or not.
+     */
+    fun pickDate(bool: Boolean) {
         _eventState.update {
-            it.copy(pickingDate = truth)
+            it.copy(pickingDate = bool)
         }
     }
 
+    /**
+     * Expands or collapses a collection of items.
+     *
+     * @param collectionId The ID of the collection to expand or collapse.
+     */
     fun changeExpandCollection(collectionId: Int) {
         _expanded.update {
             val mutable = it.toMutableMap()
@@ -182,6 +266,11 @@ class EventDetailsViewModel(
         }
     }
 
+    /**
+     * A companion object for the [EventDetailsViewModel] class.
+     *
+     * Contains the [Factory] property, which is a [ViewModelProvider.Factory] that creates instances of [EventDetailsViewModel].
+     */
     companion object {
         val Factory = viewModelFactory {
             initializer {

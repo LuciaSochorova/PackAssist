@@ -30,8 +30,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.packassist.R
-import com.example.packassist.ui.components.CollectionField
+import com.example.packassist.ui.components.CollectionCard
 
+
+/**
+ * A screen that allows the user to manage collections for a specific event.
+ *
+ * @param uiState The current state of the screen.
+ * @param backAction The action to be performed when the user clicks the back button.
+ * @param onAddCollection The action to be performed when the user clicks the "Add Collection" button.
+ * @param onCollectionClick The action to be performed when the user clicks on a collection.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ManageEventCollectionsScreen(
@@ -99,7 +108,7 @@ fun ManageEventCollectionsScreen(
         ) {
             items(uiState.collections) { collection ->
                 Spacer(modifier = Modifier.size(8.dp))
-                CollectionField(
+                CollectionCard(
                     collection =collection,
                     editAction = onCollectionClick
                 )
@@ -111,6 +120,10 @@ fun ManageEventCollectionsScreen(
 }
 
 
+/**
+ * Manage event collections screen preview
+ *
+ */
 @Preview(showBackground = true)
 @Composable
 fun ManageEventCollectionsScreenPreview() {

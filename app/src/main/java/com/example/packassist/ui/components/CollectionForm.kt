@@ -28,13 +28,21 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.packassist.R
 import com.example.packassist.data.entitiesAndDaos.ItemsOfCollection
 
+
+/**
+ * A composable that displays a card representing a collection.
+ * This composable displays the collection's name, a list of its items, and an edit button.
+ *
+ * @param collection The collection to display.
+ * @param editAction The callback to be invoked when the edit button is clicked.
+ * @param modifier The modifier to be applied to this composable.
+ */
 @Composable
-fun CollectionField(
+fun CollectionCard(
     collection: ItemsOfCollection,
     editAction: (collectionId: Int) -> Unit,
     modifier: Modifier = Modifier
@@ -94,6 +102,17 @@ fun CollectionField(
 }
 
 
+/**
+ * A composable that displays a form for creating or editing a collection.
+ *
+ * @param modifier The modifier to be applied to this composable.
+ * @param information he information about the collection to display.
+ * @param onNameChange The callback to be invoked when the name of the collection changes.
+ * @param onNewItemChange The callback to be invoked when the new item of the collection changes.
+ * @param onAddItem The callback to be invoked when the add item button is clicked.
+ * @param onChangeItem The callback to be invoked when an item name of the collection changes.
+ * @param onEditItem The callback to be invoked when an item is edited.
+ */
 @Composable
 fun CollectionForm(
     modifier: Modifier = Modifier,
@@ -155,14 +174,16 @@ fun CollectionForm(
 }
 
 
+/**
+ * Data class representing the information about a collection to be displayed in a form.
+ *
+ * @property name The name of the collection.
+ * @property newItem The name of the new item to be added.
+ * @property items The list of items in the collection.
+ * @constructor Create empty Collection form information
+ */
 data class CollectionFormInformation(
     val name: String = "",
     val newItem: String = "",
     val items: List<String> = listOf()
 )
-
-@Preview(showBackground = true)
-@Composable
-fun CollectionFieldPreview() {
-
-}

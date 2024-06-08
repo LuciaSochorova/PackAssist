@@ -16,9 +16,20 @@ import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
+/**
+ * Component that use OutlinedTextField with leading edit icon.
+ *
+ * @param value The current value of the text field.
+ * @param onValueChange Called when the value of the text field changes.
+ * @param keyboardAction The callback function to be invoked when the user performs a keyboard action, such as pressing the "Done" button.
+ * @param modifier Modifier to be applied to the text field.
+ * @param colors The colors used for the text field.
+ * @param label The label to be displayed in the text field.
+ * @param isError Whether the text field is in an error state.
+ * @param textStyle The text style to be applied to the text field.
+ */
 @Composable
 fun TextEditField(
     value: String,
@@ -52,10 +63,4 @@ fun TextEditField(
         shape = RoundedCornerShape(0.dp)
     )
 
-}
-
-@Preview(showBackground = true)
-@Composable
-fun TextEditFieldPreview() {
-    TextEditField(value = "alfvnn", onValueChange = {}, keyboardAction = {})
 }

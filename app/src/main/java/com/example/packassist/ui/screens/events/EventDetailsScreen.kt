@@ -79,6 +79,23 @@ import com.example.packassist.ui.components.ConfirmationDialog
 import com.example.packassist.ui.components.TextEditField
 
 
+/**
+ * A composable function that displays the details of an event.
+ *
+ * @param uiState The current state of the event details screen.
+ * @param onEventNameChange Callback function invoked when the event name is changed.
+ * @param onItemCheckedChange Callback function invoked when the checked state of an item in the packing list is changed.
+ * @param saveChanges Callback function invoked when the user saves the changes.
+ * @param navigateBack Callback function invoked when the user navigates back.
+ * @param onDelete Callback function invoked when the user deletes the event.
+ * @param onLocationChange Callback function invoked when the location of the event is changed.
+ * @param onWriteNotes Callback function invoked when the user wants to write notes for the event.
+ * @param onNotesChange Callback function invoked when the event notes are changed.
+ * @param onPickDate Callback function invoked when the user wants to pick a date for the event.
+ * @param onDateChange  Callback function invoked when the event date is changed.
+ * @param floatingButtonAction Callback function invoked when the user clicks on the floating action button.
+ * @param changeExpand Callback function invoked when the user expands or collapses a collection of items.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EventDetailsScreen(
@@ -87,7 +104,7 @@ fun EventDetailsScreen(
     onItemCheckedChange: (Item) -> Unit,
     saveChanges: () -> Unit,
     navigateBack: () -> Unit,
-    deleteAction: () -> Unit,
+    onDelete: () -> Unit,
     onLocationChange: (String) -> Unit,
     onWriteNotes: (Boolean) -> Unit,
     onNotesChange: (String) -> Unit,
@@ -379,13 +396,17 @@ fun EventDetailsScreen(
                 onDismiss = { showDeleteDialog = false },
                 onConfirm = {
                     navigateBack()
-                    deleteAction()
+                    onDelete()
                 })
     }
 
 
 }
 
+/**
+ * Event details screen preview
+ *
+ */
 @Preview(showBackground = true)
 @Composable
 fun EventDetailsScreenPreview() {

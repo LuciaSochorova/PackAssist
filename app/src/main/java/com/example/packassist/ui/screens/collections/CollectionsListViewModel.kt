@@ -1,6 +1,7 @@
 package com.example.packassist.ui.screens.collections
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
@@ -16,10 +17,22 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
+/**
+ * The UI state for the CollectionListScreen.
+ *
+ * @property collectionList The list of collections to display.
+ * @constructor Create empty Collections list ui state
+ */
 data class CollectionsListUiState(
-    val collList: List<ItemsOfCollection> = listOf()
+    val collectionList: List<ItemsOfCollection> = listOf()
 )
 
+/**
+ * A ViewModel for the CollectionListScreen.
+ *
+ * @property collectionsRepository The repository for collections.
+ * @constructor Create empty Collections list view model
+ */
 class CollectionsListViewModel(
     private val collectionsRepository: CollectionsRepository
 ) : ViewModel() {
@@ -32,9 +45,12 @@ class CollectionsListViewModel(
                 initialValue = CollectionsListUiState()
             )
 
+    /**
+     * The UiState for the collections list screen.
+     */
     val collectionsListUiState: StateFlow<CollectionsListUiState> =
         combine(_collectionsListUiState, _filterQueryFlow) { collection, filterQuery ->
-            CollectionsListUiState(collList = collection.collList.filter {
+            CollectionsListUiState(collectionList = collection.collectionList.filter {
                 it.collection.name.contains(
                     filterQuery,
                     ignoreCase = true
@@ -47,10 +63,20 @@ class CollectionsListViewModel(
         )
 
 
+    /**
+     * Filters the collections based on the given query.
+     *
+     * @param query The query to filter the collections by.
+     */
     fun filter(query: String) {
         _filterQueryFlow.update {query}
     }
 
+    /**
+     * A companion object for the [CollectionsListViewModel] class.
+     *
+     * Contains the [Factory] property, which is a [ViewModelProvider.Factory] that creates instances of [CollectionsListViewModel].
+     */
     companion object {
         val Factory = viewModelFactory {
             initializer {

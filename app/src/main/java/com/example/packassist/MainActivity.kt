@@ -10,6 +10,12 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.packassist.ui.theme.PackAssistTheme
 
+
+/**
+ * The main activity of the PackAssist app.
+ *
+ * @constructor Create empty Main activity
+ */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()

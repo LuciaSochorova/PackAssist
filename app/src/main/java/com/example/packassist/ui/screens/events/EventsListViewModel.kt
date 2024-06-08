@@ -16,11 +16,22 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
+/**
+ * List of events ui state
+ *
+ * @property listOfEvents
+ * @constructor Create empty List of events ui state
+ */
 data class ListOfEventsUiState(
     val listOfEvents: List<Event> = listOf()
 )
 
 
+/**
+ * ViewModel for the EventsList screen.
+ *
+ * @property eventsRepository The repository for accessing event data.
+ */
 class EventsListViewModel(
     private val eventsRepository: EventsRepository
 ) : ViewModel() {
@@ -33,6 +44,9 @@ class EventsListViewModel(
                 initialValue = ListOfEventsUiState()
             )
 
+    /**
+     * The UI state of the EventsList screen.
+     */
     val uiState: StateFlow<ListOfEventsUiState> = combine(_uiState, _filterQuery)
     { uiState, filterQuery ->
         ListOfEventsUiState(uiState.listOfEvents.filter {
@@ -49,10 +63,21 @@ class EventsListViewModel(
         )
 
 
+    /**
+     * Filters the events based on the given query.
+     *
+     * @param query The filter query.
+     */
     fun filterEvents(query: String) {
         _filterQuery.update { query }
     }
 
+
+    /**
+     * A companion object for the [EventsListViewModel] class.
+     *
+     * Contains the [Factory] property, which is a [ViewModelProvider.Factory] that creates instances of [EventsListViewModel].
+     */
     companion object {
         val Factory = viewModelFactory {
             initializer {

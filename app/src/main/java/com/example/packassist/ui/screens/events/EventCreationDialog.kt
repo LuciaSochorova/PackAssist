@@ -18,10 +18,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import com.example.packassist.R
 import kotlinx.coroutines.launch
 
+
+/**
+ * A composable function that is used to create a new event.
+ *
+ * @param state The current ui state.
+ * @param onDismiss The callback function to dismiss the dialog.
+ * @param saveEvent The callback function to save the event.
+ * @param navigateToEventDetails The callback function to navigate to the event details screen.
+ * @param onNameChange The callback function to update the event name.
+ * @param modifier The modifier to apply.
+ */
 @Composable
 fun EventCreationDialog(
     state: String,

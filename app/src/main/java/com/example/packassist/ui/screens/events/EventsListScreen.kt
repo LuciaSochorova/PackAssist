@@ -35,6 +35,17 @@ import com.example.packassist.ui.components.ScreenErrorMessage
 import com.example.packassist.ui.components.SearchBarAndButtonTopBar
 
 
+/**
+ * Composable that displays a list of events.
+ *
+ * @param uiState The current ui state of the events list screen.
+ * @param onAddNewEvent Called when the add new event button is clicked.
+ * @param onEventClick Called when an event is clicked.
+ * @param route The route of the screen.
+ * @param onNavigateToRoute A callback to be invoked when the user wants to navigate to a different screen.
+ * @param filterEvents A callback to be invoked when the user wants to filter events.
+ * @param modifier The modifier to be applied to the screen.
+ */
 @Composable
 fun EventsListScreen(
     uiState: ListOfEventsUiState,
@@ -167,6 +178,10 @@ private fun EventField(
     }
 }
 
+/**
+ * Events lists preview
+ *
+ */
 @Preview(showBackground = true)
 @Composable
 fun EventsListsPreview() {

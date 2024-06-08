@@ -10,16 +10,35 @@ import com.example.packassist.data.entitiesAndDaos.Event
 import com.example.packassist.data.repositories.EventsRepository
 
 
+/**
+ * A view model for the event creation screen (dialog)
+ *
+ * @property eventsRepository The repository for accessing event data.
+ * @constructor Create empty Event creation view model
+ */
 class EventCreationViewModel(
     private val eventsRepository: EventsRepository
 ) : ViewModel() {
+    /**
+     * The current ui state of the event creation.
+     */
     var state = mutableStateOf("")
         private set
 
+    /**
+     * Changes the name of the event.
+     *
+     * @param name The new name of the event.
+     */
     fun changeName(name: String) {
         state.value = name
     }
 
+    /**
+     * Saves the event to the database.
+     *
+     * @return The ID of the newly created event.
+     */
     suspend fun saveEvent(): Int {
         val rowId = eventsRepository.insertEvent(
             Event(
@@ -33,6 +52,11 @@ class EventCreationViewModel(
         return eventsRepository.getEventId(rowId)
     }
 
+    /**
+     * A companion object for the [EventCreationViewModel] class.
+     *
+     * Contains the [Factory] property, which is a [ViewModelProvider.Factory] that creates instances of [EventCreationViewModel].
+     */
     companion object {
         val Factory = viewModelFactory {
             initializer {

@@ -33,6 +33,18 @@ import androidx.compose.ui.unit.dp
 import com.example.packassist.navigation.NavigationBarRoutes
 
 
+/**
+ * Top bar that contains search field and button
+ *
+ * @param onSearch The callback to be invoked when the search query is submitted.
+ * @param icon The icon to be displayed on the button.
+ * @param buttonOnClick The callback to be invoked when the button is clicked.
+ * @param modifier The modifier to be applied to the top bar.
+ * @param contentColor The color of the button.
+ * @param iconColor The color of the icon.
+ * @param searchLabel The label to be displayed in the search field.
+ * @param iconContentDescription The content description for the icon.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBarAndButtonTopBar(
@@ -45,10 +57,12 @@ fun SearchBarAndButtonTopBar(
     searchLabel: String? = null,
     iconContentDescription: String? = null,
 
-) {
-    Column(modifier = modifier
-        .background(MaterialTheme.colorScheme.surfaceContainerLow)
-        .windowInsetsPadding(TopAppBarDefaults.windowInsets)) {
+    ) {
+    Column(
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.surfaceContainerLow)
+            .windowInsetsPadding(TopAppBarDefaults.windowInsets)
+    ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
@@ -63,7 +77,9 @@ fun SearchBarAndButtonTopBar(
                 onSearch = onSearch,
                 labelText = searchLabel,
                 keyboardActions = KeyboardActions { focusManager.clearFocus() },
-                modifier = Modifier.weight(1f).padding(end = 8.dp)
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 8.dp)
             )
             IconButton(
                 onClick = buttonOnClick,
@@ -90,11 +106,20 @@ fun SearchBarAndButtonTopBar(
 }
 
 
-
-
-
-
-
+/**
+ * Top bar with three icons: one on the left and two on the right.
+ *
+ * @param firstIcon The icon to be displayed on the first (left) button.
+ * @param secondIcon The icon to be displayed on the second button.
+ * @param thirdIcon The icon to be displayed on the third button.
+ * @param firstButtonOnClick The callback to be invoked when the first (left) button is clicked.
+ * @param secondButtonOnClick The callback to be invoked when the second button is clicked.
+ * @param thirdButtonOnClick The callback to be invoked when the third button is clicked.
+ * @param modifier The modifier to be applied to the top bar.
+ * @param firstIconContentDescription The content description for the first icon.
+ * @param secondIconContentDescription The content description for the second icon.
+ * @param thirdIconContentDescription The content description for the third icon.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ThreeIconButtonsTopBar(
@@ -170,11 +195,17 @@ fun ThreeIconButtonsTopBar(
             }
         }
 
-
         HorizontalDivider()
     }
 }
 
+/**
+ * Bottom navigation bar with multiple tabs.
+ * This composable displays a bottom navigation bar with multiple tabs, each representing a different navigation destination.
+ *
+ * @param onNavigateToRoute The callback to be invoked when a tab is clicked.
+ * @param currentRoute The current route, used to highlight the selected tab.
+ */
 @Composable
 fun BottomNavBar(
     onNavigateToRoute: (String) -> Unit,
@@ -188,7 +219,7 @@ fun BottomNavBar(
                     NavigationBarItem(
                         selected = it.route == currentRoute,
                         onClick = { onNavigateToRoute(it.route) },
-                        label = {Text(text = stringResource(id = it.label))},
+                        label = { Text(text = stringResource(id = it.label)) },
                         icon = {
                             Icon(
                                 ImageVector.vectorResource(it.iconRes),

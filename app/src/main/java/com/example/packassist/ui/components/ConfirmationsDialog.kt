@@ -8,6 +8,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.packassist.R
 
+
+/**
+ * A composable that displays a confirmation dialog.
+ *
+ * This dialog presents the user with a message and two buttons: "Confirm" and "Dismiss".
+ * The caller can specify the text to display in the dialog, as well as the callbacks to be invoked
+ * when each button is clicked.
+ *
+ * @param text The message to display in the dialog.
+ * @param onDismiss The callback to be invoked when the "Dismiss" button is clicked.
+ * @param onConfirm The callback to be invoked when the "Confirm" button is clicked.
+ * @param modifier The modifier to be applied to the dialog.
+ */
 @Composable
 fun ConfirmationDialog(
     text: String,

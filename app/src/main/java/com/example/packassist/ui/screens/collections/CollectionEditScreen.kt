@@ -26,13 +26,26 @@ import com.example.packassist.ui.components.ThreeIconButtonsTopBar
 import kotlinx.coroutines.launch
 
 
+/**
+ * A composable function that displays the collection edit screen.
+ *
+ * @param uiState The state of the collection edit screen.
+ * @param onNameChange A callback function that is called when the name of the collection is changed.
+ * @param onNewItemChange A callback function that is called when name of the new item of the collection is changed.
+ * @param onChangeItem A callback function that is called when the name of an item of the collection is changed.
+ * @param onEditItem A callback function that is called when an item in the collection is changed.
+ * @param saveCollection A callback function that is called when the user presses the button to save the collection.
+ * @param addItemAction A callback function that is called when the user presses the button to add a new item.
+ * @param navigateBack A callback function that is called when the user presses the button to navigate back.
+ * @param onDelete A callback function that is called when the user presses the button to delete the collection.
+ */
 @Composable
 fun CollectionEditScreen(
     uiState: CollectionEditUiState,
     onNameChange: (String) -> Unit,
     onNewItemChange: (String) -> Unit,
     onChangeItem: (String, Int) -> Unit,
-    inputItemAction: () -> Unit,
+    onEditItem: () -> Unit,
     saveCollection: () -> Unit,
     addItemAction: () -> Unit,
     navigateBack: () -> Unit,
@@ -90,7 +103,7 @@ fun CollectionEditScreen(
             onNewItemChange,
             addItemAction,
             onChangeItem,
-            inputItemAction
+            onEditItem
         )
     }
 
@@ -110,6 +123,10 @@ fun CollectionEditScreen(
 }
 
 
+/**
+ * Collection edit screen preview
+ *
+ */
 @Preview(showBackground = true)
 @Composable
 fun CollectionEditScreenPreview() {

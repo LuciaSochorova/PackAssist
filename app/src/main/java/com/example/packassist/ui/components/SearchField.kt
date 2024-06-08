@@ -19,6 +19,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import com.example.packassist.R
 
+/**
+ * A composable that displays a search field.
+ *
+ * This composable allows the user to enter a search query
+ * and provides a callback function to handle the search action.
+ *
+ * @param onSearch he callback function to be invoked when the user performs a search.
+ * @param modifier the modifier to be applied to this composable.
+ * @param labelText The label text to display above the search field.
+ * @param keyboardOptions The keyboard options to configure the keyboard behavior.
+ * @param keyboardActions The keyboard actions to configure the actions that can be performed using the keyboard.
+ * @param shape The shape of the search field.
+ */
 @Composable
 fun SearchField(
     onSearch: (String) -> Unit,

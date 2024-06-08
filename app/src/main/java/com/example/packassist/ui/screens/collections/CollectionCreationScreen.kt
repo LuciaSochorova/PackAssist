@@ -39,6 +39,21 @@ import com.example.packassist.ui.components.SearchField
 import com.example.packassist.ui.components.ThreeIconButtonsTopBar
 import kotlinx.coroutines.launch
 
+/**
+ * A composable function that creates a Collection Creation screen.
+ *
+ * @param collectionUiState The state of the collection creation process.
+ * @param onNameChange A callback function to update the collection name.
+ * @param onNewItemChange A callback function to update the new item name.
+ * @param onChangeItem A callback function to update an existing item name.
+ * @param onEditItem A callback function to edit an existing item.
+ * @param saveCollection A callback function to save the collection.
+ * @param onAddItem A callback function to add a new item to the collection.
+ * @param navigateBack A callback function to navigate back to the previous screen.
+ * @param onShowImport A callback function to show the import dialog.
+ * @param importItems A callback function to import items from another collection.
+ * @param filterImportSelection A callback function to filter the import selection.
+ */
 @Composable
 fun CollectionCreationScreen(
     collectionUiState: CollectionCreationUiState,
@@ -51,7 +66,7 @@ fun CollectionCreationScreen(
     navigateBack: () -> Unit,
     onShowImport: (Boolean) -> Unit,
     importItems: (Int) -> Unit,
-    filterImportOptions: (String) -> Unit
+    filterImportSelection: (String) -> Unit
 ) {
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -111,11 +126,15 @@ fun CollectionCreationScreen(
             collections = collectionUiState.collectionsToImport.map { it.collection.name },
             onSelected = importItems,
             onDismiss = { onShowImport(false) },
-            onFilter = filterImportOptions)
+            onFilter = filterImportSelection)
     }
 }
 
 
+/**
+ * Create collection screen preview
+ *
+ */
 @Preview(showBackground = true)
 @Composable
 fun CreateCollectionScreenPreview() {

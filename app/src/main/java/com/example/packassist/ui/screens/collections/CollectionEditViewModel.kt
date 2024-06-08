@@ -20,6 +20,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
+/**
+ * A view model for the collection edit screen
+ *
+ * @property collectionsRepository
+ * @property itemsRepository
+ * @constructor
+ *
+ * @param savedStateHandle
+ */
 class CollectionEditViewModel(
     savedStateHandle: SavedStateHandle,
     private val collectionsRepository: CollectionsRepository,
@@ -51,21 +60,41 @@ class CollectionEditViewModel(
     }
 
 
+    /**
+     * Updates the name of the collection.
+     *
+     * @param name The new name of the collection.
+     */
     fun onNameChange(name: String) {
         state = state.copy(name = name)
         validate()
     }
 
+    /**
+     * Updates the new item name.
+     *
+     * @param newItem The new item name.
+     */
     fun onNewItemChange(newItem: String) {
         state = state.copy(newItem = newItem)
     }
 
+    /**
+     * Updates name of an existing item in the collection.
+     *
+     * @param item The new name of the item.
+     * @param index The index of the item in the collection.
+     */
     fun onChangeExistingItem(item: String, index: Int) {
         val items = state.items.toMutableList()
         items[index] = items[index].copy(name = item)
         state = state.copy(items = items)
     }
 
+    /**
+     * Adds a newItem to the collection.
+     *
+     */
     fun addItem() {
         if (state.newItem.isNotEmpty()) {
             val items = state.items.toMutableList()
@@ -76,6 +105,10 @@ class CollectionEditViewModel(
     }
 
 
+    /**
+     * Removes empty items from the collection.
+     *
+     */
     fun ifEmptyDeleteItem() {
         val items = state.items.filter { it.name.isNotBlank()}
         deleted.addAll(state.items.filter { it.name.isBlank() }.map { it.id })
@@ -83,6 +116,10 @@ class CollectionEditViewModel(
         validate()
     }
 
+    /**
+     * Saves the collection and its items to the database.
+     *
+     */
     fun saveCollection() {
         if (state.isValid) {
             viewModelScope.launch(Dispatchers.IO) {
@@ -104,6 +141,10 @@ class CollectionEditViewModel(
         }
     }
 
+    /**
+     * Deletes the collection from the database.
+     *
+     */
     fun deleteCollection() {
         viewModelScope.launch(Dispatchers.IO) {
             collectionsRepository.deleteCollection(Collection(id = collectionId))
@@ -117,6 +158,11 @@ class CollectionEditViewModel(
         )
     }
 
+    /**
+     * A companion object for the [CollectionEditViewModel] class.
+     *
+     * Contains the [Factory] property, which is a [ViewModelProvider.Factory] that creates instances of [CollectionEditViewModel].
+    */
     companion object {
         val Factory = viewModelFactory {
             initializer {
@@ -136,6 +182,15 @@ class CollectionEditViewModel(
 
 }
 
+/**
+ * Represents the UI state of the CollectionEdit screen.
+ *
+ * @property name The name of the collection.
+ * @property newItem The name of the new item to be added.
+ * @property items The list of items in the collection.
+ * @property isValid Whether the collection is valid.
+ * @constructor Create empty Collection edit ui state
+ */
 data class CollectionEditUiState(
     val name: String = "",
     val newItem: String = "",

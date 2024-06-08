@@ -35,7 +35,7 @@ fun NavGraphBuilder.collectionEditScreen(
             onNameChange = viewModel::onNameChange,
             onNewItemChange = viewModel::onNewItemChange,
             onChangeItem = viewModel::onChangeExistingItem,
-            inputItemAction = viewModel::ifEmptyDeleteItem,
+            onEditItem = viewModel::ifEmptyDeleteItem,
             saveCollection = viewModel::saveCollection,
             addItemAction = viewModel::addItem,
             onDelete = viewModel::deleteCollection,

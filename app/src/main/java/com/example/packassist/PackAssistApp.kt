@@ -21,8 +21,13 @@ import com.example.packassist.navigation.navigateToEventDetails
 import com.example.packassist.navigation.navigateToEventsCollectionManagement
 
 
+/**
+ * The root composable of the PackAssist app.
+ *
+ * This composable sets up the navigation for the app.
+ */
 @Composable
-fun PackAssistApp(modifier: Modifier = Modifier) {
+fun PackAssistApp() {
     val navController = rememberNavController()
 
     NavHost(
