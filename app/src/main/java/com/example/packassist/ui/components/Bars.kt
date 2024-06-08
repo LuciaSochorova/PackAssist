@@ -32,60 +32,6 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.example.packassist.navigation.NavigationBarRoutes
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun TextAndIconButtonTopBar(
-    text: String,
-    icon: ImageVector,
-    modifier: Modifier = Modifier,
-    contentColor: Color = MaterialTheme.colorScheme.primary,
-    iconColor: Color = MaterialTheme.colorScheme.onPrimary,
-    iconContentDescription: String? = null,
-    buttonOnClick: () -> Unit
-) {
-    Column(modifier = modifier
-        .background(MaterialTheme.colorScheme.surfaceContainerLow)
-        .windowInsetsPadding(TopAppBarDefaults.windowInsets)) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier
-                .padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 4.dp)
-                .fillMaxWidth()
-
-
-        ) {
-            Text(
-                text = text,
-                style = MaterialTheme.typography.displayMedium,
-                color = contentColor
-            )
-            IconButton(
-                onClick = buttonOnClick,
-                modifier = Modifier
-                    .background(contentColor, shape = MaterialTheme.shapes.extraSmall)
-                    .border(
-                        color = MaterialTheme.colorScheme.outline,
-                        width = 1.dp,
-                        shape = MaterialTheme.shapes.extraSmall
-                    )
-
-
-            ) {
-                Icon(
-                    icon,
-                    contentDescription = iconContentDescription,
-                    tint = iconColor,
-                    modifier = Modifier.fillMaxSize()
-                )
-            }
-        }
-        HorizontalDivider()
-    }
-}
-
-
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
