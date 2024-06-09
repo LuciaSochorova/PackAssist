@@ -516,7 +516,7 @@ private fun NotesInputDialog(
                 .background(MaterialTheme.colorScheme.surfaceContainer)
                 .padding(16.dp)
         ) {
-            Row(modifier = Modifier.fillMaxWidth()) {
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 IconButton(onClick = onDismiss) {
                     Icon(
                         Icons.AutoMirrored.Default.ArrowBack, contentDescription = stringResource(
@@ -524,6 +524,12 @@ private fun NotesInputDialog(
                         )
                     )
                 }
+
+                Text(text = stringResource(R.string.notes),
+                    style = MaterialTheme.typography.headlineSmall,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.weight(1f)
+                )
             }
 
             BasicTextField(
