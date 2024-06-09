@@ -65,6 +65,7 @@ class CollectionCreationViewModel(
      */
     fun onNewItemChange(newItem: String) {
         state = state.copy(newItem = newItem)
+        validate()
     }
 
     /**
@@ -122,6 +123,9 @@ class CollectionCreationViewModel(
                         itemsRepository.upsertItem(itemToItem(name = name, collection = coll))
                     }
                 }
+                if (state.newItem.isNotBlank()) {
+                    itemsRepository.upsertItem(itemToItem(name = state.newItem, collection = coll))
+                }
 
             }
         }
@@ -166,7 +170,7 @@ class CollectionCreationViewModel(
     private fun validate() {
         state = state.copy(
             isValid =
-            (state.items.isNotEmpty() && state.name.isNotEmpty())
+            ((state.items.isNotEmpty() || state.newItem.isNotBlank()) && state.name.isNotEmpty())
         )
     }
 

@@ -77,6 +77,7 @@ class CollectionEditViewModel(
      */
     fun onNewItemChange(newItem: String) {
         state = state.copy(newItem = newItem)
+        validate()
     }
 
     /**
@@ -110,7 +111,7 @@ class CollectionEditViewModel(
      *
      */
     fun ifEmptyDeleteItem() {
-        val items = state.items.filter { it.name.isNotBlank()}
+        val items = state.items.filter { it.name.isNotBlank() }
         deleted.addAll(state.items.filter { it.name.isBlank() }.map { it.id })
         state = state.copy(items = items)
         validate()
@@ -128,6 +129,11 @@ class CollectionEditViewModel(
                 }
             }
             viewModelScope.launch(Dispatchers.IO) {
+                var items = state.items.filter { it.name.isNotBlank() }
+                if (state.newItem.isNotBlank()) {
+                    items = items.plus(Item(name = state.newItem, collection = collectionId))
+                }
+
                 collectionsRepository.upsertItemsOfCollection(
                     collection = Collection(
                         id = collectionId,
@@ -135,7 +141,9 @@ class CollectionEditViewModel(
                         event = eventId
                     ),
 
-                    items = state.items.filter { it.name.isNotBlank() }
+                    items = items
+//                    items = state.items.filter { it.name.isNotBlank() }
+//                        .plus(Item(name = state.newItem, collection = collectionId))
                 )
             }
         }
@@ -154,7 +162,7 @@ class CollectionEditViewModel(
     private fun validate() {
         state = state.copy(
             isValid =
-            (state.name.isNotEmpty() && state.items.isNotEmpty())
+            (state.name.isNotEmpty() && (state.items.isNotEmpty() || state.newItem.isNotBlank()))
         )
     }
 
@@ -162,7 +170,7 @@ class CollectionEditViewModel(
      * A companion object for the [CollectionEditViewModel] class.
      *
      * Contains the [Factory] property, which is a [ViewModelProvider.Factory] that creates instances of [CollectionEditViewModel].
-    */
+     */
     companion object {
         val Factory = viewModelFactory {
             initializer {
