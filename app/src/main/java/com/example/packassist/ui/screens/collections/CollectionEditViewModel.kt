@@ -142,8 +142,6 @@ class CollectionEditViewModel(
                     ),
 
                     items = items
-//                    items = state.items.filter { it.name.isNotBlank() }
-//                        .plus(Item(name = state.newItem, collection = collectionId))
                 )
             }
         }
