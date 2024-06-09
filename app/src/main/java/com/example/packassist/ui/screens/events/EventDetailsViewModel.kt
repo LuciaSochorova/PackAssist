@@ -13,7 +13,7 @@ import com.example.packassist.data.entitiesAndDaos.Item
 import com.example.packassist.data.repositories.CollectionsRepository
 import com.example.packassist.data.repositories.EventsRepository
 import com.example.packassist.data.repositories.ItemsRepository
-import com.example.packassist.navigation.EVENT_ID_ARG
+import com.example.packassist.ui.navigation.EVENT_ID_ARG
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

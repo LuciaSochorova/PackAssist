@@ -5,20 +5,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.example.packassist.navigation.EVENT_LIST_ROUTE
-import com.example.packassist.navigation.collectionCreationScreen
-import com.example.packassist.navigation.collectionEditScreen
-import com.example.packassist.navigation.collectionsListScreen
-import com.example.packassist.navigation.eventCollectionsManagementScreen
-import com.example.packassist.navigation.eventCreationDialog
-import com.example.packassist.navigation.eventDetailsScreen
-import com.example.packassist.navigation.eventsListScreen
-import com.example.packassist.navigation.navigateToBottomBarRoute
-import com.example.packassist.navigation.navigateToCollectionCreation
-import com.example.packassist.navigation.navigateToCollectionEdit
-import com.example.packassist.navigation.navigateToEventCreationDialog
-import com.example.packassist.navigation.navigateToEventDetails
-import com.example.packassist.navigation.navigateToEventsCollectionManagement
+import com.example.packassist.ui.navigation.EVENT_LIST_ROUTE
+import com.example.packassist.ui.navigation.collectionCreationScreen
+import com.example.packassist.ui.navigation.collectionEditScreen
+import com.example.packassist.ui.navigation.collectionsListScreen
+import com.example.packassist.ui.navigation.eventCollectionsManagementScreen
+import com.example.packassist.ui.navigation.eventCreationDialog
+import com.example.packassist.ui.navigation.eventDetailsScreen
+import com.example.packassist.ui.navigation.eventsListScreen
+import com.example.packassist.ui.navigation.navigateToBottomBarRoute
+import com.example.packassist.ui.navigation.navigateToCollectionCreation
+import com.example.packassist.ui.navigation.navigateToCollectionEdit
+import com.example.packassist.ui.navigation.navigateToEventCreationDialog
+import com.example.packassist.ui.navigation.navigateToEventDetails
+import com.example.packassist.ui.navigation.navigateToEventsCollectionManagement
 
 
 /**

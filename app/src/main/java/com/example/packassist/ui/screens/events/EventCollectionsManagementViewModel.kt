@@ -11,7 +11,7 @@ import com.example.packassist.PackAssistApplication
 import com.example.packassist.data.entitiesAndDaos.ItemsOfCollection
 import com.example.packassist.data.repositories.CollectionsRepository
 import com.example.packassist.data.repositories.EventsRepository
-import com.example.packassist.navigation.EVENT_ID_ARG
+import com.example.packassist.ui.navigation.EVENT_ID_ARG
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map

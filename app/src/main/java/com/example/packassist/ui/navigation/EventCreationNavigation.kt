@@ -1,4 +1,4 @@
-package com.example.packassist.navigation
+package com.example.packassist.ui.navigation
 
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController

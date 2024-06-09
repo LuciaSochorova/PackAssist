@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.packassist.R
-import com.example.packassist.navigation.NavigationBarRoutes
+import com.example.packassist.ui.navigation.NavigationBarRoutes
 import com.example.packassist.ui.components.BottomNavBar
 import com.example.packassist.ui.components.CollectionCard
 import com.example.packassist.ui.components.ScreenErrorMessage

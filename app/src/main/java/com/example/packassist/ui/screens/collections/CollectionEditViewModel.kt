@@ -15,7 +15,7 @@ import com.example.packassist.data.entitiesAndDaos.Collection
 import com.example.packassist.data.entitiesAndDaos.Item
 import com.example.packassist.data.repositories.CollectionsRepository
 import com.example.packassist.data.repositories.ItemsRepository
-import com.example.packassist.navigation.COLLECTION_ID_ARG
+import com.example.packassist.ui.navigation.COLLECTION_ID_ARG
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

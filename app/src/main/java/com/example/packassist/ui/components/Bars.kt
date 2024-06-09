@@ -30,7 +30,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import com.example.packassist.navigation.NavigationBarRoutes
+import com.example.packassist.ui.navigation.NavigationBarRoutes
 
 
 /**
