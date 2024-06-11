@@ -20,7 +20,7 @@
     <string name="create_new_event">Create a new Event</string>
     <string name="dismiss">Dismiss</string>
     <string name="event_name">Event name</string>
-    <string name="save">Save</string>
+    <string name="create">Create</string>
     <string name="location">Location</string>
     <string name="date">Date</string>
     <string name="manage_pack_lists">Manage lists</string>

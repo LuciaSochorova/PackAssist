@@ -76,7 +76,7 @@ fun EventCreationDialog(
                     }
                 }
             ) {
-                Text(text = stringResource(R.string.save))
+                Text(text = stringResource(R.string.create))
             }
 
 
